@@ -1,12 +1,14 @@
 type const =
   | Unit
-  | Int of int
+  | Int of Int32.t
   | Float of float
 
 type op =
-  | Neg | Add | Sub
-  | FNeg | FAdd | FSub | FMul | FDiv
+  | Neg | Add | Sub | Mul | Div
+  | FNeg | FAdd | FSub | FMul | FDiv | FAbs | Sqrt
+  | FtoI | ItoF
   | ArrayCreate | ArrayGet | ArraySet
+  | Print | Read | FRead
 
 type cmp = Eq | LT | LE
 
@@ -51,7 +53,7 @@ let rec knormalize (e, ty) =
   | P.Const c ->
     let c = match c with
       | P.Unit -> Unit
-      | P.Bool b -> Int (if b then 1 else 0)
+      | P.Bool b -> Int (Int32.of_int (if b then 1 else 0))
       | P.Int i -> Int i
       | P.Float f -> Float f in
     Const c
@@ -74,15 +76,24 @@ let rec knormalize (e, ty) =
          | P.Neg -> Neg
          | P.Add -> Add
          | P.Sub -> Sub
+         | P.Mul -> Mul
+         | P.Div -> Div
          | P.FNeg -> FNeg
          | P.FAdd -> FAdd
          | P.FSub -> FSub
          | P.FMul -> FMul
          | P.FDiv -> FDiv
+         | P.FAbs -> FAbs
+         | P.Sqrt -> Sqrt
+         | P.FtoI -> FtoI
+         | P.ItoF -> ItoF
          | P.ArrayCreate -> ArrayCreate
          | P.ArrayGet -> ArrayGet
          | P.ArraySet -> ArraySet
-         | _ -> failwith "never fail" in
+         | P.Print -> Print
+         | P.Read -> Read
+         | P.FRead -> FRead
+         | _ -> assert false in
        List.fold_left (|>) (Op (op, xs)) inserts)
   | P.Let (xty, t1, t2) -> Let (xty, knormalize t1, knormalize t2)
   | P.LetRec (fty, params, body, t) -> LetRec (fty, params, knormalize body, knormalize t)
@@ -117,7 +128,8 @@ and knormalize_if cond tt ft =
       | P.LE -> If (LE, x1, x2, te, fe)
       | P.GT -> If (LT, x2, x1, te, fe)
       | P.GE -> If (LE, x2, x1, te, fe)
-      | _ -> assert false in
+      | P.ArrayGet -> knormalize_if (P.Op (P.Eq, [cond; pbool false]), Type.Bool) ft tt
+      | _ -> (print_string @@ P.to_string cmp; assert false) in
     e |> insert_let (x1, ty1) e1 |> insert_let (x2, ty2) e2
   | _  -> knormalize_if (P.Op (P.Eq, [cond; pbool false]), Type.Bool) ft tt
 
@@ -126,7 +138,7 @@ let rec adapter env = function
   | Const c ->
     (match c with
      | Unit -> K.Unit
-     | Int i -> K.Int i
+     | Int i -> K.Int (Int32.to_int i)
      | Float f -> K.Float f)
   | Var x when Env.mem x env -> KNormal.Var x
   | Var x -> K.ExtArray x
@@ -135,11 +147,17 @@ let rec adapter env = function
      | Neg, [x] -> K.Neg x
      | Add, [x1; x2] -> K.Add (x1, x2)
      | Sub, [x1; x2] -> K.Sub (x1, x2)
+     | Mul, [x1; x2] -> K.Mul (x1, x2)
+     | Div, [x1; x2] -> K.Div (x1, x2)
      | FNeg, [x] -> K.FNeg x
      | FAdd, [x1; x2] -> K.FAdd (x1, x2)
      | FSub, [x1; x2] -> K.FSub (x1, x2)
      | FMul, [x1; x2] -> K.FMul (x1, x2)
      | FDiv, [x1; x2] -> K.FDiv (x1, x2)
+     | FAbs, [x] -> K.FAbs x
+     | Sqrt, [x] -> K.Sqrt x
+     | FtoI, [x] -> K.FtoI x
+     | ItoF, [x] -> K.ItoF x
      | ArrayCreate, [x1; x2] ->
        let l = match Env.find x2 env with
          | Type.Float -> "create_float_array"
@@ -147,6 +165,9 @@ let rec adapter env = function
        K.ExtFunApp (l, [x1; x2])
      | ArrayGet, [x1; x2] -> K.Get (x1, x2)
      | ArraySet, [x1; x2; x3] -> K.Put (x1, x2, x3)
+     | Print, [x] -> K.Print x
+     | Read, [x] -> K.Read
+     | FRead, [x] -> K.FRead
      | _ -> assert false)
   | If (Eq, x1, x2, e1, e2) -> K.IfEq (x1, x2, adapter env e1, adapter env e2)
   | If (LT, x1, x2, e1, e2) -> K.IfLE (x2, x1, adapter env e2, adapter env e1)

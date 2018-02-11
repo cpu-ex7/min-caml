@@ -6,15 +6,23 @@ let add_loc x = (x, curr_symbol_loc ())
 %}
 
 %token <bool> BOOL
-%token <int> INT
+%token <Int32.t> INT
 %token <float> FLOAT
+%token LPAREN
+%token RPAREN
 %token NOT
 %token MINUS
 %token PLUS
+%token STAR
+%token SLASH
 %token MINUS_DOT
 %token PLUS_DOT
 %token STAR_DOT
 %token SLASH_DOT
+%token FABS
+%token SQRT
+%token INT_OF_FLOAT
+%token FLOAT_OF_INT
 %token EQUAL
 %token LESS_GREATER
 %token LESS_EQUAL
@@ -33,8 +41,9 @@ let add_loc x = (x, curr_symbol_loc ())
 %token DOT
 %token LESS_MINUS
 %token SEMICOLON
-%token LPAREN
-%token RPAREN
+%token PRINT_CHAR
+%token READ_INT
+%token READ_FLOAT
 %token EOF
 
 %nonassoc IN
@@ -46,7 +55,7 @@ let add_loc x = (x, curr_symbol_loc ())
 %left COMMA
 %left EQUAL LESS_GREATER LESS GREATER LESS_EQUAL GREATER_EQUAL
 %left PLUS MINUS PLUS_DOT MINUS_DOT
-%left STAR_DOT SLASH_DOT
+%left STAR SLASH STAR_DOT SLASH_DOT
 %right prec_unary_minus
 %left prec_app
 %left DOT
@@ -78,11 +87,17 @@ expr:
       | e -> Op (Neg, [$2]) }
   | ast PLUS ast { Op (Add, [$1; $3]) }
   | ast MINUS ast { Op (Sub, [$1; $3]) }
+  | ast STAR ast { Op (Mul, [$1; $3]) }
+  | ast SLASH ast { Op (Div, [$1; $3]) }
   | MINUS_DOT ast %prec prec_unary_minus { Op (FNeg, [$2]) }
   | ast PLUS_DOT ast { Op (FAdd, [$1; $3]) }
   | ast MINUS_DOT ast { Op (FSub, [$1; $3]) }
   | ast STAR_DOT ast { Op (FMul, [$1; $3]) }
   | ast SLASH_DOT ast { Op (FDiv, [$1; $3]) }
+  | FABS ast %prec prec_app { Op (FAbs, [$2]) }
+  | SQRT ast %prec prec_app { Op (Sqrt, [$2]) }
+  | INT_OF_FLOAT ast %prec prec_app { Op (FtoI, [$2]) }
+  | FLOAT_OF_INT ast %prec prec_app { Op (ItoF, [$2]) }
   | ast EQUAL ast { Op (Eq, [$1; $3]) }
   | ast LESS_GREATER ast { Op (NEq, [$1; $3]) }
   | ast LESS ast { Op (LT, [$1; $3]) }
@@ -99,6 +114,9 @@ expr:
   | LET LPAREN idents RPAREN EQUAL ast IN ast { LetTuple ($3, $6, $8) }
   | ast SEMICOLON ast { Let (Id.gentmp Type.Unit, $1, $3) }
   | ast SEMICOLON { Let (Id.gentmp Type.Unit, $1, add_loc (Const Unit)) }
+  | PRINT_CHAR ast %prec prec_app { Op (Print, [$2]) }
+  | READ_INT ast %prec prec_app { Op (Read, [$2]) }
+  | READ_FLOAT ast %prec prec_app { Op (FRead, [$2]) }
   | error
       { failwith
           (Printf.sprintf "parse error near characters %d-%d"

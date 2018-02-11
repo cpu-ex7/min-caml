@@ -23,16 +23,20 @@ rule token = parse
   | "not" { NOT }
 (*  | "&&" { AMPER_AMPER } *)
 (*  | "||" { BAR_BAR } *)
-  | int_literal as i { INT(int_of_string i) }
-  | float_literal as f { FLOAT(float_of_string f) }
+  | int_literal as i { INT (Int32.of_string i) }
+  | float_literal as f { FLOAT (float_of_string f) }
   | "-" { MINUS }
   | "+" { PLUS }
-(*  | "*" { STAR } *)
-(*  | "/" { SLASH } *)
+  | "*" { STAR }
+  | "/" { SLASH }
   | "-." { MINUS_DOT }
   | "+." { PLUS_DOT }
   | "*." { STAR_DOT }
   | "/." { SLASH_DOT }
+  | "fabs" { FABS }
+  | "sqrt" { SQRT }
+  | "int_of_float" { INT_OF_FLOAT }
+  | "float_of_int" { FLOAT_OF_INT }
   | "=" { EQUAL }
   | "<>" { LESS_GREATER }
   | "<=" { LESS_EQUAL }
@@ -47,10 +51,13 @@ rule token = parse
   | "rec" { REC }
   | "," { COMMA }
   | "_" { IDENT (Id.gentmp Type.Unit) }  
-  | "Array.create" | "Array.make" { ARRAY_CREATE }
+  | "Array.create" | "Array.make" | "create_array" { ARRAY_CREATE }
   | "." { DOT }
   | "<-" { LESS_MINUS }
   | ";" { SEMICOLON }
+  | "print_char" | "print_byte" { PRINT_CHAR }
+  | "read_int" { READ_INT }
+  | "read_float" { READ_FLOAT }
   | eof { EOF }  
   | ident as id { IDENT(id) }
   | _

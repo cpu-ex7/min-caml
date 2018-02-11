@@ -1,18 +1,14 @@
 let rec fequal x y = x = y in
 let rec fless x y = x < y in
-let rec fispox x = x > 0.0 in
+let rec fispos x = x > 0.0 in
 let rec fisneg x = x < 0.0 in
 let rec fiszero x = x = 0.0 in
 
 let rec fhalf x = x *. 0.5 in
 let rec fsqr x = x *. x in
-let rec fabs x = abs x in
-let rec fneg x = -.x in
-let rec floor x =
-  if x >= 0.0 then float_of_int (int_of_float x)
-  else float_of_int (int_of_float (x -. 0.5))
-in
-let rec truncate x = floor x in
+let rec fneg x = -.(x) in
+let rec floor x = float_of_int (int_of_float (x -. 0.5)) in
+let rec truncate x = int_of_float x in
 let rec print_int x =
   if x = 128 then
     (print_char 49;

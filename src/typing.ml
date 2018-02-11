@@ -88,9 +88,11 @@ and infer_expr env = function
     let ty = match op, tys with
       | Not, [ty] -> unify Type.Bool ty; Type.Bool
       | Neg, [ty] -> unify Type.Int ty; Type.Int
-      | Add, [ty1; ty2] | Sub, [ty1; ty2] -> List.iter (unify Type.Int) tys; Type.Int
-      | FNeg, [ty] -> unify Type.Float ty; Type.Float
-      | FAdd, [ty1; ty2] | FSub, [ty1; ty2] | FMul, [ty1; ty2] | FDiv, [ty1; ty2] -> List.iter (unify Type.Float) tys; Type.Float
+      | Add, _ | Sub, _ | Mul, _ | Div, _ -> List.iter (unify Type.Int) tys; Type.Int
+      | FNeg, [ty] | FAbs, [ty] | Sqrt, [ty] -> unify Type.Float ty; Type.Float
+      | FtoI, [ty] -> unify Type.Float ty; Type.Int
+      | ItoF, [ty] -> unify Type.Int ty; Type.Float
+      | FAdd, _ | FSub, _ | FMul, _ | FDiv, _ -> List.iter (unify Type.Float) tys; Type.Float
       | Eq, [ty1; ty2] | NEq, [ty1; ty2] | LT, [ty1; ty2] | LE, [ty1; ty2] | GT, [ty1; ty2] | GE, [ty1; ty2] -> unify ty1 ty2; Type.Bool
       | If, [ty1; ty2; ty3] -> unify Type.Bool ty1; unify ty2 ty3; ty2
       | ArrayCreate, [ty1; ty2] -> unify Type.Int ty1; Type.Array ty2
@@ -99,7 +101,10 @@ and infer_expr env = function
         unify (Type.Array ty) ty1; unify Type.Int ty2;
         ty
       | ArraySet, [ty1; ty2; ty3] -> unify (Type.Array ty3) ty1; unify Type.Int ty2; Type.Unit
-      | _ -> invalid_arg "op" in
+      | Print, [ty] -> unify Type.Int ty; Type.Unit
+      | Read, [ty] -> unify Type.Unit ty; Type.Int
+      | FRead, [ty] -> unify Type.Unit ty; Type.Float
+      | _ -> assert false in
     Op (op, operands), ty
   | Let (x, t1, t2) ->
     let (_, ty1) as t1 = infer env t1 in
@@ -130,7 +135,9 @@ and infer_expr env = function
 let typing t =
   ext_env := Env.empty;
   let t = infer Env.empty t in
+  (*
   (try unify Type.Unit (snd t)
    with Unify _ -> failwith "top level does not have type unit");
+   *)
   ext_env := Env.map deref_type_var_to_int !ext_env;
   deref_to_int t

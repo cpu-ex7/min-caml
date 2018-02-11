@@ -6,11 +6,17 @@ type t = (* クロージャ変換後の式 (caml2html: closure_t) *)
   | Neg of Id.t
   | Add of Id.t * Id.t
   | Sub of Id.t * Id.t
+  | Mul of Id.t * Id.t
+  | Div of Id.t * Id.t
   | FNeg of Id.t
   | FAdd of Id.t * Id.t
   | FSub of Id.t * Id.t
   | FMul of Id.t * Id.t
   | FDiv of Id.t * Id.t
+  | FAbs of Id.t
+  | Sqrt of Id.t
+  | FtoI of Id.t
+  | ItoF of Id.t
   | IfEq of Id.t * Id.t * t * t
   | IfLE of Id.t * Id.t * t * t
   | Let of (Id.t * Type.t) * t * t
@@ -22,6 +28,9 @@ type t = (* クロージャ変換後の式 (caml2html: closure_t) *)
   | LetTuple of (Id.t * Type.t) list * Id.t * t
   | Get of Id.t * Id.t
   | Put of Id.t * Id.t * Id.t
+  | Print of Id.t
+  | Read
+  | FRead
   | ExtArray of Id.l
 type fundef = { name : Id.l * Type.t;
                 args : (Id.t * Type.t) list;
@@ -30,9 +39,9 @@ type fundef = { name : Id.l * Type.t;
 type prog = Prog of fundef list * t
 
 let rec fv = function
-  | Unit | Int(_) | Float(_) | ExtArray(_) -> IdSet.empty
-  | Neg(x) | FNeg(x) -> IdSet.singleton x
-  | Add(x, y) | Sub(x, y) | FAdd(x, y) | FSub(x, y) | FMul(x, y) | FDiv(x, y) | Get(x, y) -> IdSet.of_list [x; y]
+  | Unit | Int(_) | Float(_) | ExtArray(_) | Read | FRead -> IdSet.empty
+  | Neg(x) | FNeg(x) | FAbs(x) | Sqrt(x) | FtoI(x) | ItoF(x) | Print(x) -> IdSet.singleton x
+  | Add(x, y) | Sub(x, y) | Mul(x, y) | Div(x, y) | FAdd(x, y) | FSub(x, y) | FMul(x, y) | FDiv(x, y) | Get(x, y) -> IdSet.of_list [x; y]
   | IfEq(x, y, e1, e2)| IfLE(x, y, e1, e2) -> IdSet.add x (IdSet.add y (IdSet.union (fv e1) (fv e2)))
   | Let((x, t), e1, e2) -> IdSet.union (fv e1) (IdSet.remove x (fv e2))
   | Var(x) -> IdSet.singleton x
@@ -51,11 +60,17 @@ let rec g env known = function (* クロージャ変換ルーチン本体 (caml2
   | KNormal.Neg(x) -> Neg(x)
   | KNormal.Add(x, y) -> Add(x, y)
   | KNormal.Sub(x, y) -> Sub(x, y)
+  | KNormal.Mul(x, y) -> Mul(x, y)
+  | KNormal.Div(x, y) -> Div(x, y)
   | KNormal.FNeg(x) -> FNeg(x)
   | KNormal.FAdd(x, y) -> FAdd(x, y)
   | KNormal.FSub(x, y) -> FSub(x, y)
   | KNormal.FMul(x, y) -> FMul(x, y)
   | KNormal.FDiv(x, y) -> FDiv(x, y)
+  | KNormal.FAbs(x) -> FAbs(x)
+  | KNormal.Sqrt(x) -> Sqrt(x)
+  | KNormal.FtoI(x) -> FtoI(x)
+  | KNormal.ItoF(x) -> ItoF(x)
   | KNormal.IfEq(x, y, e1, e2) -> IfEq(x, y, g env known e1, g env known e2)
   | KNormal.IfLE(x, y, e1, e2) -> IfLE(x, y, g env known e1, g env known e2)
   | KNormal.Let((x, t), e1, e2) -> Let((x, t), g env known e1, g (Env.add x t env) known e2)
@@ -97,6 +112,9 @@ let rec g env known = function (* クロージャ変換ルーチン本体 (caml2
   | KNormal.LetTuple(xts, y, e) -> LetTuple(xts, y, g (Env.add_list xts env) known e)
   | KNormal.Get(x, y) -> Get(x, y)
   | KNormal.Put(x, y, z) -> Put(x, y, z)
+  | KNormal.Print(x) -> Print(x)
+  | KNormal.Read -> Read
+  | KNormal.FRead -> FRead
   | KNormal.ExtArray(x) -> ExtArray(Id.L(x))
   | KNormal.ExtFunApp(x, ys) -> AppDir(Id.L("min_caml_" ^ x), ys)
 

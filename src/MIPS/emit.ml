@@ -1,5 +1,9 @@
 open Asm
 
+let rec log2 x =
+  if x = 1 then 0
+  else 1 + log2 (x/2)
+
 let stackset = ref IdSet.empty (* すでにSaveされた変数の集合 (caml2html: emit_stackset) *)
 let stackmap = ref [] (* Saveされた変数の、スタックにおける位置 (caml2html: emit_stackmap) *)
 let save x =
@@ -69,8 +73,14 @@ and g' oc e =
   | NonTail(x), Add(y, C(z)) -> emit "addi" [x; y; string_of_int z]
   | NonTail(x), Sub(y, V(z)) -> emit "sub" [x; y; z]
   | NonTail(x), Sub(y, C(z)) -> emit "addi" [x; y; string_of_int (-z)]
+  | NonTail(x), Mul(y, V(z)) -> assert false
+  | NonTail(x), Mul(y, C(z)) -> emit "sll" [x; y; string_of_int @@ log2 z]
+  | NonTail(x), Div(y, V(z)) -> assert false
+  | NonTail(x), Div(y, C(z)) -> emit "srl" [x; y; string_of_int @@ log2 z]
   | NonTail(x), Sll(y, V(z)) -> emit "sllv" [x; y; z]
   | NonTail(x), Sll(y, C(z)) -> emit "sll" [x; y; string_of_int z]
+  | NonTail(x), Srl(y, V(z)) -> emit "srlv" [x; y; z]
+  | NonTail(x), Srl(y, C(z)) -> emit "srl" [x; y; string_of_int z]
   | NonTail(x), Load(y, V(z)) ->
     emit "add" [reg_tmp; y; z];
     emit "lw" [x; addr_format 0 reg_tmp]
@@ -81,11 +91,26 @@ and g' oc e =
   | NonTail(_), Store(x, y, C(z)) -> emit "sw" [x; addr_format z y]
   | NonTail(x), FMove(y) when x = y -> ()
   | NonTail(x), FMove(y) -> emit "mvf" [x; y]
-  | NonTail(x), FNeg(y) -> emit "negf" [x; y]
+  | NonTail(x), FNeg(y) ->
+    emit "mfc2" [reg_ftmp; reg_zero];
+    emit "subf" [x; reg_ftmp; y]
   | NonTail(x), FAdd(y, z) -> emit "addf" [x; y; z]
   | NonTail(x), FSub(y, z) -> emit "subf" [x; y; z]
   | NonTail(x), FMul(y, z) -> emit "mulf" [x; y; z]
   | NonTail(x), FDiv(y, z) -> emit "divf" [x; y; z]
+  | NonTail(x), FAbs(y) -> emit "abs" [x; y]
+  | NonTail(x), Sqrt(y) -> emit "sqrt" [x; y]
+  | NonTail(x), FtoI(y) ->
+    emit "roundwfmt" [reg_ftmp; y];
+    emit "mfc1" [x; reg_ftmp]
+  | NonTail(x), ItoF(y) ->
+    emit "mfc2" [x; y];
+    emit "cvtsw" [x; x]
+  | NonTail(x), Read -> emit "read_word" [x]
+  | NonTail(x), FRead ->
+    emit "read_word" [reg_tmp];
+    emit "mfc2" [x; reg_tmp]
+  | NonTail(_), Print(x) -> emit "print_char" [x]
   | NonTail(x), FLoad(y, V(z)) ->
     emit "add" [reg_tmp; y; z];
     emit "lwc1" [x; addr_format 0 reg_tmp]
@@ -107,13 +132,13 @@ and g' oc e =
   | NonTail(x), Restore(y) when List.mem x allregs -> emit "lw" [x; addr_format (offset y) reg_sp]
   | NonTail(x), Restore(y) -> emit "lwc1" [x; addr_format (offset y) reg_sp]
   (* 末尾だったら計算結果を第一レジスタにセットしてリターン (caml2html: emit_tailret) *)
-  | Tail, (Nop | Store _ | FStore _ | Comment _ | Save _ as exp) ->
+  | Tail, (Nop | Store _ | FStore _ | Comment _ | Save _ | Print _ as exp) ->
     g' oc (NonTail(Id.gentmp Type.Unit), exp);
     emit "jr" [reg_ra]
-  | Tail, (LoadImmediate _ | LoadAddres _ | Move _ | Neg _ | Add _ | Sub _ | Sll _ | Load _ as exp) ->
+  | Tail, (LoadImmediate _ | LoadAddres _ | Move _ | Neg _ | Add _ | Sub _ | Mul _ | Div _ | Sll _ | Srl _ | Load _  | Read | FtoI _ as exp) ->
     g' oc (NonTail(regs.(0)), exp);
     emit "jr" [reg_ra]
-  | Tail, (FLoadImmediate _ | FMove _ | FNeg _ | FAdd _ | FSub _ | FMul _ | FDiv _ | FLoad _ as exp) ->
+  | Tail, (FLoadImmediate _ | FMove _ | FNeg _ | FAdd _ | FSub _ | FMul _ | FDiv _ | FAbs _ | Sqrt _ | FLoad _ | FRead | ItoF _ as exp) ->
     g' oc (NonTail(fregs.(0)), exp);
     emit "jr" [reg_ra]
   | Tail, (Restore(x) as exp) ->
@@ -267,7 +292,8 @@ let f oc (Prog(data, fundefs, e)) =
   emit oc "j" ["_min_caml_start"];
   List.iter (fun fundef -> h oc fundef) fundefs;
   Printf.fprintf oc "_min_caml_start:\n";
-  emit oc "addi" [reg_hp; reg_zero; "8191"];
+  emit oc "addi" [reg_sp; reg_zero; "0"];
+  emit oc "addi" [reg_hp; reg_zero; "32767"];
   emit oc "sw" [reg_ra; addr_format 0 reg_sp];
   emit oc "addi" [reg_sp; reg_sp; string_of_int int_size];
   Printf.fprintf oc "#\tmain program starts\n";
@@ -277,4 +303,5 @@ let f oc (Prog(data, fundefs, e)) =
   Printf.fprintf oc "#\tmain program ends\n";
   emit oc "addi" [reg_sp; reg_sp; string_of_int (-int_size)];
   emit oc "lw" [reg_ra; addr_format 0 reg_sp];
+  emit oc "halt" [];
   emit oc "jr" [reg_ra]
