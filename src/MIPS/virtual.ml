@@ -68,11 +68,11 @@ let rec g env = function (* 式の仮想マシンコード生成 (caml2html: vir
     let offset, store_fv =
       expand
         (List.map (fun y -> (y, Env.find y env)) ys)
-        (4, e2')
+        (int_size, e2')
         (fun y offset store_fv -> seq(FStore(y, x, C(offset)), store_fv))
         (fun y _ offset store_fv -> seq(Store(y, x, C(offset)), store_fv)) in
-    Let((x, t), Move(reg_hp),
-        Let((reg_hp, Type.Int), Add(reg_hp, C(align offset)),
+    Let((reg_hp, Type.Int), Add(reg_hp, C(-(align offset))),
+        Let((x, t), Move(reg_hp),
             let z = Id.genid "l" in
             Let((z, Type.Int), LoadAddres(l),
                 seq(Store(z, x, C(0)),
@@ -91,8 +91,8 @@ let rec g env = function (* 式の仮想マシンコード生成 (caml2html: vir
         (0, Ans(Move(y)))
         (fun x offset store -> seq(FStore(x, y, C(offset)), store))
         (fun x _ offset store -> seq(Store(x, y, C(offset)), store))  in
-    Let((y, Type.Tuple(List.map (fun x -> Env.find x env) xs)), Move(reg_hp),
-        Let((reg_hp, Type.Int), Add(reg_hp, C(align offset)),
+    Let((reg_hp, Type.Int), Add(reg_hp, C(-(align offset))),
+        Let((y, Type.Tuple(List.map (fun x -> Env.find x env) xs)), Move(reg_hp),
             store))
   | Closure.LetTuple(xts, y, e2) ->
     let s = Closure.fv e2 in
@@ -137,7 +137,7 @@ let h { Closure.name = (Id.L(x), t); Closure.args = yts; Closure.formal_fv = zts
   let (offset, load) =
     expand
       zts
-      (4, g (Env.add x t (Env.add_list yts (Env.add_list zts Env.empty))) e)
+      (int_size, g (Env.add x t (Env.add_list yts (Env.add_list zts Env.empty))) e)
       (fun z offset load -> fletd(z, FLoad(x, C(offset)), load))
       (fun z t offset load -> Let((z, t), Load(x, C(offset)), load)) in
   match t with

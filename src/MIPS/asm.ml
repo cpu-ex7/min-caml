@@ -43,10 +43,10 @@ type prog = Prog of (Id.l * float) list * fundef list * t
 let fletd(x, e1, e2) = Let((x, Type.Float), e1, e2)
 let seq(e1, e2) = Let((Id.gentmp Type.Unit, Type.Unit), e1, e2)
 
-let int_size = 4
-let int_align = 2 (* 2^int_align == int_size *)
-let float_size = 4
-let float_align = 2 (* 2^float_align = float_size *)
+let int_size = 1
+let int_align = 0 (* 2^int_align == int_size *)
+let float_size = 1
+let float_align = 0 (* 2^float_align = float_size *)
 let regs = (* Array.init 27 (fun i -> Printf.sprintf "_R_%d" i) *)
   [| "$v0"; "$v1"; "$a0"; "$a1"; "$a2"; "$a3";
      "$t0"; "$t1"; "$t2"; "$t3"; "$t4"; "$t5"; "$t6"; "$t7"; 

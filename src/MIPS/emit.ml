@@ -160,7 +160,7 @@ and g' oc e =
     emit "sw" [reg_ra; addr_format (ss-int_size) reg_sp];
     emit "addi" [reg_sp; reg_sp; string_of_int ss];
     emit "lw" [reg_tmp; addr_format 0 reg_cl];
-    emit "jal" [reg_tmp];
+    emit "jalr" [reg_tmp];
     emit "addi" [reg_sp; reg_sp; string_of_int (-ss)];
     emit "lw" [reg_ra; addr_format (ss-int_size) reg_sp];
     if List.mem a allregs && a <> regs.(0) then
@@ -267,6 +267,7 @@ let f oc (Prog(data, fundefs, e)) =
   emit oc "j" ["_min_caml_start"];
   List.iter (fun fundef -> h oc fundef) fundefs;
   Printf.fprintf oc "_min_caml_start:\n";
+  emit oc "addi" [reg_hp; reg_zero; "8191"];
   emit oc "sw" [reg_ra; addr_format 0 reg_sp];
   emit oc "addi" [reg_sp; reg_sp; string_of_int int_size];
   Printf.fprintf oc "#\tmain program starts\n";

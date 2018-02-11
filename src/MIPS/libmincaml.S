@@ -20,22 +20,21 @@ min_caml_read_char:
 	jr	$ra
 min_caml_create_array:
 	add	$at, $zero, $v0
-	add	$v0, $zero, $gp
 create_array_loop:
 	beq	$zero, $at, create_array_return
 	sw	$v1, 0($gp)
 	addi	$at, $at, -1
-	addi	$gp, $gp, 1
+	addi	$gp, $gp, -1
 	j create_array_loop
 min_caml_create_float_array:
 	add	$at, $zero, $v0
-	add	$v0, $zero, $gp
 create_float_array_loop:
 	beq	$zero, $at, create_array_return
 	swc1	$f0, 0($gp)
 	addi	$at, $at, -1
-	addi	$gp, $gp, 1
+	addi	$gp, $gp, -1
 	j create_float_array_loop
 create_array_return:
+	add	$v0, $zero, $gp
 	jr	$ra
 	

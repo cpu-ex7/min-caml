@@ -98,6 +98,7 @@ expr:
   | asts %prec prec_tuple { Tuple $1 }
   | LET LPAREN idents RPAREN EQUAL ast IN ast { LetTuple ($3, $6, $8) }
   | ast SEMICOLON ast { Let (Id.gentmp Type.Unit, $1, $3) }
+  | ast SEMICOLON { Let (Id.gentmp Type.Unit, $1, add_loc (Const Unit)) }
   | error
       { failwith
           (Printf.sprintf "parse error near characters %d-%d"

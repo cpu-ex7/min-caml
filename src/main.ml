@@ -17,7 +17,7 @@ let rec parse_libs = function
   | l :: ls ->
     let in_ch = open_in (l ^ ".ml") in
     (try (in_ch |> Lexing.from_channel |> Parser.ast Lexer.token) :: parse_libs ls
-     with _ -> parse_libs ls)
+     with e -> close_in in_ch; raise e)
 
 let append_lib oc l =
   let in_ch = open_in (l ^ ".s") in
@@ -61,7 +61,8 @@ let () =
   Arg.parse
     [("-inline", Arg.Int(fun i -> Inline.threshold := i), "maximum size of functions inlined");
      ("-iter", Arg.Int(fun i -> limit := i), "maximum number of optimizations iterated");
-     ("-lib", Arg.String (fun s -> libs := s :: !libs), "library name included")]
+     ("-lib", Arg.String (fun s -> libs := s :: !libs), "library name included");
+     ("-global", Arg.String (fun s -> libs := s :: !libs), "globals")]
     (fun s -> files := !files @ [s])
     ("Mitou Min-Caml Compiler (C) Eijiro Sumii\n" ^
      Printf.sprintf "usage: %s [-inline m] [-iter n] ...filenames without \".ml\"..." Sys.argv.(0));
