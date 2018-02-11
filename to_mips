@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+cd src; ln -sf MIPS/{*.ml{,i},libmincaml.S} .; cd ..
