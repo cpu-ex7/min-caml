@@ -92,8 +92,14 @@ and g' oc e =
   | NonTail(x), FMove(y) when x = y -> ()
   | NonTail(x), FMove(y) -> emit "mvf" [x; y]
   | NonTail(x), FNeg(y) ->
+    emit "mfc1" [reg_tmp; y];
+    emit "lui" ["$fp"; "32768"];
+    emit "xor" [reg_tmp; reg_tmp; "$fp"];
+    emit "mfc2" [x; reg_tmp]
+    (*
     emit "mfc2" [reg_ftmp; reg_zero];
     emit "subf" [x; reg_ftmp; y]
+    *)
   | NonTail(x), FAdd(y, z) -> emit "addf" [x; y; z]
   | NonTail(x), FSub(y, z) -> emit "subf" [x; y; z]
   | NonTail(x), FMul(y, z) -> emit "mulf" [x; y; z]
