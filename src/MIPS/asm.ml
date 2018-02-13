@@ -53,7 +53,7 @@ type prog = Prog of (Id.l * float) list * fundef list * t
 let fletd(x, e1, e2) = Let((x, Type.Float), e1, e2)
 let seq(e1, e2) = Let((Id.gentmp Type.Unit, Type.Unit), e1, e2)
 
-let heap_size = 32768
+let heap_size = 524288
 let int_size = 1
 let int_align = 0 (* 2^int_align == int_size *)
 let float_size = 1

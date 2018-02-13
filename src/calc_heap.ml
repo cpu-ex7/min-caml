@@ -1,6 +1,6 @@
 open Asm
 
-let hp = ref (heap_size - 1)
+let hp = ref heap_size
 let env = ref Env.empty
 
 let rec calc = function
@@ -10,11 +10,12 @@ let rec calc = function
       | Static_alloc.StaticTuple tys -> List.length tys in
     hp := !hp - size;
     env := Env.add x !hp !env;
+    Printf.printf "addr %s id %d\n" x !hp;
     Let ((x, ty), replace e, calc t)
   | Let ((x, ty), e, t) -> Let ((x, ty), replace e, calc t)
   | Ans e -> Ans (replace e)
 and replace = function
-  | LoadAddres(Id.L x) when Env.mem x !env -> Printf.printf "replace2 %s\n" x; LoadImmediate (Env.find x !env)
+  | LoadAddres(Id.L x) when Env.mem x !env -> LoadImmediate (Env.find x !env)
   | IfEq (x, y, t1, t2) -> IfEq (x, y, calc t1, calc t2)
   | IfLE (x, y, t1, t2) -> IfLE (x, y, calc t1, calc t2)
   | IfFEq (x, y, t1, t2) -> IfFEq (x, y, calc t1, calc t2)

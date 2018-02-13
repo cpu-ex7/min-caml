@@ -1,7 +1,7 @@
 	j	_min_caml_start
-print_int@2616:
+print_int@2611:
 	addi	$at, $zero, 128
-	bne	$v0, $at, else@9951
+	bne	$v0, $at, else@9941
 	addi	$v0, $zero, 49
 	print_char	$v0
 	addi	$v0, $zero, 50
@@ -9,9 +9,9 @@ print_int@2616:
 	addi	$v0, $zero, 56
 	print_char	$v0
 	jr	$ra
-else@9951:
+else@9941:
 	addi	$at, $zero, 255
-	bne	$v0, $at, else@9953
+	bne	$v0, $at, else@9943
 	addi	$v0, $zero, 50
 	print_char	$v0
 	addi	$v0, $zero, 53
@@ -19,29 +19,29 @@ else@9951:
 	addi	$v0, $zero, 53
 	print_char	$v0
 	jr	$ra
-else@9953:
+else@9943:
 	addi	$v0, $v0, 48
 	print_char	$v0
 	jr	$ra
-ploop@2639:
+ploop@2634:
 	lef	$f1, $f0
-	bc1f	else@9956
+	bc1f	else@9946
 	addi	$at, $zero, 1073741824
 	mfc2	$f2, $at
 	mulf	$f1, $f2, $f1
 	lef	$f1, $f0
-	bc1f	else@9957
+	bc1f	else@9947
 	addi	$at, $zero, 1073741824
 	mfc2	$f2, $at
 	mulf	$f1, $f2, $f1
-	j	ploop@2639
-else@9957:
+	j	ploop@2634
+else@9947:
 	mvf	$f0, $f1
 	jr	$ra
-else@9956:
+else@9946:
 	mvf	$f0, $f1
 	jr	$ra
-ploop2@2644:
+ploop2@2639:
 	addi	$at, $zero, 1078530011
 	mfc2	$f2, $at
 	addi	$at, $zero, 1073741824
@@ -49,47 +49,47 @@ ploop2@2644:
 	addi	$at, $zero, 1086918619
 	mfc2	$f2, $at
 	lef	$f2, $f0
-	bc1f	else@9958
+	bc1f	else@9948
 	lef	$f1, $f0
-	bc1f	else@9959
+	bc1f	else@9949
 	subf	$f0, $f0, $f1
 	addi	$at, $zero, 1073741824
 	mfc2	$f2, $at
 	divf	$f1, $f1, $f2
-	j	ploop2@2644
-else@9959:
+	j	ploop2@2639
+else@9949:
 	addi	$at, $zero, 1073741824
 	mfc2	$f2, $at
 	divf	$f1, $f1, $f2
-	j	ploop2@2644
-else@9958:
+	j	ploop2@2639
+else@9948:
 	jr	$ra
-recution@2637:
+recution@2632:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	swc1	$f0, 0($sp)
 	lef	$f1, $f0
-	bc1f	else@9960
+	bc1f	else@9950
 	addi	$at, $zero, 1073741824
 	mfc2	$f1, $at
 	addi	$at, $zero, 1086918619
 	mfc2	$f1, $at
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	ploop@2639
+	jal	ploop@2634
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
-	j	cont@9961
-else@9960:
+	j	cont@9951
+else@9950:
 	addi	$at, $zero, 1078530011
 	mfc2	$f0, $at
-cont@9961:
+cont@9951:
 	addi	$at, $zero, 1073741824
 	mfc2	$f1, $at
 	mulf	$f1, $f0, $f1
 	lwc1	$f0, 0($sp)
-	j	ploop2@2644
-kernel_sin@2661:
+	j	ploop2@2639
+kernel_sin@2656:
 	mulf	$f1, $f0, $f0
 	addi	$at, $zero, -1186110282
 	mfc2	$f2, $at
@@ -107,7 +107,7 @@ kernel_sin@2661:
 	addf	$f1, $f1, $f2
 	mulf	$f0, $f1, $f0
 	jr	$ra
-kernel_cos@2674:
+kernel_cos@2669:
 	mulf	$f0, $f0, $f0
 	addi	$at, $zero, -1162641146
 	mfc2	$f1, $at
@@ -124,60 +124,60 @@ kernel_cos@2674:
 	mfc2	$f1, $at
 	addf	$f0, $f0, $f1
 	jr	$ra
-sin@2659:
+sin@2654:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@9962
+	bc1f	else@9952
 	addi	$v0, $zero, 0
-	j	cont@9963
-else@9962:
+	j	cont@9953
+else@9952:
 	addi	$v0, $zero, 1
-cont@9963:
+cont@9953:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@9964
-	j	cont@9965
-else@9964:
+	bne	$v0, $at, else@9954
+	j	cont@9955
+else@9954:
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-cont@9965:
+cont@9955:
 	sw	$v0, 0($sp)
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	recution@2637
+	jal	recution@2632
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@9966
+	bc1f	else@9956
 	addi	$v0, $zero, 1
-	j	cont@9967
-else@9966:
+	j	cont@9957
+else@9956:
 	addi	$v0, $zero, 0
-cont@9967:
+cont@9957:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@9968
-	j	cont@9969
-else@9968:
+	bne	$v0, $at, else@9958
+	j	cont@9959
+else@9958:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	subf	$f0, $f0, $f1
-cont@9969:
+cont@9959:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@9970
+	bne	$v0, $at, else@9960
 	lw	$v0, 0($sp)
-	j	cont@9971
-else@9970:
+	j	cont@9961
+else@9960:
 	lw	$v0, 0($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@9972
+	bne	$v0, $at, else@9962
 	addi	$v0, $zero, 1
-	j	cont@9973
-else@9972:
+	j	cont@9963
+else@9962:
 	addi	$v0, $zero, 0
-cont@9973:
-cont@9971:
+cont@9963:
+cont@9961:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	addi	$at, $zero, 1073741824
@@ -185,13 +185,13 @@ cont@9971:
 	addi	$at, $zero, 1070141403
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@9974
+	bc1f	else@9964
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	subf	$f0, $f1, $f0
-	j	cont@9975
-else@9974:
-cont@9975:
+	j	cont@9965
+else@9964:
+cont@9965:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	addi	$at, $zero, 1082130432
@@ -200,14 +200,14 @@ cont@9975:
 	mfc2	$f1, $at
 	sw	$v0, 1($sp)
 	lef	$f0, $f1
-	bc1f	else@9976
+	bc1f	else@9966
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	kernel_sin@2661
+	jal	kernel_sin@2656
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
-	j	cont@9977
-else@9976:
+	j	cont@9967
+else@9966:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	addi	$at, $zero, 1073741824
@@ -217,19 +217,19 @@ else@9976:
 	subf	$f0, $f1, $f0
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	kernel_cos@2674
+	jal	kernel_cos@2669
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
-cont@9977:
+cont@9967:
 	lw	$v0, 1($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@9978
+	bne	$v0, $at, else@9968
 	jr	$ra
-else@9978:
+else@9968:
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
 	jr	$ra
-kernel_sin@2715:
+kernel_sin@2710:
 	mulf	$f1, $f0, $f0
 	addi	$at, $zero, -1186110282
 	mfc2	$f2, $at
@@ -247,7 +247,7 @@ kernel_sin@2715:
 	addf	$f1, $f1, $f2
 	mulf	$f0, $f1, $f0
 	jr	$ra
-kernel_cos@2728:
+kernel_cos@2723:
 	mulf	$f0, $f0, $f0
 	addi	$at, $zero, -1162641146
 	mfc2	$f1, $at
@@ -264,45 +264,45 @@ kernel_cos@2728:
 	mfc2	$f1, $at
 	addf	$f0, $f0, $f1
 	jr	$ra
-cos@2713:
+cos@2708:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@9979
+	bc1f	else@9969
 	addi	$v0, $zero, 0
-	j	cont@9980
-else@9979:
+	j	cont@9970
+else@9969:
 	addi	$v0, $zero, 1
-cont@9980:
+cont@9970:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@9981
-	j	cont@9982
-else@9981:
+	bne	$v0, $at, else@9971
+	j	cont@9972
+else@9971:
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-cont@9982:
+cont@9972:
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	recution@2637
+	jal	recution@2632
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@9983
+	bc1f	else@9973
 	addi	$v0, $zero, 1
-	j	cont@9984
-else@9983:
+	j	cont@9974
+else@9973:
 	addi	$v0, $zero, 0
-cont@9984:
+cont@9974:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@9985
-	j	cont@9986
-else@9985:
+	bne	$v0, $at, else@9975
+	j	cont@9976
+else@9975:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	subf	$f0, $f0, $f1
-cont@9986:
+cont@9976:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	addi	$at, $zero, 1073741824
@@ -310,32 +310,32 @@ cont@9986:
 	addi	$at, $zero, 1070141403
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@9987
+	bc1f	else@9977
 	addi	$v1, $zero, 1
-	j	cont@9988
-else@9987:
+	j	cont@9978
+else@9977:
 	addi	$v1, $zero, 0
-cont@9988:
+cont@9978:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@9989
-	j	cont@9990
-else@9989:
+	bne	$v1, $at, else@9979
+	j	cont@9980
+else@9979:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	subf	$f0, $f1, $f0
-cont@9990:
+cont@9980:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@9991
-	j	cont@9992
-else@9991:
+	bne	$v1, $at, else@9981
+	j	cont@9982
+else@9981:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@9993
+	bne	$v0, $at, else@9983
 	addi	$v0, $zero, 1
-	j	cont@9994
-else@9993:
+	j	cont@9984
+else@9983:
 	addi	$v0, $zero, 0
-cont@9994:
-cont@9992:
+cont@9984:
+cont@9982:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	addi	$at, $zero, 1082130432
@@ -344,14 +344,14 @@ cont@9992:
 	mfc2	$f1, $at
 	sw	$v0, 0($sp)
 	lef	$f0, $f1
-	bc1f	else@9995
+	bc1f	else@9985
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	kernel_cos@2728
+	jal	kernel_cos@2723
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
-	j	cont@9996
-else@9995:
+	j	cont@9986
+else@9985:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	addi	$at, $zero, 1073741824
@@ -361,19 +361,19 @@ else@9995:
 	subf	$f0, $f1, $f0
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	kernel_sin@2715
+	jal	kernel_sin@2710
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
-cont@9996:
+cont@9986:
 	lw	$v0, 0($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@9997
+	bne	$v0, $at, else@9987
 	jr	$ra
-else@9997:
+else@9987:
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
 	jr	$ra
-kernel_atan@2771:
+kernel_atan@2766:
 	mulf	$f1, $f0, $f0
 	addi	$at, $zero, 1065353216
 	mfc2	$f2, $at
@@ -403,32 +403,32 @@ kernel_atan@2771:
 	addf	$f1, $f2, $f1
 	mulf	$f0, $f0, $f1
 	jr	$ra
-atan@2769:
+atan@2764:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@9998
+	bc1f	else@9988
 	addi	$v0, $zero, 0
-	j	cont@9999
-else@9998:
+	j	cont@9989
+else@9988:
 	addi	$v0, $zero, 1
-cont@9999:
+cont@9989:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10000
-	j	cont@10001
-else@10000:
+	bne	$v0, $at, else@9990
+	j	cont@9991
+else@9990:
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-cont@10001:
+cont@9991:
 	addi	$at, $zero, 1054867456
 	mfc2	$f1, $at
 	sw	$v0, 0($sp)
 	lef	$f1, $f0
-	bc1f	else@10002
+	bc1f	else@9992
 	addi	$at, $zero, 1075576832
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10004
+	bc1f	else@9994
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	addi	$at, $zero, 1073741824
@@ -441,13 +441,13 @@ cont@10001:
 	swc1	$f1, 2($sp)
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	kernel_atan@2771
+	jal	kernel_atan@2766
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	lwc1	$f1, 2($sp)
 	subf	$f0, $f1, $f0
-	j	cont@10005
-else@10004:
+	j	cont@9995
+else@9994:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	addi	$at, $zero, 1082130432
@@ -464,73 +464,73 @@ else@10004:
 	swc1	$f1, 4($sp)
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	kernel_atan@2771
+	jal	kernel_atan@2766
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
 	lwc1	$f1, 4($sp)
 	addf	$f0, $f1, $f0
-cont@10005:
-	j	cont@10003
-else@10002:
+cont@9995:
+	j	cont@9993
+else@9992:
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	kernel_atan@2771
+	jal	kernel_atan@2766
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
-cont@10003:
+cont@9993:
 	lw	$v0, 0($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10007
+	bne	$v0, $at, else@9997
 	jr	$ra
-else@10007:
+else@9997:
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
 	jr	$ra
-sgn@2851:
+sgn@2846:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10008
+	bc1f	else@9998
 	addi	$v0, $zero, 1
-	j	cont@10009
-else@10008:
+	j	cont@9999
+else@9998:
 	addi	$v0, $zero, 0
-cont@10009:
+cont@9999:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10010
+	bne	$v0, $at, else@10000
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f0, $f1
-	bc1f	else@10011
+	bc1f	else@10001
 	addi	$v0, $zero, 0
-	j	cont@10012
-else@10011:
+	j	cont@10002
+else@10001:
 	addi	$v0, $zero, 1
-cont@10012:
+cont@10002:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10013
+	bne	$v0, $at, else@10003
 	addi	$at, $zero, -1082130432
 	mfc2	$f0, $at
 	jr	$ra
-else@10013:
+else@10003:
 	addi	$at, $zero, 1065353216
 	mfc2	$f0, $at
 	jr	$ra
-else@10010:
+else@10000:
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
 	jr	$ra
-vecset@2867:
+vecset@2862:
 	swc1	$f0, 0($v0)
 	swc1	$f1, 1($v0)
 	swc1	$f2, 2($v0)
 	jr	$ra
-vecfill@2877:
+vecfill@2872:
 	swc1	$f0, 0($v0)
 	swc1	$f0, 1($v0)
 	swc1	$f0, 2($v0)
 	jr	$ra
-veccpy@2888:
+veccpy@2883:
 	lwc1	$f0, 0($v1)
 	swc1	$f0, 0($v0)
 	lwc1	$f0, 1($v1)
@@ -538,7 +538,7 @@ veccpy@2888:
 	lwc1	$f0, 2($v1)
 	swc1	$f0, 2($v0)
 	jr	$ra
-vecunit_sgn@2954:
+vecunit_sgn@2949:
 	lwc1	$f0, 0($v0)
 	mulf	$f0, $f0, $f0
 	lwc1	$f1, 1($v0)
@@ -551,30 +551,30 @@ vecunit_sgn@2954:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10017
+	bc1f	else@10007
 	addi	$a0, $zero, 1
-	j	cont@10018
-else@10017:
+	j	cont@10008
+else@10007:
 	addi	$a0, $zero, 0
-cont@10018:
+cont@10008:
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10019
+	bne	$a0, $at, else@10009
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10021
+	bne	$v1, $at, else@10011
 	addi	$at, $zero, 1065353216
 	mfc2	$f1, $at
 	divf	$f0, $f1, $f0
-	j	cont@10022
-else@10021:
+	j	cont@10012
+else@10011:
 	addi	$at, $zero, -1082130432
 	mfc2	$f1, $at
 	divf	$f0, $f1, $f0
-cont@10022:
-	j	cont@10020
-else@10019:
+cont@10012:
+	j	cont@10010
+else@10009:
 	addi	$at, $zero, 1065353216
 	mfc2	$f0, $at
-cont@10020:
+cont@10010:
 	lwc1	$f1, 0($v0)
 	mulf	$f1, $f1, $f0
 	swc1	$f1, 0($v0)
@@ -585,7 +585,7 @@ cont@10020:
 	mulf	$f0, $f1, $f0
 	swc1	$f0, 2($v0)
 	jr	$ra
-veciprod@2989:
+veciprod@2984:
 	lwc1	$f0, 0($v0)
 	lwc1	$f1, 0($v1)
 	mulf	$f0, $f0, $f1
@@ -598,7 +598,7 @@ veciprod@2989:
 	mulf	$f1, $f1, $f2
 	addf	$f0, $f0, $f1
 	jr	$ra
-veciprod2@3008:
+veciprod2@3003:
 	lwc1	$f3, 0($v0)
 	mulf	$f0, $f3, $f0
 	lwc1	$f3, 1($v0)
@@ -608,7 +608,7 @@ veciprod2@3008:
 	mulf	$f1, $f1, $f2
 	addf	$f0, $f0, $f1
 	jr	$ra
-vecaccum@3023:
+vecaccum@3018:
 	lwc1	$f1, 0($v0)
 	lwc1	$f2, 0($v1)
 	mulf	$f2, $f0, $f2
@@ -625,7 +625,7 @@ vecaccum@3023:
 	addf	$f0, $f1, $f0
 	swc1	$f0, 2($v0)
 	jr	$ra
-vecadd@3050:
+vecadd@3045:
 	lwc1	$f0, 0($v0)
 	lwc1	$f1, 0($v1)
 	addf	$f0, $f0, $f1
@@ -639,7 +639,7 @@ vecadd@3050:
 	addf	$f0, $f0, $f1
 	swc1	$f0, 2($v0)
 	jr	$ra
-vecscale@3096:
+vecscale@3091:
 	lwc1	$f1, 0($v0)
 	mulf	$f1, $f1, $f0
 	swc1	$f1, 0($v0)
@@ -650,7 +650,7 @@ vecscale@3096:
 	mulf	$f0, $f1, $f0
 	swc1	$f0, 2($v0)
 	jr	$ra
-vecaccumv@3113:
+vecaccumv@3108:
 	lwc1	$f0, 0($v0)
 	lwc1	$f1, 0($v1)
 	lwc1	$f2, 0($a0)
@@ -670,18 +670,18 @@ vecaccumv@3113:
 	addf	$f0, $f0, $f1
 	swc1	$f0, 2($v0)
 	jr	$ra
-read_screen_settings@3552:
+read_screen_settings@3547:
 	read_word	$at
 	mfc2	$f0, $at
-	addi	$v0, $zero, 32692
+	addi	$v0, $zero, 524213
 	swc1	$f0, 0($v0)
 	read_word	$at
 	mfc2	$f0, $at
-	addi	$v0, $zero, 32692
+	addi	$v0, $zero, 524213
 	swc1	$f0, 1($v0)
 	read_word	$at
 	mfc2	$f0, $at
-	addi	$v0, $zero, 32692
+	addi	$v0, $zero, 524213
 	swc1	$f0, 2($v0)
 	read_word	$at
 	mfc2	$f0, $at
@@ -691,7 +691,7 @@ read_screen_settings@3552:
 	swc1	$f0, 0($sp)
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	cos@2713
+	jal	cos@2708
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	lwc1	$f1, 0($sp)
@@ -699,7 +699,7 @@ read_screen_settings@3552:
 	mvf	$f0, $f1
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	sin@2659
+	jal	sin@2654
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	read_word	$at
@@ -712,7 +712,7 @@ read_screen_settings@3552:
 	mvf	$f0, $f1
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	cos@2713
+	jal	cos@2708
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	lwc1	$f1, 6($sp)
@@ -720,7 +720,7 @@ read_screen_settings@3552:
 	mvf	$f0, $f1
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	sin@2659
+	jal	sin@2654
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	lwc1	$f1, 2($sp)
@@ -728,68 +728,68 @@ read_screen_settings@3552:
 	addi	$at, $zero, 1128792064
 	mfc2	$f3, $at
 	mulf	$f2, $f2, $f3
-	addi	$v0, $zero, 32593
+	addi	$v0, $zero, 524114
 	swc1	$f2, 0($v0)
 	addi	$at, $zero, -1018691584
 	mfc2	$f2, $at
 	lwc1	$f3, 4($sp)
 	mulf	$f2, $f3, $f2
-	addi	$v0, $zero, 32593
+	addi	$v0, $zero, 524114
 	swc1	$f2, 1($v0)
 	lwc1	$f2, 8($sp)
 	mulf	$f4, $f1, $f2
 	addi	$at, $zero, 1128792064
 	mfc2	$f5, $at
 	mulf	$f4, $f4, $f5
-	addi	$v0, $zero, 32593
+	addi	$v0, $zero, 524114
 	swc1	$f4, 2($v0)
-	addi	$v0, $zero, 32599
+	addi	$v0, $zero, 524120
 	swc1	$f2, 0($v0)
 	addi	$at, $zero, 0
 	mfc2	$f4, $at
-	addi	$v0, $zero, 32599
+	addi	$v0, $zero, 524120
 	swc1	$f4, 1($v0)
 	mfc2	$f30, $zero
 	subf	$f4, $f30, $f0
-	addi	$v0, $zero, 32599
+	addi	$v0, $zero, 524120
 	swc1	$f4, 2($v0)
 	mfc2	$f30, $zero
 	subf	$f4, $f30, $f3
 	mulf	$f0, $f4, $f0
-	addi	$v0, $zero, 32596
+	addi	$v0, $zero, 524117
 	swc1	$f0, 0($v0)
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f1
-	addi	$v0, $zero, 32596
+	addi	$v0, $zero, 524117
 	swc1	$f0, 1($v0)
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f3
 	mulf	$f0, $f0, $f2
-	addi	$v0, $zero, 32596
+	addi	$v0, $zero, 524117
 	swc1	$f0, 2($v0)
-	addi	$v0, $zero, 32692
+	addi	$v0, $zero, 524213
 	lwc1	$f0, 0($v0)
-	addi	$v0, $zero, 32593
+	addi	$v0, $zero, 524114
 	lwc1	$f1, 0($v0)
 	subf	$f0, $f0, $f1
-	addi	$v0, $zero, 32689
+	addi	$v0, $zero, 524210
 	swc1	$f0, 0($v0)
-	addi	$v0, $zero, 32692
+	addi	$v0, $zero, 524213
 	lwc1	$f0, 1($v0)
-	addi	$v0, $zero, 32593
+	addi	$v0, $zero, 524114
 	lwc1	$f1, 1($v0)
 	subf	$f0, $f0, $f1
-	addi	$v0, $zero, 32689
+	addi	$v0, $zero, 524210
 	swc1	$f0, 1($v0)
-	addi	$v0, $zero, 32692
+	addi	$v0, $zero, 524213
 	lwc1	$f0, 2($v0)
-	addi	$v0, $zero, 32593
+	addi	$v0, $zero, 524114
 	lwc1	$f1, 2($v0)
 	subf	$f0, $f0, $f1
-	addi	$v0, $zero, 32689
+	addi	$v0, $zero, 524210
 	swc1	$f0, 2($v0)
 	jr	$ra
-read_light@3629:
+read_light@3624:
 	read_word	$v0
 	read_word	$at
 	mfc2	$f0, $at
@@ -799,12 +799,12 @@ read_light@3629:
 	swc1	$f0, 0($sp)
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	sin@2659
+	jal	sin@2654
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-	addi	$v0, $zero, 32686
+	addi	$v0, $zero, 524207
 	swc1	$f0, 1($v0)
 	read_word	$at
 	mfc2	$f0, $at
@@ -816,7 +816,7 @@ read_light@3629:
 	mvf	$f0, $f1
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	cos@2713
+	jal	cos@2708
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	lwc1	$f1, 2($sp)
@@ -824,35 +824,35 @@ read_light@3629:
 	mvf	$f0, $f1
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	sin@2659
+	jal	sin@2654
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
 	lwc1	$f1, 4($sp)
 	mulf	$f0, $f1, $f0
-	addi	$v0, $zero, 32686
+	addi	$v0, $zero, 524207
 	swc1	$f0, 0($v0)
 	lwc1	$f0, 2($sp)
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	cos@2713
+	jal	cos@2708
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
 	lwc1	$f1, 4($sp)
 	mulf	$f0, $f1, $f0
-	addi	$v0, $zero, 32686
+	addi	$v0, $zero, 524207
 	swc1	$f0, 2($v0)
 	read_word	$at
 	mfc2	$f0, $at
-	addi	$v0, $zero, 32685
+	addi	$v0, $zero, 524206
 	swc1	$f0, 0($v0)
 	jr	$ra
-rotate_quadratic_matrix@3655:
+rotate_quadratic_matrix@3650:
 	lwc1	$f0, 0($v1)
 	sw	$v0, 0($sp)
 	sw	$v1, 1($sp)
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	cos@2713
+	jal	cos@2708
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	lw	$v0, 1($sp)
@@ -861,7 +861,7 @@ rotate_quadratic_matrix@3655:
 	mvf	$f0, $f1
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	sin@2659
+	jal	sin@2654
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	lw	$v0, 1($sp)
@@ -870,7 +870,7 @@ rotate_quadratic_matrix@3655:
 	mvf	$f0, $f1
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	cos@2713
+	jal	cos@2708
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
 	lw	$v0, 1($sp)
@@ -879,7 +879,7 @@ rotate_quadratic_matrix@3655:
 	mvf	$f0, $f1
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	sin@2659
+	jal	sin@2654
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	lw	$v0, 1($sp)
@@ -888,7 +888,7 @@ rotate_quadratic_matrix@3655:
 	mvf	$f0, $f1
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	cos@2713
+	jal	cos@2708
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	lw	$v0, 1($sp)
@@ -897,7 +897,7 @@ rotate_quadratic_matrix@3655:
 	mvf	$f0, $f1
 	sw	$ra, 12($sp)
 	addi	$sp, $sp, 13
-	jal	sin@2659
+	jal	sin@2654
 	addi	$sp, $sp, -13
 	lw	$ra, 12($sp)
 	lwc1	$f1, 10($sp)
@@ -996,13 +996,13 @@ rotate_quadratic_matrix@3655:
 	mulf	$f0, $f0, $f1
 	swc1	$f0, 2($v0)
 	jr	$ra
-read_nth_object@3768:
+read_nth_object@3763:
 	read_word	$v1
 	addi	$at, $zero, -1
-	bne	$v1, $at, else@10031
+	bne	$v1, $at, else@10021
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10031:
+else@10021:
 	read_word	$a0
 	read_word	$a1
 	read_word	$a2
@@ -1053,12 +1053,12 @@ else@10031:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10032
+	bc1f	else@10022
 	addi	$v1, $zero, 0
-	j	cont@10033
-else@10032:
+	j	cont@10023
+else@10022:
 	addi	$v1, $zero, 1
-cont@10033:
+cont@10023:
 	addi	$a0, $zero, 2
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
@@ -1107,9 +1107,9 @@ cont@10033:
 	lw	$ra, 10($sp)
 	lw	$v1, 4($sp)
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10034
-	j	cont@10035
-else@10034:
+	bne	$v1, $at, else@10024
+	j	cont@10025
+else@10024:
 	read_word	$at
 	mfc2	$f0, $at
 	addi	$at, $zero, 1016003125
@@ -1128,15 +1128,15 @@ else@10034:
 	mfc2	$f1, $at
 	mulf	$f0, $f0, $f1
 	swc1	$f0, 2($v0)
-cont@10035:
+cont@10025:
 	lw	$a0, 3($sp)
 	addi	$at, $zero, 2
-	bne	$a0, $at, else@10036
+	bne	$a0, $at, else@10026
 	addi	$a1, $zero, 1
-	j	cont@10037
-else@10036:
+	j	cont@10027
+else@10026:
 	lw	$a1, 7($sp)
-cont@10037:
+cont@10027:
 	addi	$a2, $zero, 4
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
@@ -1171,170 +1171,170 @@ cont@10037:
 	sw	$a2, 1($v1)
 	lw	$a3, 1($sp)
 	sw	$a3, 0($v1)
-	addi	$a3, $zero, 32695
+	addi	$a3, $zero, 524216
 	lw	$t0, 0($sp)
 	sll	$t0, $t0, 0
 	add	$at, $a3, $t0
 	sw	$v1, 0($at)
 	addi	$at, $zero, 3
-	bne	$a2, $at, else@10038
+	bne	$a2, $at, else@10028
 	lwc1	$f0, 0($a0)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10040
+	bc1f	else@10030
 	addi	$v1, $zero, 1
-	j	cont@10041
-else@10040:
+	j	cont@10031
+else@10030:
 	addi	$v1, $zero, 0
-cont@10041:
+cont@10031:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10042
+	bne	$v1, $at, else@10032
 	swc1	$f0, 12($sp)
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	sgn@2851
+	jal	sgn@2846
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
 	lwc1	$f1, 12($sp)
 	mulf	$f1, $f1, $f1
 	divf	$f0, $f0, $f1
-	j	cont@10043
-else@10042:
+	j	cont@10033
+else@10032:
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
-cont@10043:
+cont@10033:
 	lw	$v0, 5($sp)
 	swc1	$f0, 0($v0)
 	lwc1	$f0, 1($v0)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10044
+	bc1f	else@10034
 	addi	$v1, $zero, 1
-	j	cont@10045
-else@10044:
+	j	cont@10035
+else@10034:
 	addi	$v1, $zero, 0
-cont@10045:
+cont@10035:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10046
+	bne	$v1, $at, else@10036
 	swc1	$f0, 14($sp)
 	sw	$ra, 16($sp)
 	addi	$sp, $sp, 17
-	jal	sgn@2851
+	jal	sgn@2846
 	addi	$sp, $sp, -17
 	lw	$ra, 16($sp)
 	lwc1	$f1, 14($sp)
 	mulf	$f1, $f1, $f1
 	divf	$f0, $f0, $f1
-	j	cont@10047
-else@10046:
+	j	cont@10037
+else@10036:
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
-cont@10047:
+cont@10037:
 	lw	$v0, 5($sp)
 	swc1	$f0, 1($v0)
 	lwc1	$f0, 2($v0)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10048
+	bc1f	else@10038
 	addi	$v1, $zero, 1
-	j	cont@10049
-else@10048:
+	j	cont@10039
+else@10038:
 	addi	$v1, $zero, 0
-cont@10049:
+cont@10039:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10050
+	bne	$v1, $at, else@10040
 	swc1	$f0, 16($sp)
 	sw	$ra, 18($sp)
 	addi	$sp, $sp, 19
-	jal	sgn@2851
+	jal	sgn@2846
 	addi	$sp, $sp, -19
 	lw	$ra, 18($sp)
 	lwc1	$f1, 16($sp)
 	mulf	$f1, $f1, $f1
 	divf	$f0, $f0, $f1
-	j	cont@10051
-else@10050:
+	j	cont@10041
+else@10040:
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
-cont@10051:
+cont@10041:
 	lw	$v0, 5($sp)
 	swc1	$f0, 2($v0)
-	j	cont@10039
-else@10038:
+	j	cont@10029
+else@10028:
 	addi	$at, $zero, 2
-	bne	$a2, $at, else@10052
+	bne	$a2, $at, else@10042
 	lw	$v1, 7($sp)
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10054
+	bne	$v1, $at, else@10044
 	addi	$v1, $zero, 1
-	j	cont@10055
-else@10054:
+	j	cont@10045
+else@10044:
 	addi	$v1, $zero, 0
-cont@10055:
+cont@10045:
 	add	$v0, $a0, $zero
 	sw	$ra, 18($sp)
 	addi	$sp, $sp, 19
-	jal	vecunit_sgn@2954
+	jal	vecunit_sgn@2949
 	addi	$sp, $sp, -19
 	lw	$ra, 18($sp)
-	j	cont@10053
-else@10052:
-cont@10053:
-cont@10039:
+	j	cont@10043
+else@10042:
+cont@10043:
+cont@10029:
 	lw	$v0, 4($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10056
-	j	cont@10057
-else@10056:
+	bne	$v0, $at, else@10046
+	j	cont@10047
+else@10046:
 	lw	$v0, 5($sp)
 	lw	$v1, 11($sp)
 	sw	$ra, 18($sp)
 	addi	$sp, $sp, 19
-	jal	rotate_quadratic_matrix@3655
+	jal	rotate_quadratic_matrix@3650
 	addi	$sp, $sp, -19
 	lw	$ra, 18($sp)
-cont@10057:
+cont@10047:
 	addi	$v0, $zero, 1
 	jr	$ra
-read_object@3898:
+read_object@3893:
 	slti	$at, $v0, 60
-	bne	$at, $zero, else@10058
+	bne	$at, $zero, else@10048
 	jr	$ra
-else@10058:
+else@10048:
 	sw	$v0, 0($sp)
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	read_nth_object@3768
+	jal	read_nth_object@3763
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10060
-	addi	$v0, $zero, 32766
+	bne	$v0, $at, else@10050
+	addi	$v0, $zero, 524287
 	lw	$v1, 0($sp)
 	sw	$v1, 0($v0)
 	jr	$ra
-else@10060:
+else@10050:
 	lw	$v0, 0($sp)
 	addi	$v0, $v0, 1
-	j	read_object@3898
-read_net_item@3909:
+	j	read_object@3893
+read_net_item@3904:
 	read_word	$v1
 	addi	$at, $zero, -1
-	bne	$v1, $at, else@10062
+	bne	$v1, $at, else@10052
 	addi	$v0, $v0, 1
 	addi	$v1, $zero, -1
 	j	min_caml_create_array
-else@10062:
+else@10052:
 	addi	$a0, $v0, 1
 	sw	$v1, 0($sp)
 	sw	$v0, 1($sp)
 	add	$v0, $a0, $zero
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	read_net_item@3909
+	jal	read_net_item@3904
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	lw	$v1, 1($sp)
@@ -1343,30 +1343,30 @@ else@10062:
 	add	$at, $v0, $v1
 	sw	$a0, 0($at)
 	jr	$ra
-read_or_network@3923:
+read_or_network@3918:
 	addi	$v1, $zero, 0
 	sw	$v0, 0($sp)
 	add	$v0, $v1, $zero
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	read_net_item@3909
+	jal	read_net_item@3904
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
 	add	$v1, $zero, $v0
 	lw	$v0, 0($v1)
 	addi	$at, $zero, -1
-	bne	$v0, $at, else@10063
+	bne	$v0, $at, else@10053
 	lw	$v0, 0($sp)
 	addi	$v0, $v0, 1
 	j	min_caml_create_array
-else@10063:
+else@10053:
 	lw	$v0, 0($sp)
 	addi	$a0, $v0, 1
 	sw	$v1, 1($sp)
 	add	$v0, $a0, $zero
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	read_or_network@3923
+	jal	read_or_network@3918
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	lw	$v1, 0($sp)
@@ -1375,74 +1375,74 @@ else@10063:
 	add	$at, $v0, $v1
 	sw	$a0, 0($at)
 	jr	$ra
-read_and_network@3937:
+read_and_network@3932:
 	addi	$v1, $zero, 0
 	sw	$v0, 0($sp)
 	add	$v0, $v1, $zero
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	read_net_item@3909
+	jal	read_net_item@3904
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
 	lw	$v1, 0($v0)
 	addi	$at, $zero, -1
-	bne	$v1, $at, else@10064
+	bne	$v1, $at, else@10054
 	jr	$ra
-else@10064:
-	addi	$v1, $zero, 32634
+else@10054:
+	addi	$v1, $zero, 524155
 	lw	$a0, 0($sp)
 	sll	$a1, $a0, 0
 	add	$at, $v1, $a1
 	sw	$v0, 0($at)
 	addi	$v0, $a0, 1
-	j	read_and_network@3937
-read_parameter@3948:
+	j	read_and_network@3932
+read_parameter@3943:
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	read_screen_settings@3552
+	jal	read_screen_settings@3547
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	read_light@3629
-	addi	$sp, $sp, -1
-	lw	$ra, 0($sp)
-	addi	$v0, $zero, 0
-	sw	$ra, 0($sp)
-	addi	$sp, $sp, 1
-	jal	read_object@3898
+	jal	read_light@3624
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	addi	$v0, $zero, 0
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	read_and_network@3937
+	jal	read_object@3893
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	addi	$v0, $zero, 0
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	read_or_network@3923
+	jal	read_and_network@3932
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
-	addi	$v1, $zero, 32632
+	addi	$v0, $zero, 0
+	sw	$ra, 0($sp)
+	addi	$sp, $sp, 1
+	jal	read_or_network@3918
+	addi	$sp, $sp, -1
+	lw	$ra, 0($sp)
+	addi	$v1, $zero, 524153
 	sw	$v0, 0($v1)
 	jr	$ra
-solver_rect_surface@3961:
+solver_rect_surface@3956:
 	sll	$a3, $a0, 0
 	add	$at, $v1, $a3
 	lwc1	$f3, 0($at)
 	addi	$at, $zero, 0
 	mfc2	$f4, $at
 	eqf	$f3, $f4
-	bc1f	else@10067
+	bc1f	else@10057
 	addi	$a3, $zero, 1
-	j	cont@10068
-else@10067:
+	j	cont@10058
+else@10057:
 	addi	$a3, $zero, 0
-cont@10068:
+cont@10058:
 	addi	$at, $zero, 0
-	bne	$a3, $at, else@10069
+	bne	$a3, $at, else@10059
 	lw	$a3, 4($v0)
 	lw	$v0, 6($v0)
 	sll	$t0, $a0, 0
@@ -1451,35 +1451,35 @@ cont@10068:
 	addi	$at, $zero, 0
 	mfc2	$f4, $at
 	lef	$f4, $f3
-	bc1f	else@10070
+	bc1f	else@10060
 	addi	$t0, $zero, 0
-	j	cont@10071
-else@10070:
+	j	cont@10061
+else@10060:
 	addi	$t0, $zero, 1
-cont@10071:
+cont@10061:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10072
+	bne	$v0, $at, else@10062
 	add	$v0, $zero, $t0
-	j	cont@10073
-else@10072:
+	j	cont@10063
+else@10062:
 	addi	$at, $zero, 0
-	bne	$t0, $at, else@10074
+	bne	$t0, $at, else@10064
 	addi	$v0, $zero, 1
-	j	cont@10075
-else@10074:
+	j	cont@10065
+else@10064:
 	addi	$v0, $zero, 0
-cont@10075:
-cont@10073:
+cont@10065:
+cont@10063:
 	sll	$t0, $a0, 0
 	add	$at, $a3, $t0
 	lwc1	$f3, 0($at)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10076
+	bne	$v0, $at, else@10066
 	mfc2	$f30, $zero
 	subf	$f3, $f30, $f3
-	j	cont@10077
-else@10076:
-cont@10077:
+	j	cont@10067
+else@10066:
+cont@10067:
 	subf	$f0, $f3, $f0
 	sll	$v0, $a0, 0
 	add	$at, $v1, $v0
@@ -1495,17 +1495,17 @@ cont@10077:
 	add	$at, $a3, $v0
 	lwc1	$f3, 0($at)
 	lef	$f3, $f1
-	bc1f	else@10078
+	bc1f	else@10068
 	addi	$v0, $zero, 0
-	j	cont@10079
-else@10078:
+	j	cont@10069
+else@10068:
 	addi	$v0, $zero, 1
-cont@10079:
+cont@10069:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10080
+	bne	$v0, $at, else@10070
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10080:
+else@10070:
 	sll	$v0, $a2, 0
 	add	$at, $v1, $v0
 	lwc1	$f1, 0($at)
@@ -1516,25 +1516,25 @@ else@10080:
 	add	$at, $a3, $v0
 	lwc1	$f2, 0($at)
 	lef	$f2, $f1
-	bc1f	else@10081
+	bc1f	else@10071
 	addi	$v0, $zero, 0
-	j	cont@10082
-else@10081:
+	j	cont@10072
+else@10071:
 	addi	$v0, $zero, 1
-cont@10082:
+cont@10072:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10083
+	bne	$v0, $at, else@10073
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10083:
-	addi	$v0, $zero, 32631
+else@10073:
+	addi	$v0, $zero, 524152
 	swc1	$f0, 0($v0)
 	addi	$v0, $zero, 1
 	jr	$ra
-else@10069:
+else@10059:
 	addi	$v0, $zero, 0
 	jr	$ra
-solver_rect@3999:
+solver_rect@3994:
 	addi	$a0, $zero, 0
 	addi	$a1, $zero, 1
 	addi	$a2, $zero, 2
@@ -1545,11 +1545,11 @@ solver_rect@3999:
 	sw	$v0, 7($sp)
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	solver_rect_surface@3961
+	jal	solver_rect_surface@3956
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10084
+	bne	$v0, $at, else@10074
 	addi	$a0, $zero, 1
 	addi	$a1, $zero, 2
 	addi	$a2, $zero, 0
@@ -1560,11 +1560,11 @@ solver_rect@3999:
 	lw	$v1, 6($sp)
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	solver_rect_surface@3961
+	jal	solver_rect_surface@3956
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10085
+	bne	$v0, $at, else@10075
 	addi	$a0, $zero, 2
 	addi	$a1, $zero, 0
 	addi	$a2, $zero, 1
@@ -1575,23 +1575,23 @@ solver_rect@3999:
 	lw	$v1, 6($sp)
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	solver_rect_surface@3961
+	jal	solver_rect_surface@3956
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10086
+	bne	$v0, $at, else@10076
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10086:
+else@10076:
 	addi	$v0, $zero, 3
 	jr	$ra
-else@10085:
+else@10075:
 	addi	$v0, $zero, 2
 	jr	$ra
-else@10084:
+else@10074:
 	addi	$v0, $zero, 1
 	jr	$ra
-solver_surface@4020:
+solver_surface@4015:
 	lw	$v0, 4($v0)
 	swc1	$f2, 0($sp)
 	swc1	$f1, 2($sp)
@@ -1602,23 +1602,23 @@ solver_surface@4020:
 	add	$v0, $at, $zero
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	veciprod@2989
+	jal	veciprod@2984
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f0, $f1
-	bc1f	else@10087
+	bc1f	else@10077
 	addi	$v0, $zero, 0
-	j	cont@10088
-else@10087:
+	j	cont@10078
+else@10077:
 	addi	$v0, $zero, 1
-cont@10088:
+cont@10078:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10089
+	bne	$v0, $at, else@10079
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10089:
+else@10079:
 	lwc1	$f1, 4($sp)
 	lwc1	$f2, 2($sp)
 	lwc1	$f3, 0($sp)
@@ -1629,18 +1629,18 @@ else@10089:
 	mvf	$f2, $f3
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	veciprod2@3008
+	jal	veciprod2@3003
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
 	lwc1	$f1, 8($sp)
 	divf	$f0, $f0, $f1
-	addi	$v0, $zero, 32631
+	addi	$v0, $zero, 524152
 	swc1	$f0, 0($v0)
 	addi	$v0, $zero, 1
 	jr	$ra
-quadratic@4035:
+quadratic@4030:
 	mulf	$f3, $f0, $f0
 	lw	$v1, 4($v0)
 	lwc1	$f4, 0($v1)
@@ -1657,10 +1657,10 @@ quadratic@4035:
 	addf	$f3, $f3, $f4
 	lw	$v1, 3($v0)
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10091
+	bne	$v1, $at, else@10081
 	mvf	$f0, $f3
 	jr	$ra
-else@10091:
+else@10081:
 	mulf	$f4, $f1, $f2
 	lw	$v1, 9($v0)
 	lwc1	$f5, 0($v1)
@@ -1677,7 +1677,7 @@ else@10091:
 	mulf	$f0, $f0, $f1
 	addf	$f0, $f2, $f0
 	jr	$ra
-bilinear@4064:
+bilinear@4059:
 	mulf	$f6, $f0, $f3
 	lw	$v1, 4($v0)
 	lwc1	$f7, 0($v1)
@@ -1694,10 +1694,10 @@ bilinear@4064:
 	addf	$f6, $f6, $f7
 	lw	$v1, 3($v0)
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10092
+	bne	$v1, $at, else@10082
 	mvf	$f0, $f6
 	jr	$ra
-else@10092:
+else@10082:
 	mulf	$f7, $f2, $f4
 	mulf	$f8, $f1, $f5
 	addf	$f7, $f7, $f8
@@ -1723,7 +1723,7 @@ else@10092:
 	mulf	$f0, $f0, $f1
 	addf	$f0, $f6, $f0
 	jr	$ra
-solver_second@4103:
+solver_second@4098:
 	lwc1	$f3, 0($v1)
 	lwc1	$f4, 1($v1)
 	lwc1	$f5, 2($v1)
@@ -1737,20 +1737,20 @@ solver_second@4103:
 	mvf	$f0, $f3
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	quadratic@4035
+	jal	quadratic@4030
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10093
+	bc1f	else@10083
 	addi	$v0, $zero, 1
-	j	cont@10094
-else@10093:
+	j	cont@10084
+else@10083:
 	addi	$v0, $zero, 0
-cont@10094:
+cont@10084:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10095
+	bne	$v0, $at, else@10085
 	lw	$v0, 7($sp)
 	lwc1	$f1, 0($v0)
 	lwc1	$f2, 1($v0)
@@ -1768,7 +1768,7 @@ cont@10094:
 	mvf	$f5, $f6
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	bilinear@4064
+	jal	bilinear@4059
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	lwc1	$f1, 4($sp)
@@ -1781,19 +1781,19 @@ cont@10094:
 	mvf	$f2, $f3
 	sw	$ra, 12($sp)
 	addi	$sp, $sp, 13
-	jal	quadratic@4035
+	jal	quadratic@4030
 	addi	$sp, $sp, -13
 	lw	$ra, 12($sp)
 	lw	$v0, 6($sp)
 	lw	$v1, 1($v0)
 	addi	$at, $zero, 3
-	bne	$v1, $at, else@10096
+	bne	$v1, $at, else@10086
 	addi	$at, $zero, 1065353216
 	mfc2	$f1, $at
 	subf	$f0, $f0, $f1
-	j	cont@10097
-else@10096:
-cont@10097:
+	j	cont@10087
+else@10086:
+cont@10087:
 	lwc1	$f1, 10($sp)
 	mulf	$f2, $f1, $f1
 	lwc1	$f3, 8($sp)
@@ -1802,37 +1802,37 @@ cont@10097:
 	addi	$at, $zero, 0
 	mfc2	$f2, $at
 	lef	$f0, $f2
-	bc1f	else@10098
+	bc1f	else@10088
 	addi	$v1, $zero, 0
-	j	cont@10099
-else@10098:
+	j	cont@10089
+else@10088:
 	addi	$v1, $zero, 1
-cont@10099:
+cont@10089:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10100
+	bne	$v1, $at, else@10090
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10100:
+else@10090:
 	sqrt	$f0, $f0
 	lw	$v0, 6($v0)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10101
+	bne	$v0, $at, else@10091
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-	j	cont@10102
-else@10101:
-cont@10102:
+	j	cont@10092
+else@10091:
+cont@10092:
 	subf	$f0, $f0, $f1
 	divf	$f0, $f0, $f3
-	addi	$v0, $zero, 32631
+	addi	$v0, $zero, 524152
 	swc1	$f0, 0($v0)
 	addi	$v0, $zero, 1
 	jr	$ra
-else@10095:
+else@10085:
 	addi	$v0, $zero, 0
 	jr	$ra
-solver@4143:
-	addi	$a1, $zero, 32695
+solver@4138:
+	addi	$a1, $zero, 524216
 	sll	$v0, $v0, 0
 	add	$at, $a1, $v0
 	lw	$v0, 0($at)
@@ -1850,15 +1850,15 @@ solver@4143:
 	subf	$f2, $f2, $f3
 	lw	$a0, 1($v0)
 	addi	$at, $zero, 1
-	bne	$a0, $at, else@10103
-	j	solver_rect@3999
-else@10103:
+	bne	$a0, $at, else@10093
+	j	solver_rect@3994
+else@10093:
 	addi	$at, $zero, 2
-	bne	$a0, $at, else@10104
-	j	solver_surface@4020
-else@10104:
-	j	solver_second@4103
-solver_rect_fast@4163:
+	bne	$a0, $at, else@10094
+	j	solver_surface@4015
+else@10094:
+	j	solver_second@4098
+solver_rect_fast@4158:
 	lwc1	$f3, 0($a0)
 	subf	$f3, $f3, $f0
 	lwc1	$f4, 1($a0)
@@ -1870,17 +1870,17 @@ solver_rect_fast@4163:
 	lw	$a1, 4($v0)
 	lwc1	$f5, 1($a1)
 	lef	$f5, $f4
-	bc1f	else@10105
+	bc1f	else@10095
 	addi	$a1, $zero, 0
-	j	cont@10106
-else@10105:
+	j	cont@10096
+else@10095:
 	addi	$a1, $zero, 1
-cont@10106:
+cont@10096:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10107
+	bne	$a1, $at, else@10097
 	addi	$a1, $zero, 0
-	j	cont@10108
-else@10107:
+	j	cont@10098
+else@10097:
 	lwc1	$f4, 2($v1)
 	mulf	$f4, $f3, $f4
 	addf	$f4, $f4, $f2
@@ -1888,38 +1888,38 @@ else@10107:
 	lw	$a1, 4($v0)
 	lwc1	$f5, 2($a1)
 	lef	$f5, $f4
-	bc1f	else@10109
+	bc1f	else@10099
 	addi	$a1, $zero, 0
-	j	cont@10110
-else@10109:
+	j	cont@10100
+else@10099:
 	addi	$a1, $zero, 1
-cont@10110:
+cont@10100:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10111
+	bne	$a1, $at, else@10101
 	addi	$a1, $zero, 0
-	j	cont@10112
-else@10111:
+	j	cont@10102
+else@10101:
 	lwc1	$f4, 1($a0)
 	addi	$at, $zero, 0
 	mfc2	$f5, $at
 	eqf	$f4, $f5
-	bc1f	else@10113
+	bc1f	else@10103
 	addi	$a1, $zero, 1
-	j	cont@10114
-else@10113:
+	j	cont@10104
+else@10103:
 	addi	$a1, $zero, 0
-cont@10114:
+cont@10104:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10115
+	bne	$a1, $at, else@10105
 	addi	$a1, $zero, 1
-	j	cont@10116
-else@10115:
+	j	cont@10106
+else@10105:
 	addi	$a1, $zero, 0
-cont@10116:
-cont@10112:
-cont@10108:
+cont@10106:
+cont@10102:
+cont@10098:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10117
+	bne	$a1, $at, else@10107
 	lwc1	$f3, 2($a0)
 	subf	$f3, $f3, $f1
 	lwc1	$f4, 3($a0)
@@ -1931,17 +1931,17 @@ cont@10108:
 	lw	$a1, 4($v0)
 	lwc1	$f5, 0($a1)
 	lef	$f5, $f4
-	bc1f	else@10118
+	bc1f	else@10108
 	addi	$a1, $zero, 0
-	j	cont@10119
-else@10118:
+	j	cont@10109
+else@10108:
 	addi	$a1, $zero, 1
-cont@10119:
+cont@10109:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10120
+	bne	$a1, $at, else@10110
 	addi	$a1, $zero, 0
-	j	cont@10121
-else@10120:
+	j	cont@10111
+else@10110:
 	lwc1	$f4, 2($v1)
 	mulf	$f4, $f3, $f4
 	addf	$f4, $f4, $f2
@@ -1949,38 +1949,38 @@ else@10120:
 	lw	$a1, 4($v0)
 	lwc1	$f5, 2($a1)
 	lef	$f5, $f4
-	bc1f	else@10122
+	bc1f	else@10112
 	addi	$a1, $zero, 0
-	j	cont@10123
-else@10122:
+	j	cont@10113
+else@10112:
 	addi	$a1, $zero, 1
-cont@10123:
+cont@10113:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10124
+	bne	$a1, $at, else@10114
 	addi	$a1, $zero, 0
-	j	cont@10125
-else@10124:
+	j	cont@10115
+else@10114:
 	lwc1	$f4, 3($a0)
 	addi	$at, $zero, 0
 	mfc2	$f5, $at
 	eqf	$f4, $f5
-	bc1f	else@10126
+	bc1f	else@10116
 	addi	$a1, $zero, 1
-	j	cont@10127
-else@10126:
+	j	cont@10117
+else@10116:
 	addi	$a1, $zero, 0
-cont@10127:
+cont@10117:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10128
+	bne	$a1, $at, else@10118
 	addi	$a1, $zero, 1
-	j	cont@10129
-else@10128:
+	j	cont@10119
+else@10118:
 	addi	$a1, $zero, 0
-cont@10129:
-cont@10125:
-cont@10121:
+cont@10119:
+cont@10115:
+cont@10111:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10130
+	bne	$a1, $at, else@10120
 	lwc1	$f3, 4($a0)
 	subf	$f2, $f3, $f2
 	lwc1	$f3, 5($a0)
@@ -1992,17 +1992,17 @@ cont@10121:
 	lw	$a1, 4($v0)
 	lwc1	$f3, 0($a1)
 	lef	$f3, $f0
-	bc1f	else@10131
+	bc1f	else@10121
 	addi	$a1, $zero, 0
-	j	cont@10132
-else@10131:
+	j	cont@10122
+else@10121:
 	addi	$a1, $zero, 1
-cont@10132:
+cont@10122:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10133
+	bne	$a1, $at, else@10123
 	addi	$v0, $zero, 0
-	j	cont@10134
-else@10133:
+	j	cont@10124
+else@10123:
 	lwc1	$f0, 1($v1)
 	mulf	$f0, $f2, $f0
 	addf	$f0, $f0, $f1
@@ -2010,71 +2010,71 @@ else@10133:
 	lw	$v0, 4($v0)
 	lwc1	$f1, 1($v0)
 	lef	$f1, $f0
-	bc1f	else@10135
+	bc1f	else@10125
 	addi	$v0, $zero, 0
-	j	cont@10136
-else@10135:
+	j	cont@10126
+else@10125:
 	addi	$v0, $zero, 1
-cont@10136:
+cont@10126:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10137
+	bne	$v0, $at, else@10127
 	addi	$v0, $zero, 0
-	j	cont@10138
-else@10137:
+	j	cont@10128
+else@10127:
 	lwc1	$f0, 5($a0)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10139
+	bc1f	else@10129
 	addi	$v0, $zero, 1
-	j	cont@10140
-else@10139:
+	j	cont@10130
+else@10129:
 	addi	$v0, $zero, 0
-cont@10140:
+cont@10130:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10141
+	bne	$v0, $at, else@10131
 	addi	$v0, $zero, 1
-	j	cont@10142
-else@10141:
+	j	cont@10132
+else@10131:
 	addi	$v0, $zero, 0
-cont@10142:
-cont@10138:
-cont@10134:
+cont@10132:
+cont@10128:
+cont@10124:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10143
+	bne	$v0, $at, else@10133
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10143:
-	addi	$v0, $zero, 32631
+else@10133:
+	addi	$v0, $zero, 524152
 	swc1	$f2, 0($v0)
 	addi	$v0, $zero, 3
 	jr	$ra
-else@10130:
-	addi	$v0, $zero, 32631
+else@10120:
+	addi	$v0, $zero, 524152
 	swc1	$f3, 0($v0)
 	addi	$v0, $zero, 2
 	jr	$ra
-else@10117:
-	addi	$v0, $zero, 32631
+else@10107:
+	addi	$v0, $zero, 524152
 	swc1	$f3, 0($v0)
 	addi	$v0, $zero, 1
 	jr	$ra
-solver_surface_fast@4260:
+solver_surface_fast@4255:
 	lwc1	$f3, 0($v1)
 	addi	$at, $zero, 0
 	mfc2	$f4, $at
 	lef	$f4, $f3
-	bc1f	else@10144
+	bc1f	else@10134
 	addi	$v0, $zero, 0
-	j	cont@10145
-else@10144:
+	j	cont@10135
+else@10134:
 	addi	$v0, $zero, 1
-cont@10145:
+cont@10135:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10146
+	bne	$v0, $at, else@10136
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10146:
+else@10136:
 	lwc1	$f3, 1($v1)
 	mulf	$f0, $f3, $f0
 	lwc1	$f3, 2($v1)
@@ -2083,23 +2083,23 @@ else@10146:
 	lwc1	$f1, 3($v1)
 	mulf	$f1, $f1, $f2
 	addf	$f0, $f0, $f1
-	addi	$v0, $zero, 32631
+	addi	$v0, $zero, 524152
 	swc1	$f0, 0($v0)
 	addi	$v0, $zero, 1
 	jr	$ra
-solver_second_fast@4283:
+solver_second_fast@4278:
 	lwc1	$f3, 0($v1)
 	addi	$at, $zero, 0
 	mfc2	$f4, $at
 	eqf	$f3, $f4
-	bc1f	else@10147
+	bc1f	else@10137
 	addi	$a0, $zero, 1
-	j	cont@10148
-else@10147:
+	j	cont@10138
+else@10137:
 	addi	$a0, $zero, 0
-cont@10148:
+cont@10138:
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10149
+	bne	$a0, $at, else@10139
 	lwc1	$f4, 1($v1)
 	mulf	$f4, $f4, $f0
 	lwc1	$f5, 2($v1)
@@ -2114,19 +2114,19 @@ cont@10148:
 	sw	$v0, 6($sp)
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	quadratic@4035
+	jal	quadratic@4030
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
 	lw	$v0, 6($sp)
 	lw	$v1, 1($v0)
 	addi	$at, $zero, 3
-	bne	$v1, $at, else@10151
+	bne	$v1, $at, else@10141
 	addi	$at, $zero, 1065353216
 	mfc2	$f1, $at
 	subf	$f0, $f0, $f1
-	j	cont@10152
-else@10151:
-cont@10152:
+	j	cont@10142
+else@10141:
+cont@10142:
 	lwc1	$f1, 4($sp)
 	mulf	$f2, $f1, $f1
 	lwc1	$f3, 2($sp)
@@ -2135,44 +2135,44 @@ cont@10152:
 	addi	$at, $zero, 0
 	mfc2	$f2, $at
 	lef	$f0, $f2
-	bc1f	else@10153
+	bc1f	else@10143
 	addi	$v1, $zero, 0
-	j	cont@10154
-else@10153:
+	j	cont@10144
+else@10143:
 	addi	$v1, $zero, 1
-cont@10154:
+cont@10144:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10155
+	bne	$v1, $at, else@10145
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10155:
+else@10145:
 	lw	$v0, 6($v0)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10156
+	bne	$v0, $at, else@10146
 	sqrt	$f0, $f0
 	subf	$f0, $f1, $f0
 	lw	$v0, 0($sp)
 	lwc1	$f1, 4($v0)
 	mulf	$f0, $f0, $f1
-	addi	$v0, $zero, 32631
+	addi	$v0, $zero, 524152
 	swc1	$f0, 0($v0)
-	j	cont@10157
-else@10156:
+	j	cont@10147
+else@10146:
 	sqrt	$f0, $f0
 	addf	$f0, $f1, $f0
 	lw	$v0, 0($sp)
 	lwc1	$f1, 4($v0)
 	mulf	$f0, $f0, $f1
-	addi	$v0, $zero, 32631
+	addi	$v0, $zero, 524152
 	swc1	$f0, 0($v0)
-cont@10157:
+cont@10147:
 	addi	$v0, $zero, 1
 	jr	$ra
-else@10149:
+else@10139:
 	addi	$v0, $zero, 0
 	jr	$ra
-solver_fast@4329:
-	addi	$a1, $zero, 32695
+solver_fast@4324:
+	addi	$a1, $zero, 524216
 	sll	$a2, $v0, 0
 	add	$at, $a1, $a2
 	lw	$a1, 0($at)
@@ -2194,56 +2194,56 @@ solver_fast@4329:
 	lw	$a0, 0($at)
 	lw	$v0, 1($a1)
 	addi	$at, $zero, 1
-	bne	$v0, $at, else@10158
+	bne	$v0, $at, else@10148
 	lw	$v1, 0($v1)
 	add	$v0, $a1, $zero
-	j	solver_rect_fast@4163
-else@10158:
+	j	solver_rect_fast@4158
+else@10148:
 	addi	$at, $zero, 2
-	bne	$v0, $at, else@10159
+	bne	$v0, $at, else@10149
 	add	$v1, $a0, $zero
 	add	$v0, $a1, $zero
-	j	solver_surface_fast@4260
-else@10159:
+	j	solver_surface_fast@4255
+else@10149:
 	add	$v1, $a0, $zero
 	add	$v0, $a1, $zero
-	j	solver_second_fast@4283
-solver_surface_fast2@4352:
+	j	solver_second_fast@4278
+solver_surface_fast2@4347:
 	lwc1	$f0, 0($v1)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10160
+	bc1f	else@10150
 	addi	$v0, $zero, 0
-	j	cont@10161
-else@10160:
+	j	cont@10151
+else@10150:
 	addi	$v0, $zero, 1
-cont@10161:
+cont@10151:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10162
+	bne	$v0, $at, else@10152
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10162:
+else@10152:
 	lwc1	$f0, 0($v1)
 	lwc1	$f1, 3($a0)
 	mulf	$f0, $f0, $f1
-	addi	$v0, $zero, 32631
+	addi	$v0, $zero, 524152
 	swc1	$f0, 0($v0)
 	addi	$v0, $zero, 1
 	jr	$ra
-solver_second_fast2@4370:
+solver_second_fast2@4365:
 	lwc1	$f3, 0($v1)
 	addi	$at, $zero, 0
 	mfc2	$f4, $at
 	eqf	$f3, $f4
-	bc1f	else@10163
+	bc1f	else@10153
 	addi	$a1, $zero, 1
-	j	cont@10164
-else@10163:
+	j	cont@10154
+else@10153:
 	addi	$a1, $zero, 0
-cont@10164:
+cont@10154:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10165
+	bne	$a1, $at, else@10155
 	lwc1	$f4, 1($v1)
 	mulf	$f0, $f4, $f0
 	lwc1	$f4, 2($v1)
@@ -2259,42 +2259,42 @@ cont@10164:
 	addi	$at, $zero, 0
 	mfc2	$f2, $at
 	lef	$f1, $f2
-	bc1f	else@10166
+	bc1f	else@10156
 	addi	$a0, $zero, 0
-	j	cont@10167
-else@10166:
+	j	cont@10157
+else@10156:
 	addi	$a0, $zero, 1
-cont@10167:
+cont@10157:
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10168
+	bne	$a0, $at, else@10158
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10168:
+else@10158:
 	lw	$v0, 6($v0)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10169
+	bne	$v0, $at, else@10159
 	sqrt	$f1, $f1
 	subf	$f0, $f0, $f1
 	lwc1	$f1, 4($v1)
 	mulf	$f0, $f0, $f1
-	addi	$v0, $zero, 32631
+	addi	$v0, $zero, 524152
 	swc1	$f0, 0($v0)
-	j	cont@10170
-else@10169:
+	j	cont@10160
+else@10159:
 	sqrt	$f1, $f1
 	addf	$f0, $f0, $f1
 	lwc1	$f1, 4($v1)
 	mulf	$f0, $f0, $f1
-	addi	$v0, $zero, 32631
+	addi	$v0, $zero, 524152
 	swc1	$f0, 0($v0)
-cont@10170:
+cont@10160:
 	addi	$v0, $zero, 1
 	jr	$ra
-else@10165:
+else@10155:
 	addi	$v0, $zero, 0
 	jr	$ra
-solver_fast2@4414:
-	addi	$a0, $zero, 32695
+solver_fast2@4409:
+	addi	$a0, $zero, 524216
 	sll	$a1, $v0, 0
 	add	$at, $a0, $a1
 	lw	$a0, 0($at)
@@ -2308,25 +2308,25 @@ solver_fast2@4414:
 	lw	$v0, 0($at)
 	lw	$a2, 1($a0)
 	addi	$at, $zero, 1
-	bne	$a2, $at, else@10171
+	bne	$a2, $at, else@10161
 	lw	$v1, 0($v1)
 	add	$at, $a0, $zero
 	add	$a0, $v0, $zero
 	add	$v0, $at, $zero
-	j	solver_rect_fast@4163
-else@10171:
+	j	solver_rect_fast@4158
+else@10161:
 	addi	$at, $zero, 2
-	bne	$a2, $at, else@10172
+	bne	$a2, $at, else@10162
 	add	$v1, $v0, $zero
 	add	$v0, $a0, $zero
 	add	$a0, $a1, $zero
-	j	solver_surface_fast2@4352
-else@10172:
+	j	solver_surface_fast2@4347
+else@10162:
 	add	$v1, $v0, $zero
 	add	$v0, $a0, $zero
 	add	$a0, $a1, $zero
-	j	solver_second_fast2@4370
-setup_rect_table@4431:
+	j	solver_second_fast2@4365
+setup_rect_table@4426:
 	addi	$a0, $zero, 6
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
@@ -2343,178 +2343,178 @@ setup_rect_table@4431:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10173
+	bc1f	else@10163
 	addi	$a0, $zero, 1
-	j	cont@10174
-else@10173:
+	j	cont@10164
+else@10163:
 	addi	$a0, $zero, 0
-cont@10174:
+cont@10164:
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10175
+	bne	$a0, $at, else@10165
 	lw	$a0, 0($sp)
 	lw	$a1, 6($a0)
 	lwc1	$f0, 0($v1)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10177
+	bc1f	else@10167
 	addi	$a2, $zero, 0
-	j	cont@10178
-else@10177:
+	j	cont@10168
+else@10167:
 	addi	$a2, $zero, 1
-cont@10178:
+cont@10168:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10179
+	bne	$a1, $at, else@10169
 	add	$a1, $zero, $a2
-	j	cont@10180
-else@10179:
+	j	cont@10170
+else@10169:
 	addi	$at, $zero, 0
-	bne	$a2, $at, else@10181
+	bne	$a2, $at, else@10171
 	addi	$a1, $zero, 1
-	j	cont@10182
-else@10181:
+	j	cont@10172
+else@10171:
 	addi	$a1, $zero, 0
-cont@10182:
-cont@10180:
+cont@10172:
+cont@10170:
 	lw	$a2, 4($a0)
 	lwc1	$f0, 0($a2)
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10183
+	bne	$a1, $at, else@10173
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-	j	cont@10184
-else@10183:
-cont@10184:
+	j	cont@10174
+else@10173:
+cont@10174:
 	swc1	$f0, 0($v0)
 	addi	$at, $zero, 1065353216
 	mfc2	$f0, $at
 	lwc1	$f1, 0($v1)
 	divf	$f0, $f0, $f1
 	swc1	$f0, 1($v0)
-	j	cont@10176
-else@10175:
+	j	cont@10166
+else@10165:
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
 	swc1	$f0, 1($v0)
-cont@10176:
+cont@10166:
 	lwc1	$f0, 1($v1)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10185
+	bc1f	else@10175
 	addi	$a0, $zero, 1
-	j	cont@10186
-else@10185:
+	j	cont@10176
+else@10175:
 	addi	$a0, $zero, 0
-cont@10186:
+cont@10176:
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10187
+	bne	$a0, $at, else@10177
 	lw	$a0, 0($sp)
 	lw	$a1, 6($a0)
 	lwc1	$f0, 1($v1)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10189
+	bc1f	else@10179
 	addi	$a2, $zero, 0
-	j	cont@10190
-else@10189:
+	j	cont@10180
+else@10179:
 	addi	$a2, $zero, 1
-cont@10190:
+cont@10180:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10191
+	bne	$a1, $at, else@10181
 	add	$a1, $zero, $a2
-	j	cont@10192
-else@10191:
+	j	cont@10182
+else@10181:
 	addi	$at, $zero, 0
-	bne	$a2, $at, else@10193
+	bne	$a2, $at, else@10183
 	addi	$a1, $zero, 1
-	j	cont@10194
-else@10193:
+	j	cont@10184
+else@10183:
 	addi	$a1, $zero, 0
-cont@10194:
-cont@10192:
+cont@10184:
+cont@10182:
 	lw	$a2, 4($a0)
 	lwc1	$f0, 1($a2)
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10195
+	bne	$a1, $at, else@10185
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-	j	cont@10196
-else@10195:
-cont@10196:
+	j	cont@10186
+else@10185:
+cont@10186:
 	swc1	$f0, 2($v0)
 	addi	$at, $zero, 1065353216
 	mfc2	$f0, $at
 	lwc1	$f1, 1($v1)
 	divf	$f0, $f0, $f1
 	swc1	$f0, 3($v0)
-	j	cont@10188
-else@10187:
+	j	cont@10178
+else@10177:
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
 	swc1	$f0, 3($v0)
-cont@10188:
+cont@10178:
 	lwc1	$f0, 2($v1)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10197
+	bc1f	else@10187
 	addi	$a0, $zero, 1
-	j	cont@10198
-else@10197:
+	j	cont@10188
+else@10187:
 	addi	$a0, $zero, 0
-cont@10198:
+cont@10188:
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10199
+	bne	$a0, $at, else@10189
 	lw	$a0, 0($sp)
 	lw	$a1, 6($a0)
 	lwc1	$f0, 2($v1)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10201
+	bc1f	else@10191
 	addi	$a2, $zero, 0
-	j	cont@10202
-else@10201:
+	j	cont@10192
+else@10191:
 	addi	$a2, $zero, 1
-cont@10202:
+cont@10192:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10203
+	bne	$a1, $at, else@10193
 	add	$a1, $zero, $a2
-	j	cont@10204
-else@10203:
+	j	cont@10194
+else@10193:
 	addi	$at, $zero, 0
-	bne	$a2, $at, else@10205
+	bne	$a2, $at, else@10195
 	addi	$a1, $zero, 1
-	j	cont@10206
-else@10205:
+	j	cont@10196
+else@10195:
 	addi	$a1, $zero, 0
-cont@10206:
-cont@10204:
+cont@10196:
+cont@10194:
 	lw	$a0, 4($a0)
 	lwc1	$f0, 2($a0)
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10207
+	bne	$a1, $at, else@10197
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-	j	cont@10208
-else@10207:
-cont@10208:
+	j	cont@10198
+else@10197:
+cont@10198:
 	swc1	$f0, 4($v0)
 	addi	$at, $zero, 1065353216
 	mfc2	$f0, $at
 	lwc1	$f1, 2($v1)
 	divf	$f0, $f0, $f1
 	swc1	$f0, 5($v0)
-	j	cont@10200
-else@10199:
+	j	cont@10190
+else@10189:
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
 	swc1	$f0, 5($v0)
-cont@10200:
+cont@10190:
 	jr	$ra
-setup_surface_table@4500:
+setup_surface_table@4495:
 	addi	$a0, $zero, 4
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
@@ -2545,19 +2545,19 @@ setup_surface_table@4500:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f0, $f1
-	bc1f	else@10209
+	bc1f	else@10199
 	addi	$v1, $zero, 0
-	j	cont@10210
-else@10209:
+	j	cont@10200
+else@10199:
 	addi	$v1, $zero, 1
-cont@10210:
+cont@10200:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10211
+	bne	$v1, $at, else@10201
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
 	swc1	$f0, 0($v0)
-	j	cont@10212
-else@10211:
+	j	cont@10202
+else@10201:
 	addi	$at, $zero, -1082130432
 	mfc2	$f1, $at
 	divf	$f1, $f1, $f0
@@ -2580,9 +2580,9 @@ else@10211:
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
 	swc1	$f0, 3($v0)
-cont@10212:
+cont@10202:
 	jr	$ra
-setup_second_table@4543:
+setup_second_table@4538:
 	addi	$a0, $zero, 5
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
@@ -2603,7 +2603,7 @@ setup_second_table@4543:
 	add	$v0, $a0, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	quadratic@4035
+	jal	quadratic@4030
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	lw	$v0, 1($sp)
@@ -2630,12 +2630,12 @@ setup_second_table@4543:
 	swc1	$f0, 0($a0)
 	lw	$a1, 3($v1)
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10213
+	bne	$a1, $at, else@10203
 	swc1	$f1, 1($a0)
 	swc1	$f2, 2($a0)
 	swc1	$f3, 3($a0)
-	j	cont@10214
-else@10213:
+	j	cont@10204
+else@10203:
 	lwc1	$f4, 2($v0)
 	lw	$a1, 9($v1)
 	lwc1	$f5, 1($a1)
@@ -2678,31 +2678,31 @@ else@10213:
 	mulf	$f1, $f1, $f2
 	subf	$f1, $f3, $f1
 	swc1	$f1, 3($a0)
-cont@10214:
+cont@10204:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	eqf	$f0, $f1
-	bc1f	else@10215
+	bc1f	else@10205
 	addi	$v0, $zero, 1
-	j	cont@10216
-else@10215:
+	j	cont@10206
+else@10205:
 	addi	$v0, $zero, 0
-cont@10216:
+cont@10206:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10217
+	bne	$v0, $at, else@10207
 	addi	$at, $zero, 1065353216
 	mfc2	$f1, $at
 	divf	$f0, $f1, $f0
 	swc1	$f0, 4($a0)
-	j	cont@10218
-else@10217:
-cont@10218:
+	j	cont@10208
+else@10207:
+cont@10208:
 	add	$v0, $zero, $a0
 	jr	$ra
-iter_setup_dirvec_constants@4625:
+iter_setup_dirvec_constants@4620:
 	slti	$at, $v1, 0
-	bne	$at, $zero, else@10219
-	addi	$a0, $zero, 32695
+	bne	$at, $zero, else@10209
+	addi	$a0, $zero, 524216
 	sll	$a1, $v1, 0
 	add	$at, $a0, $a1
 	lw	$a0, 0($at)
@@ -2711,14 +2711,14 @@ iter_setup_dirvec_constants@4625:
 	lw	$a3, 1($a0)
 	sw	$v0, 0($sp)
 	addi	$at, $zero, 1
-	bne	$a3, $at, else@10220
+	bne	$a3, $at, else@10210
 	sw	$a1, 1($sp)
 	sw	$v1, 2($sp)
 	add	$v1, $a0, $zero
 	add	$v0, $a2, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	setup_rect_table@4431
+	jal	setup_rect_table@4426
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	lw	$v1, 2($sp)
@@ -2726,17 +2726,17 @@ iter_setup_dirvec_constants@4625:
 	lw	$a1, 1($sp)
 	add	$at, $a1, $a0
 	sw	$v0, 0($at)
-	j	cont@10221
-else@10220:
+	j	cont@10211
+else@10210:
 	addi	$at, $zero, 2
-	bne	$a3, $at, else@10222
+	bne	$a3, $at, else@10212
 	sw	$a1, 1($sp)
 	sw	$v1, 2($sp)
 	add	$v1, $a0, $zero
 	add	$v0, $a2, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	setup_surface_table@4500
+	jal	setup_surface_table@4495
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	lw	$v1, 2($sp)
@@ -2744,15 +2744,15 @@ else@10220:
 	lw	$a1, 1($sp)
 	add	$at, $a1, $a0
 	sw	$v0, 0($at)
-	j	cont@10223
-else@10222:
+	j	cont@10213
+else@10212:
 	sw	$a1, 1($sp)
 	sw	$v1, 2($sp)
 	add	$v1, $a0, $zero
 	add	$v0, $a2, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	setup_second_table@4543
+	jal	setup_second_table@4538
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	lw	$v1, 2($sp)
@@ -2760,17 +2760,17 @@ else@10222:
 	lw	$a1, 1($sp)
 	add	$at, $a1, $a0
 	sw	$v0, 0($at)
-cont@10223:
-cont@10221:
+cont@10213:
+cont@10211:
 	addi	$v1, $v1, -1
 	lw	$v0, 0($sp)
-	j	iter_setup_dirvec_constants@4625
-else@10219:
+	j	iter_setup_dirvec_constants@4620
+else@10209:
 	jr	$ra
-setup_startp_constants@4647:
+setup_startp_constants@4642:
 	slti	$at, $v1, 0
-	bne	$at, $zero, else@10225
-	addi	$a0, $zero, 32695
+	bne	$at, $zero, else@10215
+	addi	$a0, $zero, 524216
 	sll	$a1, $v1, 0
 	add	$at, $a0, $a1
 	lw	$a0, 0($at)
@@ -2794,7 +2794,7 @@ setup_startp_constants@4647:
 	sw	$v0, 0($sp)
 	sw	$v1, 1($sp)
 	addi	$at, $zero, 2
-	bne	$a2, $at, else@10226
+	bne	$a2, $at, else@10216
 	lw	$a0, 4($a0)
 	lwc1	$f0, 0($a1)
 	lwc1	$f1, 1($a1)
@@ -2803,18 +2803,18 @@ setup_startp_constants@4647:
 	add	$v0, $a0, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	veciprod2@3008
+	jal	veciprod2@3003
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	lw	$v0, 2($sp)
 	swc1	$f0, 3($v0)
-	j	cont@10227
-else@10226:
+	j	cont@10217
+else@10216:
 	addi	$at, $zero, 2
 	slt	$at, $at, $a2
-	bne	$at, $zero, else@10228
-	j	cont@10229
-else@10228:
+	bne	$at, $zero, else@10218
+	j	cont@10219
+else@10218:
 	lwc1	$f0, 0($a1)
 	lwc1	$f1, 1($a1)
 	lwc1	$f2, 2($a1)
@@ -2823,107 +2823,107 @@ else@10228:
 	add	$v0, $a0, $zero
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	quadratic@4035
+	jal	quadratic@4030
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	lw	$v0, 3($sp)
 	addi	$at, $zero, 3
-	bne	$v0, $at, else@10230
+	bne	$v0, $at, else@10220
 	addi	$at, $zero, 1065353216
 	mfc2	$f1, $at
 	subf	$f0, $f0, $f1
-	j	cont@10231
-else@10230:
-cont@10231:
+	j	cont@10221
+else@10220:
+cont@10221:
 	lw	$v0, 2($sp)
 	swc1	$f0, 3($v0)
-cont@10229:
-cont@10227:
+cont@10219:
+cont@10217:
 	lw	$v0, 1($sp)
 	addi	$v1, $v0, -1
 	lw	$v0, 0($sp)
-	j	setup_startp_constants@4647
-else@10225:
+	j	setup_startp_constants@4642
+else@10215:
 	jr	$ra
-setup_startp@4697:
-	addi	$v1, $zero, 32602
+setup_startp@4692:
+	addi	$v1, $zero, 524123
 	sw	$v0, 0($sp)
 	add	$at, $v1, $zero
 	add	$v1, $v0, $zero
 	add	$v0, $at, $zero
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
-	addi	$v0, $zero, 32766
+	addi	$v0, $zero, 524287
 	lw	$v0, 0($v0)
 	addi	$v1, $v0, -1
 	lw	$v0, 0($sp)
-	j	setup_startp_constants@4647
-is_rect_outside@4704:
+	j	setup_startp_constants@4642
+is_rect_outside@4699:
 	abs	$f0, $f0
 	lw	$v1, 4($v0)
 	lwc1	$f3, 0($v1)
 	lef	$f3, $f0
-	bc1f	else@10233
+	bc1f	else@10223
 	addi	$v1, $zero, 0
-	j	cont@10234
-else@10233:
+	j	cont@10224
+else@10223:
 	addi	$v1, $zero, 1
-cont@10234:
+cont@10224:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10235
+	bne	$v1, $at, else@10225
 	addi	$v1, $zero, 0
-	j	cont@10236
-else@10235:
+	j	cont@10226
+else@10225:
 	abs	$f0, $f1
 	lw	$v1, 4($v0)
 	lwc1	$f1, 1($v1)
 	lef	$f1, $f0
-	bc1f	else@10237
+	bc1f	else@10227
 	addi	$v1, $zero, 0
-	j	cont@10238
-else@10237:
+	j	cont@10228
+else@10227:
 	addi	$v1, $zero, 1
-cont@10238:
+cont@10228:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10239
+	bne	$v1, $at, else@10229
 	addi	$v1, $zero, 0
-	j	cont@10240
-else@10239:
+	j	cont@10230
+else@10229:
 	abs	$f0, $f2
 	lw	$v1, 4($v0)
 	lwc1	$f1, 2($v1)
 	lef	$f1, $f0
-	bc1f	else@10241
+	bc1f	else@10231
 	addi	$v1, $zero, 0
-	j	cont@10242
-else@10241:
+	j	cont@10232
+else@10231:
 	addi	$v1, $zero, 1
-cont@10242:
-cont@10240:
-cont@10236:
+cont@10232:
+cont@10230:
+cont@10226:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10243
+	bne	$v1, $at, else@10233
 	lw	$v0, 6($v0)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10244
+	bne	$v0, $at, else@10234
 	addi	$v0, $zero, 1
 	jr	$ra
-else@10244:
+else@10234:
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10243:
+else@10233:
 	lw	$v0, 6($v0)
 	jr	$ra
-is_plane_outside@4723:
+is_plane_outside@4718:
 	lw	$v1, 4($v0)
 	sw	$v0, 0($sp)
 	add	$v0, $v1, $zero
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	veciprod2@3008
+	jal	veciprod2@3003
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
 	lw	$v0, 0($sp)
@@ -2931,80 +2931,80 @@ is_plane_outside@4723:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10245
+	bc1f	else@10235
 	addi	$v1, $zero, 0
-	j	cont@10246
-else@10245:
+	j	cont@10236
+else@10235:
 	addi	$v1, $zero, 1
-cont@10246:
+cont@10236:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10247
+	bne	$v0, $at, else@10237
 	add	$v0, $zero, $v1
-	j	cont@10248
-else@10247:
+	j	cont@10238
+else@10237:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10249
+	bne	$v1, $at, else@10239
 	addi	$v0, $zero, 1
-	j	cont@10250
-else@10249:
+	j	cont@10240
+else@10239:
 	addi	$v0, $zero, 0
-cont@10250:
-cont@10248:
+cont@10240:
+cont@10238:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10251
+	bne	$v0, $at, else@10241
 	addi	$v0, $zero, 1
 	jr	$ra
-else@10251:
+else@10241:
 	addi	$v0, $zero, 0
 	jr	$ra
-is_second_outside@4734:
+is_second_outside@4729:
 	sw	$v0, 0($sp)
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	quadratic@4035
+	jal	quadratic@4030
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
 	lw	$v0, 0($sp)
 	lw	$v1, 1($v0)
 	addi	$at, $zero, 3
-	bne	$v1, $at, else@10252
+	bne	$v1, $at, else@10242
 	addi	$at, $zero, 1065353216
 	mfc2	$f1, $at
 	subf	$f0, $f0, $f1
-	j	cont@10253
-else@10252:
-cont@10253:
+	j	cont@10243
+else@10242:
+cont@10243:
 	lw	$v0, 6($v0)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10254
+	bc1f	else@10244
 	addi	$v1, $zero, 0
-	j	cont@10255
-else@10254:
+	j	cont@10245
+else@10244:
 	addi	$v1, $zero, 1
-cont@10255:
+cont@10245:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10256
+	bne	$v0, $at, else@10246
 	add	$v0, $zero, $v1
-	j	cont@10257
-else@10256:
+	j	cont@10247
+else@10246:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10258
+	bne	$v1, $at, else@10248
 	addi	$v0, $zero, 1
-	j	cont@10259
-else@10258:
+	j	cont@10249
+else@10248:
 	addi	$v0, $zero, 0
-cont@10259:
-cont@10257:
+cont@10249:
+cont@10247:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10260
+	bne	$v0, $at, else@10250
 	addi	$v0, $zero, 1
 	jr	$ra
-else@10260:
+else@10250:
 	addi	$v0, $zero, 0
 	jr	$ra
-is_outside@4748:
+is_outside@4743:
 	lw	$v1, 5($v0)
 	lwc1	$f3, 0($v1)
 	subf	$f0, $f0, $f3
@@ -3016,24 +3016,24 @@ is_outside@4748:
 	subf	$f2, $f2, $f3
 	lw	$v1, 1($v0)
 	addi	$at, $zero, 1
-	bne	$v1, $at, else@10261
-	j	is_rect_outside@4704
-else@10261:
+	bne	$v1, $at, else@10251
+	j	is_rect_outside@4699
+else@10251:
 	addi	$at, $zero, 2
-	bne	$v1, $at, else@10262
-	j	is_plane_outside@4723
-else@10262:
-	j	is_second_outside@4734
-check_all_inside@4762:
+	bne	$v1, $at, else@10252
+	j	is_plane_outside@4718
+else@10252:
+	j	is_second_outside@4729
+check_all_inside@4757:
 	sll	$a0, $v0, 0
 	add	$at, $v1, $a0
 	lw	$a0, 0($at)
 	addi	$at, $zero, -1
-	bne	$a0, $at, else@10263
+	bne	$a0, $at, else@10253
 	addi	$v0, $zero, 1
 	jr	$ra
-else@10263:
-	addi	$a1, $zero, 32695
+else@10253:
+	addi	$a1, $zero, 524216
 	sll	$a0, $a0, 0
 	add	$at, $a1, $a0
 	lw	$a0, 0($at)
@@ -3045,35 +3045,35 @@ else@10263:
 	add	$v0, $a0, $zero
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	is_outside@4748
+	jal	is_outside@4743
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10264
+	bne	$v0, $at, else@10254
 	lw	$v0, 7($sp)
 	addi	$v0, $v0, 1
 	lwc1	$f0, 4($sp)
 	lwc1	$f1, 2($sp)
 	lwc1	$f2, 0($sp)
 	lw	$v1, 6($sp)
-	j	check_all_inside@4762
-else@10264:
+	j	check_all_inside@4757
+else@10254:
 	addi	$v0, $zero, 0
 	jr	$ra
-shadow_check_and_group@4776:
+shadow_check_and_group@4771:
 	sll	$a0, $v0, 0
 	add	$at, $v1, $a0
 	lw	$a0, 0($at)
 	addi	$at, $zero, -1
-	bne	$a0, $at, else@10265
+	bne	$a0, $at, else@10255
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10265:
+else@10255:
 	sll	$a0, $v0, 0
 	add	$at, $v1, $a0
 	lw	$a0, 0($at)
-	addi	$a1, $zero, 32626
-	addi	$a2, $zero, 32518
+	addi	$a1, $zero, 524147
+	addi	$a2, $zero, 524039
 	sw	$v1, 0($sp)
 	sw	$v0, 1($sp)
 	sw	$a0, 2($sp)
@@ -3082,63 +3082,63 @@ else@10265:
 	add	$a0, $a1, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	solver_fast@4329
+	jal	solver_fast@4324
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
-	addi	$v1, $zero, 32631
+	addi	$v1, $zero, 524152
 	lwc1	$f0, 0($v1)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10266
+	bne	$v0, $at, else@10256
 	addi	$v0, $zero, 0
-	j	cont@10267
-else@10266:
+	j	cont@10257
+else@10256:
 	addi	$at, $zero, -1102263091
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10268
+	bc1f	else@10258
 	addi	$v0, $zero, 0
-	j	cont@10269
-else@10268:
+	j	cont@10259
+else@10258:
 	addi	$v0, $zero, 1
-cont@10269:
-cont@10267:
+cont@10259:
+cont@10257:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10270
-	addi	$v0, $zero, 32695
+	bne	$v0, $at, else@10260
+	addi	$v0, $zero, 524216
 	lw	$v1, 2($sp)
 	sll	$v1, $v1, 0
 	add	$at, $v0, $v1
 	lw	$v0, 0($at)
 	lw	$v0, 6($v0)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10271
+	bne	$v0, $at, else@10261
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10271:
+else@10261:
 	lw	$v0, 1($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 0($sp)
-	j	shadow_check_and_group@4776
-else@10270:
+	j	shadow_check_and_group@4771
+else@10260:
 	addi	$at, $zero, 1008981770
 	mfc2	$f1, $at
 	addf	$f0, $f0, $f1
-	addi	$v0, $zero, 32686
+	addi	$v0, $zero, 524207
 	lwc1	$f1, 0($v0)
 	mulf	$f1, $f1, $f0
-	addi	$v0, $zero, 32626
+	addi	$v0, $zero, 524147
 	lwc1	$f2, 0($v0)
 	addf	$f1, $f1, $f2
-	addi	$v0, $zero, 32686
+	addi	$v0, $zero, 524207
 	lwc1	$f2, 1($v0)
 	mulf	$f2, $f2, $f0
-	addi	$v0, $zero, 32626
+	addi	$v0, $zero, 524147
 	lwc1	$f3, 1($v0)
 	addf	$f2, $f2, $f3
-	addi	$v0, $zero, 32686
+	addi	$v0, $zero, 524207
 	lwc1	$f3, 2($v0)
 	mulf	$f0, $f3, $f0
-	addi	$v0, $zero, 32626
+	addi	$v0, $zero, 524147
 	lwc1	$f3, 2($v0)
 	addf	$f0, $f0, $f3
 	addi	$v0, $zero, 0
@@ -3149,28 +3149,28 @@ else@10270:
 	mvf	$f1, $f30
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	check_all_inside@4762
+	jal	check_all_inside@4757
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10272
+	bne	$v0, $at, else@10262
 	lw	$v0, 1($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 0($sp)
-	j	shadow_check_and_group@4776
-else@10272:
+	j	shadow_check_and_group@4771
+else@10262:
 	addi	$v0, $zero, 1
 	jr	$ra
-shadow_check_one_or_group@4820:
+shadow_check_one_or_group@4815:
 	sll	$a0, $v0, 0
 	add	$at, $v1, $a0
 	lw	$a0, 0($at)
 	addi	$at, $zero, -1
-	bne	$a0, $at, else@10273
+	bne	$a0, $at, else@10263
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10273:
-	addi	$a1, $zero, 32634
+else@10263:
+	addi	$a1, $zero, 524155
 	sll	$a0, $a0, 0
 	add	$at, $a1, $a0
 	lw	$a0, 0($at)
@@ -3181,116 +3181,116 @@ else@10273:
 	add	$v0, $a1, $zero
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	shadow_check_and_group@4776
+	jal	shadow_check_and_group@4771
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10274
+	bne	$v0, $at, else@10264
 	lw	$v0, 1($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 0($sp)
-	j	shadow_check_one_or_group@4820
-else@10274:
+	j	shadow_check_one_or_group@4815
+else@10264:
 	addi	$v0, $zero, 1
 	jr	$ra
-shadow_check_one_or_matrix@4832:
+shadow_check_one_or_matrix@4827:
 	sll	$a0, $v0, 0
 	add	$at, $v1, $a0
 	lw	$a0, 0($at)
 	lw	$a1, 0($a0)
 	addi	$at, $zero, -1
-	bne	$a1, $at, else@10275
+	bne	$a1, $at, else@10265
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10275:
+else@10265:
 	sw	$a0, 0($sp)
 	sw	$v1, 1($sp)
 	sw	$v0, 2($sp)
 	addi	$at, $zero, 99
-	bne	$a1, $at, else@10276
+	bne	$a1, $at, else@10266
 	addi	$v0, $zero, 1
-	j	cont@10277
-else@10276:
-	addi	$a2, $zero, 32626
-	addi	$a3, $zero, 32518
+	j	cont@10267
+else@10266:
+	addi	$a2, $zero, 524147
+	addi	$a3, $zero, 524039
 	add	$a0, $a2, $zero
 	add	$v1, $a3, $zero
 	add	$v0, $a1, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	solver_fast@4329
+	jal	solver_fast@4324
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10278
+	bne	$v0, $at, else@10268
 	addi	$v0, $zero, 0
-	j	cont@10279
-else@10278:
-	addi	$v0, $zero, 32631
+	j	cont@10269
+else@10268:
+	addi	$v0, $zero, 524152
 	lwc1	$f0, 0($v0)
 	addi	$at, $zero, -1110651699
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10280
+	bc1f	else@10270
 	addi	$v0, $zero, 0
-	j	cont@10281
-else@10280:
+	j	cont@10271
+else@10270:
 	addi	$v0, $zero, 1
-cont@10281:
+cont@10271:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10282
+	bne	$v0, $at, else@10272
 	addi	$v0, $zero, 0
-	j	cont@10283
-else@10282:
+	j	cont@10273
+else@10272:
 	addi	$v0, $zero, 1
 	lw	$v1, 0($sp)
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	shadow_check_one_or_group@4820
+	jal	shadow_check_one_or_group@4815
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10284
+	bne	$v0, $at, else@10274
 	addi	$v0, $zero, 0
-	j	cont@10285
-else@10284:
+	j	cont@10275
+else@10274:
 	addi	$v0, $zero, 1
-cont@10285:
-cont@10283:
-cont@10279:
-cont@10277:
+cont@10275:
+cont@10273:
+cont@10269:
+cont@10267:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10286
+	bne	$v0, $at, else@10276
 	lw	$v0, 2($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 1($sp)
-	j	shadow_check_one_or_matrix@4832
-else@10286:
+	j	shadow_check_one_or_matrix@4827
+else@10276:
 	addi	$v0, $zero, 1
 	lw	$v1, 0($sp)
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	shadow_check_one_or_group@4820
+	jal	shadow_check_one_or_group@4815
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10287
+	bne	$v0, $at, else@10277
 	lw	$v0, 2($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 1($sp)
-	j	shadow_check_one_or_matrix@4832
-else@10287:
+	j	shadow_check_one_or_matrix@4827
+else@10277:
 	addi	$v0, $zero, 1
 	jr	$ra
-solve_each_element@4860:
+solve_each_element@4855:
 	sll	$a1, $v0, 0
 	add	$at, $v1, $a1
 	lw	$a1, 0($at)
 	addi	$at, $zero, -1
-	bne	$a1, $at, else@10288
+	bne	$a1, $at, else@10278
 	jr	$ra
-else@10288:
-	addi	$a2, $zero, 32605
+else@10278:
+	addi	$a2, $zero, 524126
 	sw	$a0, 0($sp)
 	sw	$v1, 1($sp)
 	sw	$v0, 2($sp)
@@ -3300,72 +3300,72 @@ else@10288:
 	add	$a0, $a2, $zero
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	solver@4143
+	jal	solver@4138
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10290
-	addi	$v0, $zero, 32695
+	bne	$v0, $at, else@10280
+	addi	$v0, $zero, 524216
 	lw	$v1, 3($sp)
 	sll	$v1, $v1, 0
 	add	$at, $v0, $v1
 	lw	$v0, 0($at)
 	lw	$v0, 6($v0)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10291
+	bne	$v0, $at, else@10281
 	jr	$ra
-else@10291:
+else@10281:
 	lw	$v0, 2($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 1($sp)
 	lw	$a0, 0($sp)
-	j	solve_each_element@4860
-else@10290:
-	addi	$v1, $zero, 32631
+	j	solve_each_element@4855
+else@10280:
+	addi	$v1, $zero, 524152
 	lwc1	$f0, 0($v1)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f0, $f1
-	bc1f	else@10293
+	bc1f	else@10283
 	addi	$v1, $zero, 0
-	j	cont@10294
-else@10293:
+	j	cont@10284
+else@10283:
 	addi	$v1, $zero, 1
-cont@10294:
+cont@10284:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10295
-	j	cont@10296
-else@10295:
-	addi	$v1, $zero, 32629
+	bne	$v1, $at, else@10285
+	j	cont@10286
+else@10285:
+	addi	$v1, $zero, 524150
 	lwc1	$f1, 0($v1)
 	lef	$f1, $f0
-	bc1f	else@10297
+	bc1f	else@10287
 	addi	$v1, $zero, 0
-	j	cont@10298
-else@10297:
+	j	cont@10288
+else@10287:
 	addi	$v1, $zero, 1
-cont@10298:
+cont@10288:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10299
-	j	cont@10300
-else@10299:
+	bne	$v1, $at, else@10289
+	j	cont@10290
+else@10289:
 	addi	$at, $zero, 1008981770
 	mfc2	$f1, $at
 	addf	$f0, $f0, $f1
 	lw	$v1, 0($sp)
 	lwc1	$f1, 0($v1)
 	mulf	$f1, $f1, $f0
-	addi	$a0, $zero, 32605
+	addi	$a0, $zero, 524126
 	lwc1	$f2, 0($a0)
 	addf	$f1, $f1, $f2
 	lwc1	$f2, 1($v1)
 	mulf	$f2, $f2, $f0
-	addi	$a0, $zero, 32605
+	addi	$a0, $zero, 524126
 	lwc1	$f3, 1($a0)
 	addf	$f2, $f2, $f3
 	lwc1	$f3, 2($v1)
 	mulf	$f3, $f3, $f0
-	addi	$a0, $zero, 32605
+	addi	$a0, $zero, 524126
 	lwc1	$f4, 2($a0)
 	addf	$f3, $f3, $f4
 	addi	$a0, $zero, 0
@@ -3382,48 +3382,48 @@ else@10299:
 	mvf	$f2, $f3
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	check_all_inside@4762
+	jal	check_all_inside@4757
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10302
-	j	cont@10303
-else@10302:
-	addi	$v0, $zero, 32629
+	bne	$v0, $at, else@10292
+	j	cont@10293
+else@10292:
+	addi	$v0, $zero, 524150
 	lwc1	$f0, 12($sp)
 	swc1	$f0, 0($v0)
-	addi	$v0, $zero, 32626
+	addi	$v0, $zero, 524147
 	lwc1	$f0, 10($sp)
 	lwc1	$f1, 8($sp)
 	lwc1	$f2, 6($sp)
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	vecset@2867
+	jal	vecset@2862
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
-	addi	$v0, $zero, 32625
+	addi	$v0, $zero, 524146
 	lw	$v1, 3($sp)
 	sw	$v1, 0($v0)
-	addi	$v0, $zero, 32630
+	addi	$v0, $zero, 524151
 	lw	$v1, 4($sp)
 	sw	$v1, 0($v0)
-cont@10303:
-cont@10300:
-cont@10296:
+cont@10293:
+cont@10290:
+cont@10286:
 	lw	$v0, 2($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 1($sp)
 	lw	$a0, 0($sp)
-	j	solve_each_element@4860
-solve_one_or_network@4915:
+	j	solve_each_element@4855
+solve_one_or_network@4910:
 	sll	$a1, $v0, 0
 	add	$at, $v1, $a1
 	lw	$a1, 0($at)
 	addi	$at, $zero, -1
-	bne	$a1, $at, else@10304
+	bne	$a1, $at, else@10294
 	jr	$ra
-else@10304:
-	addi	$a2, $zero, 32634
+else@10294:
+	addi	$a2, $zero, 524155
 	sll	$a1, $a1, 0
 	add	$at, $a2, $a1
 	lw	$a1, 0($at)
@@ -3435,90 +3435,90 @@ else@10304:
 	add	$v0, $a2, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	solve_each_element@4860
+	jal	solve_each_element@4855
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	lw	$v0, 2($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 1($sp)
 	lw	$a0, 0($sp)
-	j	solve_one_or_network@4915
-trace_or_matrix@4927:
+	j	solve_one_or_network@4910
+trace_or_matrix@4922:
 	sll	$a1, $v0, 0
 	add	$at, $v1, $a1
 	lw	$a1, 0($at)
 	lw	$a2, 0($a1)
 	addi	$at, $zero, -1
-	bne	$a2, $at, else@10306
+	bne	$a2, $at, else@10296
 	jr	$ra
-else@10306:
+else@10296:
 	sw	$a0, 0($sp)
 	sw	$v1, 1($sp)
 	sw	$v0, 2($sp)
 	addi	$at, $zero, 99
-	bne	$a2, $at, else@10308
+	bne	$a2, $at, else@10298
 	addi	$a2, $zero, 1
 	add	$v1, $a1, $zero
 	add	$v0, $a2, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	solve_one_or_network@4915
+	jal	solve_one_or_network@4910
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
-	j	cont@10309
-else@10308:
-	addi	$a3, $zero, 32605
+	j	cont@10299
+else@10298:
+	addi	$a3, $zero, 524126
 	sw	$a1, 3($sp)
 	add	$v1, $a0, $zero
 	add	$v0, $a2, $zero
 	add	$a0, $a3, $zero
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	solver@4143
+	jal	solver@4138
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10310
-	j	cont@10311
-else@10310:
-	addi	$v0, $zero, 32631
+	bne	$v0, $at, else@10300
+	j	cont@10301
+else@10300:
+	addi	$v0, $zero, 524152
 	lwc1	$f0, 0($v0)
-	addi	$v0, $zero, 32629
+	addi	$v0, $zero, 524150
 	lwc1	$f1, 0($v0)
 	lef	$f1, $f0
-	bc1f	else@10312
+	bc1f	else@10302
 	addi	$v0, $zero, 0
-	j	cont@10313
-else@10312:
+	j	cont@10303
+else@10302:
 	addi	$v0, $zero, 1
-cont@10313:
+cont@10303:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10314
-	j	cont@10315
-else@10314:
+	bne	$v0, $at, else@10304
+	j	cont@10305
+else@10304:
 	addi	$v0, $zero, 1
 	lw	$v1, 3($sp)
 	lw	$a0, 0($sp)
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	solve_one_or_network@4915
+	jal	solve_one_or_network@4910
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
-cont@10315:
-cont@10311:
-cont@10309:
+cont@10305:
+cont@10301:
+cont@10299:
 	lw	$v0, 2($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 1($sp)
 	lw	$a0, 0($sp)
-	j	trace_or_matrix@4927
-judge_intersection@4950:
+	j	trace_or_matrix@4922
+judge_intersection@4945:
 	addi	$at, $zero, 1315859240
 	mfc2	$f0, $at
-	addi	$v1, $zero, 32629
+	addi	$v1, $zero, 524150
 	swc1	$f0, 0($v1)
 	addi	$v1, $zero, 0
-	addi	$a0, $zero, 32632
+	addi	$a0, $zero, 524153
 	lw	$a0, 0($a0)
 	add	$at, $a0, $zero
 	add	$a0, $v0, $zero
@@ -3526,43 +3526,43 @@ judge_intersection@4950:
 	add	$v1, $at, $zero
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	trace_or_matrix@4927
+	jal	trace_or_matrix@4922
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
-	addi	$v0, $zero, 32629
+	addi	$v0, $zero, 524150
 	lwc1	$f0, 0($v0)
 	addi	$at, $zero, -1110651699
 	mfc2	$f1, $at
 	lef	$f0, $f1
-	bc1f	else@10316
+	bc1f	else@10306
 	addi	$v0, $zero, 0
-	j	cont@10317
-else@10316:
+	j	cont@10307
+else@10306:
 	addi	$v0, $zero, 1
-cont@10317:
+cont@10307:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10318
+	bne	$v0, $at, else@10308
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10318:
+else@10308:
 	addi	$at, $zero, 1287568416
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10319
+	bc1f	else@10309
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10319:
+else@10309:
 	addi	$v0, $zero, 1
 	jr	$ra
-solve_each_element_fast@4965:
+solve_each_element_fast@4960:
 	lw	$a1, 0($a0)
 	sll	$a2, $v0, 0
 	add	$at, $v1, $a2
 	lw	$a2, 0($at)
 	addi	$at, $zero, -1
-	bne	$a2, $at, else@10320
+	bne	$a2, $at, else@10310
 	jr	$ra
-else@10320:
+else@10310:
 	sw	$a1, 0($sp)
 	sw	$a0, 1($sp)
 	sw	$v1, 2($sp)
@@ -3572,72 +3572,72 @@ else@10320:
 	add	$v0, $a2, $zero
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	solver_fast2@4414
+	jal	solver_fast2@4409
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10322
-	addi	$v0, $zero, 32695
+	bne	$v0, $at, else@10312
+	addi	$v0, $zero, 524216
 	lw	$v1, 4($sp)
 	sll	$v1, $v1, 0
 	add	$at, $v0, $v1
 	lw	$v0, 0($at)
 	lw	$v0, 6($v0)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10323
+	bne	$v0, $at, else@10313
 	jr	$ra
-else@10323:
+else@10313:
 	lw	$v0, 3($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 2($sp)
 	lw	$a0, 1($sp)
-	j	solve_each_element_fast@4965
-else@10322:
-	addi	$v1, $zero, 32631
+	j	solve_each_element_fast@4960
+else@10312:
+	addi	$v1, $zero, 524152
 	lwc1	$f0, 0($v1)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f0, $f1
-	bc1f	else@10325
+	bc1f	else@10315
 	addi	$v1, $zero, 0
-	j	cont@10326
-else@10325:
+	j	cont@10316
+else@10315:
 	addi	$v1, $zero, 1
-cont@10326:
+cont@10316:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10327
-	j	cont@10328
-else@10327:
-	addi	$v1, $zero, 32629
+	bne	$v1, $at, else@10317
+	j	cont@10318
+else@10317:
+	addi	$v1, $zero, 524150
 	lwc1	$f1, 0($v1)
 	lef	$f1, $f0
-	bc1f	else@10329
+	bc1f	else@10319
 	addi	$v1, $zero, 0
-	j	cont@10330
-else@10329:
+	j	cont@10320
+else@10319:
 	addi	$v1, $zero, 1
-cont@10330:
+cont@10320:
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10331
-	j	cont@10332
-else@10331:
+	bne	$v1, $at, else@10321
+	j	cont@10322
+else@10321:
 	addi	$at, $zero, 1008981770
 	mfc2	$f1, $at
 	addf	$f0, $f0, $f1
 	lw	$v1, 0($sp)
 	lwc1	$f1, 0($v1)
 	mulf	$f1, $f1, $f0
-	addi	$a0, $zero, 32602
+	addi	$a0, $zero, 524123
 	lwc1	$f2, 0($a0)
 	addf	$f1, $f1, $f2
 	lwc1	$f2, 1($v1)
 	mulf	$f2, $f2, $f0
-	addi	$a0, $zero, 32602
+	addi	$a0, $zero, 524123
 	lwc1	$f3, 1($a0)
 	addf	$f2, $f2, $f3
 	lwc1	$f3, 2($v1)
 	mulf	$f3, $f3, $f0
-	addi	$v1, $zero, 32602
+	addi	$v1, $zero, 524123
 	lwc1	$f4, 2($v1)
 	addf	$f3, $f3, $f4
 	addi	$v1, $zero, 0
@@ -3654,48 +3654,48 @@ else@10331:
 	mvf	$f2, $f3
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	check_all_inside@4762
+	jal	check_all_inside@4757
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10333
-	j	cont@10334
-else@10333:
-	addi	$v0, $zero, 32629
+	bne	$v0, $at, else@10323
+	j	cont@10324
+else@10323:
+	addi	$v0, $zero, 524150
 	lwc1	$f0, 12($sp)
 	swc1	$f0, 0($v0)
-	addi	$v0, $zero, 32626
+	addi	$v0, $zero, 524147
 	lwc1	$f0, 10($sp)
 	lwc1	$f1, 8($sp)
 	lwc1	$f2, 6($sp)
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	vecset@2867
+	jal	vecset@2862
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
-	addi	$v0, $zero, 32625
+	addi	$v0, $zero, 524146
 	lw	$v1, 4($sp)
 	sw	$v1, 0($v0)
-	addi	$v0, $zero, 32630
+	addi	$v0, $zero, 524151
 	lw	$v1, 5($sp)
 	sw	$v1, 0($v0)
-cont@10334:
-cont@10332:
-cont@10328:
+cont@10324:
+cont@10322:
+cont@10318:
 	lw	$v0, 3($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 2($sp)
 	lw	$a0, 1($sp)
-	j	solve_each_element_fast@4965
-solve_one_or_network_fast@5022:
+	j	solve_each_element_fast@4960
+solve_one_or_network_fast@5017:
 	sll	$a1, $v0, 0
 	add	$at, $v1, $a1
 	lw	$a1, 0($at)
 	addi	$at, $zero, -1
-	bne	$a1, $at, else@10335
+	bne	$a1, $at, else@10325
 	jr	$ra
-else@10335:
-	addi	$a2, $zero, 32634
+else@10325:
+	addi	$a2, $zero, 524155
 	sll	$a1, $a1, 0
 	add	$at, $a2, $a1
 	lw	$a1, 0($at)
@@ -3707,88 +3707,88 @@ else@10335:
 	add	$v0, $a2, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	solve_each_element_fast@4965
+	jal	solve_each_element_fast@4960
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	lw	$v0, 2($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 1($sp)
 	lw	$a0, 0($sp)
-	j	solve_one_or_network_fast@5022
-trace_or_matrix_fast@5034:
+	j	solve_one_or_network_fast@5017
+trace_or_matrix_fast@5029:
 	sll	$a1, $v0, 0
 	add	$at, $v1, $a1
 	lw	$a1, 0($at)
 	lw	$a2, 0($a1)
 	addi	$at, $zero, -1
-	bne	$a2, $at, else@10337
+	bne	$a2, $at, else@10327
 	jr	$ra
-else@10337:
+else@10327:
 	sw	$a0, 0($sp)
 	sw	$v1, 1($sp)
 	sw	$v0, 2($sp)
 	addi	$at, $zero, 99
-	bne	$a2, $at, else@10339
+	bne	$a2, $at, else@10329
 	addi	$a2, $zero, 1
 	add	$v1, $a1, $zero
 	add	$v0, $a2, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	solve_one_or_network_fast@5022
+	jal	solve_one_or_network_fast@5017
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
-	j	cont@10340
-else@10339:
+	j	cont@10330
+else@10329:
 	sw	$a1, 3($sp)
 	add	$v1, $a0, $zero
 	add	$v0, $a2, $zero
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	solver_fast2@4414
+	jal	solver_fast2@4409
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10341
-	j	cont@10342
-else@10341:
-	addi	$v0, $zero, 32631
+	bne	$v0, $at, else@10331
+	j	cont@10332
+else@10331:
+	addi	$v0, $zero, 524152
 	lwc1	$f0, 0($v0)
-	addi	$v0, $zero, 32629
+	addi	$v0, $zero, 524150
 	lwc1	$f1, 0($v0)
 	lef	$f1, $f0
-	bc1f	else@10343
+	bc1f	else@10333
 	addi	$v0, $zero, 0
-	j	cont@10344
-else@10343:
+	j	cont@10334
+else@10333:
 	addi	$v0, $zero, 1
-cont@10344:
+cont@10334:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10345
-	j	cont@10346
-else@10345:
+	bne	$v0, $at, else@10335
+	j	cont@10336
+else@10335:
 	addi	$v0, $zero, 1
 	lw	$v1, 3($sp)
 	lw	$a0, 0($sp)
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	solve_one_or_network_fast@5022
+	jal	solve_one_or_network_fast@5017
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
-cont@10346:
-cont@10342:
-cont@10340:
+cont@10336:
+cont@10332:
+cont@10330:
 	lw	$v0, 2($sp)
 	addi	$v0, $v0, 1
 	lw	$v1, 1($sp)
 	lw	$a0, 0($sp)
-	j	trace_or_matrix_fast@5034
-judge_intersection_fast@5057:
+	j	trace_or_matrix_fast@5029
+judge_intersection_fast@5052:
 	addi	$at, $zero, 1315859240
 	mfc2	$f0, $at
-	addi	$v1, $zero, 32629
+	addi	$v1, $zero, 524150
 	swc1	$f0, 0($v1)
 	addi	$v1, $zero, 0
-	addi	$a0, $zero, 32632
+	addi	$a0, $zero, 524153
 	lw	$a0, 0($a0)
 	add	$at, $a0, $zero
 	add	$a0, $v0, $zero
@@ -3796,46 +3796,46 @@ judge_intersection_fast@5057:
 	add	$v1, $at, $zero
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	trace_or_matrix_fast@5034
+	jal	trace_or_matrix_fast@5029
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
-	addi	$v0, $zero, 32629
+	addi	$v0, $zero, 524150
 	lwc1	$f0, 0($v0)
 	addi	$at, $zero, -1110651699
 	mfc2	$f1, $at
 	lef	$f0, $f1
-	bc1f	else@10347
+	bc1f	else@10337
 	addi	$v0, $zero, 0
-	j	cont@10348
-else@10347:
+	j	cont@10338
+else@10337:
 	addi	$v0, $zero, 1
-cont@10348:
+cont@10338:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10349
+	bne	$v0, $at, else@10339
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10349:
+else@10339:
 	addi	$at, $zero, 1287568416
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10350
+	bc1f	else@10340
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10350:
+else@10340:
 	addi	$v0, $zero, 1
 	jr	$ra
-get_nvector_rect@5072:
-	addi	$v1, $zero, 32630
+get_nvector_rect@5067:
+	addi	$v1, $zero, 524151
 	lw	$v1, 0($v1)
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
-	addi	$a0, $zero, 32622
+	addi	$a0, $zero, 524143
 	sw	$v0, 0($sp)
 	sw	$v1, 1($sp)
 	add	$v0, $a0, $zero
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	vecfill@2877
+	jal	vecfill@2872
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	lw	$v0, 1($sp)
@@ -3848,49 +3848,49 @@ get_nvector_rect@5072:
 	sw	$v1, 2($sp)
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	sgn@2851
+	jal	sgn@2846
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-	addi	$v0, $zero, 32622
+	addi	$v0, $zero, 524143
 	lw	$v1, 2($sp)
 	sll	$v1, $v1, 0
 	add	$at, $v0, $v1
 	swc1	$f0, 0($at)
 	jr	$ra
-get_nvector_plane@5084:
+get_nvector_plane@5079:
 	lw	$v1, 4($v0)
 	lwc1	$f0, 0($v1)
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-	addi	$v1, $zero, 32622
+	addi	$v1, $zero, 524143
 	swc1	$f0, 0($v1)
 	lw	$v1, 4($v0)
 	lwc1	$f0, 1($v1)
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-	addi	$v1, $zero, 32622
+	addi	$v1, $zero, 524143
 	swc1	$f0, 1($v1)
 	lw	$v0, 4($v0)
 	lwc1	$f0, 2($v0)
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
-	addi	$v0, $zero, 32622
+	addi	$v0, $zero, 524143
 	swc1	$f0, 2($v0)
 	jr	$ra
-get_nvector_second@5097:
-	addi	$v1, $zero, 32626
+get_nvector_second@5092:
+	addi	$v1, $zero, 524147
 	lwc1	$f0, 0($v1)
 	lw	$v1, 5($v0)
 	lwc1	$f1, 0($v1)
 	subf	$f0, $f0, $f1
-	addi	$v1, $zero, 32626
+	addi	$v1, $zero, 524147
 	lwc1	$f1, 1($v1)
 	lw	$v1, 5($v0)
 	lwc1	$f2, 1($v1)
 	subf	$f1, $f1, $f2
-	addi	$v1, $zero, 32626
+	addi	$v1, $zero, 524147
 	lwc1	$f2, 2($v1)
 	lw	$v1, 5($v0)
 	lwc1	$f3, 2($v1)
@@ -3906,15 +3906,15 @@ get_nvector_second@5097:
 	mulf	$f5, $f2, $f5
 	lw	$v1, 3($v0)
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10353
-	addi	$v1, $zero, 32622
+	bne	$v1, $at, else@10343
+	addi	$v1, $zero, 524143
 	swc1	$f3, 0($v1)
-	addi	$v1, $zero, 32622
+	addi	$v1, $zero, 524143
 	swc1	$f4, 1($v1)
-	addi	$v1, $zero, 32622
+	addi	$v1, $zero, 524143
 	swc1	$f5, 2($v1)
-	j	cont@10354
-else@10353:
+	j	cont@10344
+else@10343:
 	lw	$v1, 9($v0)
 	lwc1	$f6, 2($v1)
 	mulf	$f6, $f1, $f6
@@ -3926,7 +3926,7 @@ else@10353:
 	mfc2	$f7, $at
 	mulf	$f6, $f6, $f7
 	addf	$f3, $f3, $f6
-	addi	$v1, $zero, 32622
+	addi	$v1, $zero, 524143
 	swc1	$f3, 0($v1)
 	lw	$v1, 9($v0)
 	lwc1	$f3, 2($v1)
@@ -3939,7 +3939,7 @@ else@10353:
 	mfc2	$f3, $at
 	mulf	$f2, $f2, $f3
 	addf	$f2, $f4, $f2
-	addi	$v1, $zero, 32622
+	addi	$v1, $zero, 524143
 	swc1	$f2, 1($v1)
 	lw	$v1, 9($v0)
 	lwc1	$f2, 1($v1)
@@ -3952,28 +3952,28 @@ else@10353:
 	mfc2	$f1, $at
 	mulf	$f0, $f0, $f1
 	addf	$f0, $f5, $f0
-	addi	$v1, $zero, 32622
+	addi	$v1, $zero, 524143
 	swc1	$f0, 2($v1)
-cont@10354:
+cont@10344:
 	lw	$v1, 6($v0)
-	addi	$v0, $zero, 32622
-	j	vecunit_sgn@2954
-utexture@5158:
+	addi	$v0, $zero, 524143
+	j	vecunit_sgn@2949
+utexture@5153:
 	lw	$a0, 0($v0)
 	lw	$a1, 8($v0)
 	lwc1	$f0, 0($a1)
-	addi	$a1, $zero, 32619
+	addi	$a1, $zero, 524140
 	swc1	$f0, 0($a1)
 	lw	$a1, 8($v0)
 	lwc1	$f0, 1($a1)
-	addi	$a1, $zero, 32619
+	addi	$a1, $zero, 524140
 	swc1	$f0, 1($a1)
 	lw	$a1, 8($v0)
 	lwc1	$f0, 2($a1)
-	addi	$a1, $zero, 32619
+	addi	$a1, $zero, 524140
 	swc1	$f0, 2($a1)
 	addi	$at, $zero, 1
-	bne	$a0, $at, else@10355
+	bne	$a0, $at, else@10345
 	lwc1	$f0, 0($v1)
 	lw	$a0, 5($v0)
 	lwc1	$f1, 0($a0)
@@ -3995,12 +3995,12 @@ utexture@5158:
 	addi	$at, $zero, 1092616192
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10356
+	bc1f	else@10346
 	addi	$a0, $zero, 0
-	j	cont@10357
-else@10356:
+	j	cont@10347
+else@10346:
 	addi	$a0, $zero, 1
-cont@10357:
+cont@10347:
 	lwc1	$f0, 2($v1)
 	lw	$v0, 5($v0)
 	lwc1	$f1, 2($v0)
@@ -4022,55 +4022,55 @@ cont@10357:
 	addi	$at, $zero, 1092616192
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10358
+	bc1f	else@10348
 	addi	$v0, $zero, 0
-	j	cont@10359
-else@10358:
+	j	cont@10349
+else@10348:
 	addi	$v0, $zero, 1
-cont@10359:
+cont@10349:
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10360
+	bne	$a0, $at, else@10350
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10362
+	bne	$v0, $at, else@10352
 	addi	$at, $zero, 1132396544
 	mfc2	$f0, $at
-	j	cont@10363
-else@10362:
+	j	cont@10353
+else@10352:
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
-cont@10363:
-	j	cont@10361
-else@10360:
+cont@10353:
+	j	cont@10351
+else@10350:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10364
+	bne	$v0, $at, else@10354
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
-	j	cont@10365
-else@10364:
+	j	cont@10355
+else@10354:
 	addi	$at, $zero, 1132396544
 	mfc2	$f0, $at
-cont@10365:
-cont@10361:
-	addi	$v0, $zero, 32619
+cont@10355:
+cont@10351:
+	addi	$v0, $zero, 524140
 	swc1	$f0, 1($v0)
 	jr	$ra
-else@10355:
+else@10345:
 	addi	$at, $zero, 2
-	bne	$a0, $at, else@10367
+	bne	$a0, $at, else@10357
 	lwc1	$f0, 1($v1)
 	addi	$at, $zero, 1048576000
 	mfc2	$f1, $at
 	mulf	$f0, $f0, $f1
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	sin@2659
+	jal	sin@2654
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	mulf	$f0, $f0, $f0
 	addi	$at, $zero, 1132396544
 	mfc2	$f1, $at
 	mulf	$f1, $f1, $f0
-	addi	$v0, $zero, 32619
+	addi	$v0, $zero, 524140
 	swc1	$f1, 0($v0)
 	addi	$at, $zero, 1132396544
 	mfc2	$f1, $at
@@ -4078,12 +4078,12 @@ else@10355:
 	mfc2	$f2, $at
 	subf	$f0, $f2, $f0
 	mulf	$f0, $f1, $f0
-	addi	$v0, $zero, 32619
+	addi	$v0, $zero, 524140
 	swc1	$f0, 1($v0)
 	jr	$ra
-else@10367:
+else@10357:
 	addi	$at, $zero, 3
-	bne	$a0, $at, else@10369
+	bne	$a0, $at, else@10359
 	lwc1	$f0, 0($v1)
 	lw	$a0, 5($v0)
 	lwc1	$f1, 0($a0)
@@ -4112,14 +4112,14 @@ else@10367:
 	mulf	$f0, $f0, $f1
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	cos@2713
+	jal	cos@2708
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	mulf	$f0, $f0, $f0
 	addi	$at, $zero, 1132396544
 	mfc2	$f1, $at
 	mulf	$f1, $f0, $f1
-	addi	$v0, $zero, 32619
+	addi	$v0, $zero, 524140
 	swc1	$f1, 1($v0)
 	addi	$at, $zero, 1065353216
 	mfc2	$f1, $at
@@ -4127,12 +4127,12 @@ else@10367:
 	addi	$at, $zero, 1132396544
 	mfc2	$f1, $at
 	mulf	$f0, $f0, $f1
-	addi	$v0, $zero, 32619
+	addi	$v0, $zero, 524140
 	swc1	$f0, 2($v0)
 	jr	$ra
-else@10369:
+else@10359:
 	addi	$at, $zero, 4
-	bne	$a0, $at, else@10371
+	bne	$a0, $at, else@10361
 	lwc1	$f0, 0($v1)
 	lw	$a0, 5($v0)
 	lwc1	$f1, 0($a0)
@@ -4156,22 +4156,22 @@ else@10369:
 	addi	$at, $zero, 953267991
 	mfc2	$f4, $at
 	lef	$f4, $f3
-	bc1f	else@10372
+	bc1f	else@10362
 	addi	$a0, $zero, 0
-	j	cont@10373
-else@10372:
+	j	cont@10363
+else@10362:
 	addi	$a0, $zero, 1
-cont@10373:
+cont@10363:
 	swc1	$f2, 0($sp)
 	sw	$v0, 2($sp)
 	sw	$v1, 3($sp)
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10374
+	bne	$a0, $at, else@10364
 	divf	$f0, $f1, $f0
 	abs	$f0, $f0
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	atan@2769
+	jal	atan@2764
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	addi	$at, $zero, 1106247680
@@ -4180,11 +4180,11 @@ cont@10373:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	divf	$f0, $f0, $f1
-	j	cont@10375
-else@10374:
+	j	cont@10365
+else@10364:
 	addi	$at, $zero, 1097859072
 	mfc2	$f0, $at
-cont@10375:
+cont@10365:
 	addi	$at, $zero, 1056964608
 	mfc2	$f1, $at
 	subf	$f1, $f0, $f1
@@ -4208,21 +4208,21 @@ cont@10375:
 	addi	$at, $zero, 953267991
 	mfc2	$f4, $at
 	lef	$f4, $f3
-	bc1f	else@10376
+	bc1f	else@10366
 	addi	$v0, $zero, 0
-	j	cont@10377
-else@10376:
+	j	cont@10367
+else@10366:
 	addi	$v0, $zero, 1
-cont@10377:
+cont@10367:
 	swc1	$f0, 4($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10378
+	bne	$v0, $at, else@10368
 	divf	$f1, $f1, $f2
 	abs	$f1, $f1
 	mvf	$f0, $f1
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	atan@2769
+	jal	atan@2764
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
 	addi	$at, $zero, 1106247680
@@ -4231,11 +4231,11 @@ cont@10377:
 	addi	$at, $zero, 1078530011
 	mfc2	$f1, $at
 	divf	$f0, $f0, $f1
-	j	cont@10379
-else@10378:
+	j	cont@10369
+else@10368:
 	addi	$at, $zero, 1097859072
 	mfc2	$f0, $at
-cont@10379:
+cont@10369:
 	addi	$at, $zero, 1056964608
 	mfc2	$f1, $at
 	subf	$f1, $f0, $f1
@@ -4260,6 +4260,58 @@ cont@10379:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
+	bc1f	else@10370
+	addi	$v0, $zero, 0
+	j	cont@10371
+else@10370:
+	addi	$v0, $zero, 1
+cont@10371:
+	addi	$at, $zero, 0
+	bne	$v0, $at, else@10372
+	j	cont@10373
+else@10372:
+	addi	$at, $zero, 0
+	mfc2	$f0, $at
+cont@10373:
+	addi	$at, $zero, 1132396544
+	mfc2	$f1, $at
+	mulf	$f0, $f1, $f0
+	addi	$at, $zero, 1050253722
+	mfc2	$f1, $at
+	divf	$f0, $f0, $f1
+	addi	$v0, $zero, 524140
+	swc1	$f0, 2($v0)
+	jr	$ra
+else@10361:
+	jr	$ra
+add_light@5310:
+	addi	$at, $zero, 0
+	mfc2	$f3, $at
+	lef	$f0, $f3
+	bc1f	else@10376
+	addi	$v0, $zero, 0
+	j	cont@10377
+else@10376:
+	addi	$v0, $zero, 1
+cont@10377:
+	swc1	$f2, 0($sp)
+	swc1	$f1, 2($sp)
+	addi	$at, $zero, 0
+	bne	$v0, $at, else@10378
+	j	cont@10379
+else@10378:
+	addi	$v1, $zero, 524140
+	addi	$v0, $zero, 524134
+	sw	$ra, 4($sp)
+	addi	$sp, $sp, 5
+	jal	vecaccum@3018
+	addi	$sp, $sp, -5
+	lw	$ra, 4($sp)
+cont@10379:
+	addi	$at, $zero, 0
+	mfc2	$f0, $at
+	lwc1	$f1, 2($sp)
+	lef	$f1, $f0
 	bc1f	else@10380
 	addi	$v0, $zero, 0
 	j	cont@10381
@@ -4268,84 +4320,32 @@ else@10380:
 cont@10381:
 	addi	$at, $zero, 0
 	bne	$v0, $at, else@10382
-	j	cont@10383
+	jr	$ra
 else@10382:
-	addi	$at, $zero, 0
-	mfc2	$f0, $at
-cont@10383:
-	addi	$at, $zero, 1132396544
-	mfc2	$f1, $at
-	mulf	$f0, $f1, $f0
-	addi	$at, $zero, 1050253722
-	mfc2	$f1, $at
-	divf	$f0, $f0, $f1
-	addi	$v0, $zero, 32619
-	swc1	$f0, 2($v0)
-	jr	$ra
-else@10371:
-	jr	$ra
-add_light@5315:
-	addi	$at, $zero, 0
-	mfc2	$f3, $at
-	lef	$f0, $f3
-	bc1f	else@10386
-	addi	$v0, $zero, 0
-	j	cont@10387
-else@10386:
-	addi	$v0, $zero, 1
-cont@10387:
-	swc1	$f2, 0($sp)
-	swc1	$f1, 2($sp)
-	addi	$at, $zero, 0
-	bne	$v0, $at, else@10388
-	j	cont@10389
-else@10388:
-	addi	$v1, $zero, 32619
-	addi	$v0, $zero, 32613
-	sw	$ra, 4($sp)
-	addi	$sp, $sp, 5
-	jal	vecaccum@3023
-	addi	$sp, $sp, -5
-	lw	$ra, 4($sp)
-cont@10389:
-	addi	$at, $zero, 0
-	mfc2	$f0, $at
-	lwc1	$f1, 2($sp)
-	lef	$f1, $f0
-	bc1f	else@10390
-	addi	$v0, $zero, 0
-	j	cont@10391
-else@10390:
-	addi	$v0, $zero, 1
-cont@10391:
-	addi	$at, $zero, 0
-	bne	$v0, $at, else@10392
-	jr	$ra
-else@10392:
 	mulf	$f0, $f1, $f1
 	mulf	$f0, $f0, $f0
 	lwc1	$f1, 0($sp)
 	mulf	$f0, $f0, $f1
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	lwc1	$f1, 0($v0)
 	addf	$f1, $f1, $f0
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	swc1	$f1, 0($v0)
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	lwc1	$f1, 1($v0)
 	addf	$f1, $f1, $f0
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	swc1	$f1, 1($v0)
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	lwc1	$f1, 2($v0)
 	addf	$f0, $f1, $f0
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	swc1	$f0, 2($v0)
 	jr	$ra
-trace_reflections@5341:
+trace_reflections@5336:
 	slti	$at, $v0, 0
-	bne	$at, $zero, else@10395
-	addi	$a0, $zero, 32333
+	bne	$at, $zero, else@10385
+	addi	$a0, $zero, 523854
 	sll	$a1, $v0, 0
 	add	$at, $a0, $a1
 	lw	$a0, 0($at)
@@ -4359,40 +4359,40 @@ trace_reflections@5341:
 	add	$v0, $a1, $zero
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	judge_intersection_fast@5057
+	jal	judge_intersection_fast@5052
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10398
-	j	cont@10399
-else@10398:
-	addi	$v0, $zero, 32625
+	bne	$v0, $at, else@10388
+	j	cont@10389
+else@10388:
+	addi	$v0, $zero, 524146
 	lw	$v0, 0($v0)
 	addi	$v0, $v0, -4
-	addi	$v1, $zero, 32630
+	addi	$v1, $zero, 524151
 	lw	$v1, 0($v1)
 	add	$v0, $v0, $v1
 	lw	$v1, 9($sp)
 	lw	$a0, 0($v1)
-	bne	$v0, $a0, else@10400
+	bne	$v0, $a0, else@10390
 	addi	$v0, $zero, 0
-	addi	$a0, $zero, 32632
+	addi	$a0, $zero, 524153
 	lw	$a0, 0($a0)
 	add	$v1, $a0, $zero
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	shadow_check_one_or_matrix@4832
+	jal	shadow_check_one_or_matrix@4827
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10402
+	bne	$v0, $at, else@10392
 	lw	$v0, 8($sp)
 	lw	$v1, 0($v0)
-	addi	$a0, $zero, 32622
+	addi	$a0, $zero, 524143
 	add	$v0, $a0, $zero
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	veciprod@2989
+	jal	veciprod@2984
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	lw	$v0, 9($sp)
@@ -4407,7 +4407,7 @@ else@10398:
 	swc1	$f1, 12($sp)
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	veciprod@2989
+	jal	veciprod@2984
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
 	lwc1	$f1, 12($sp)
@@ -4416,28 +4416,28 @@ else@10398:
 	lwc1	$f2, 2($sp)
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	add_light@5315
+	jal	add_light@5310
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
-	j	cont@10403
-else@10402:
-cont@10403:
-	j	cont@10401
-else@10400:
-cont@10401:
-cont@10399:
+	j	cont@10393
+else@10392:
+cont@10393:
+	j	cont@10391
+else@10390:
+cont@10391:
+cont@10389:
 	lw	$v0, 0($sp)
 	addi	$v0, $v0, -1
 	lwc1	$f0, 6($sp)
 	lwc1	$f1, 2($sp)
 	lw	$v1, 4($sp)
-	j	trace_reflections@5341
-else@10395:
+	j	trace_reflections@5336
+else@10385:
 	jr	$ra
-trace_ray@5375:
+trace_ray@5370:
 	addi	$at, $zero, 4
 	slt	$at, $at, $v0
-	bne	$at, $zero, else@10405
+	bne	$at, $zero, else@10395
 	lw	$a1, 2($a0)
 	swc1	$f1, 0($sp)
 	sw	$a0, 2($sp)
@@ -4448,11 +4448,11 @@ trace_ray@5375:
 	add	$v0, $v1, $zero
 	sw	$ra, 9($sp)
 	addi	$sp, $sp, 10
-	jal	judge_intersection@4950
+	jal	judge_intersection@4945
 	addi	$sp, $sp, -10
 	lw	$ra, 9($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10407
+	bne	$v0, $at, else@10397
 	addi	$v0, $zero, -1
 	lw	$v1, 8($sp)
 	sll	$a0, $v1, 0
@@ -4460,14 +4460,14 @@ trace_ray@5375:
 	add	$at, $a1, $a0
 	sw	$v0, 0($at)
 	addi	$at, $zero, 0
-	bne	$v1, $at, else@10408
+	bne	$v1, $at, else@10398
 	jr	$ra
-else@10408:
-	addi	$v1, $zero, 32686
+else@10398:
+	addi	$v1, $zero, 524207
 	lw	$v0, 6($sp)
 	sw	$ra, 9($sp)
 	addi	$sp, $sp, 10
-	jal	veciprod@2989
+	jal	veciprod@2984
 	addi	$sp, $sp, -10
 	lw	$ra, 9($sp)
 	mfc2	$f30, $zero
@@ -4475,43 +4475,43 @@ else@10408:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f0, $f1
-	bc1f	else@10410
+	bc1f	else@10400
 	addi	$v0, $zero, 0
-	j	cont@10411
-else@10410:
+	j	cont@10401
+else@10400:
 	addi	$v0, $zero, 1
-cont@10411:
+cont@10401:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10412
+	bne	$v0, $at, else@10402
 	jr	$ra
-else@10412:
+else@10402:
 	mulf	$f1, $f0, $f0
 	mulf	$f0, $f1, $f0
 	lwc1	$f1, 4($sp)
 	mulf	$f0, $f0, $f1
-	addi	$v0, $zero, 32685
+	addi	$v0, $zero, 524206
 	lwc1	$f1, 0($v0)
 	mulf	$f0, $f0, $f1
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	lwc1	$f1, 0($v0)
 	addf	$f1, $f1, $f0
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	swc1	$f1, 0($v0)
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	lwc1	$f1, 1($v0)
 	addf	$f1, $f1, $f0
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	swc1	$f1, 1($v0)
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	lwc1	$f1, 2($v0)
 	addf	$f0, $f1, $f0
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	swc1	$f0, 2($v0)
 	jr	$ra
-else@10407:
-	addi	$v0, $zero, 32625
+else@10397:
+	addi	$v0, $zero, 524146
 	lw	$v0, 0($v0)
-	addi	$v1, $zero, 32695
+	addi	$v1, $zero, 524216
 	sll	$a0, $v0, 0
 	add	$at, $v1, $a0
 	lw	$v1, 0($at)
@@ -4526,51 +4526,51 @@ else@10407:
 	sw	$v0, 12($sp)
 	sw	$v1, 13($sp)
 	addi	$at, $zero, 1
-	bne	$a1, $at, else@10415
+	bne	$a1, $at, else@10405
 	lw	$a1, 6($sp)
 	add	$v0, $a1, $zero
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	get_nvector_rect@5072
+	jal	get_nvector_rect@5067
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
-	j	cont@10416
-else@10415:
+	j	cont@10406
+else@10405:
 	addi	$at, $zero, 2
-	bne	$a1, $at, else@10417
+	bne	$a1, $at, else@10407
 	add	$v0, $v1, $zero
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	get_nvector_plane@5084
+	jal	get_nvector_plane@5079
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
-	j	cont@10418
-else@10417:
+	j	cont@10408
+else@10407:
 	add	$v0, $v1, $zero
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	get_nvector_second@5097
+	jal	get_nvector_second@5092
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
-cont@10418:
-cont@10416:
-	addi	$v1, $zero, 32626
-	addi	$v0, $zero, 32605
+cont@10408:
+cont@10406:
+	addi	$v1, $zero, 524147
+	addi	$v0, $zero, 524126
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
-	addi	$v1, $zero, 32626
+	addi	$v1, $zero, 524147
 	lw	$v0, 13($sp)
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	utexture@5158
+	jal	utexture@5153
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
 	lw	$v0, 12($sp)
 	addi	$v0, $v0, -4
-	addi	$v1, $zero, 32630
+	addi	$v1, $zero, 524151
 	lw	$v1, 0($v1)
 	add	$v0, $v0, $v1
 	lw	$v1, 8($sp)
@@ -4583,12 +4583,12 @@ cont@10416:
 	sll	$a2, $v1, 0
 	add	$at, $a0, $a2
 	lw	$a0, 0($at)
-	addi	$a2, $zero, 32626
+	addi	$a2, $zero, 524147
 	add	$v1, $a2, $zero
 	add	$v0, $a0, $zero
 	sw	$ra, 14($sp)
 	addi	$sp, $sp, 15
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -15
 	lw	$ra, 14($sp)
 	lw	$v0, 2($sp)
@@ -4599,14 +4599,14 @@ cont@10416:
 	addi	$at, $zero, 1056964608
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10419
+	bc1f	else@10409
 	addi	$a1, $zero, 0
-	j	cont@10420
-else@10419:
+	j	cont@10410
+else@10409:
 	addi	$a1, $zero, 1
-cont@10420:
+cont@10410:
 	addi	$at, $zero, 0
-	bne	$a1, $at, else@10421
+	bne	$a1, $at, else@10411
 	addi	$a1, $zero, 1
 	lw	$a2, 8($sp)
 	sll	$a3, $a2, 0
@@ -4616,13 +4616,13 @@ cont@10420:
 	sll	$a1, $a2, 0
 	add	$at, $v1, $a1
 	lw	$a1, 0($at)
-	addi	$a3, $zero, 32619
+	addi	$a3, $zero, 524140
 	sw	$v1, 14($sp)
 	add	$v1, $a3, $zero
 	add	$v0, $a1, $zero
 	sw	$ra, 15($sp)
 	addi	$sp, $sp, 16
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -16
 	lw	$ra, 15($sp)
 	lw	$v0, 8($sp)
@@ -4641,7 +4641,7 @@ cont@10420:
 	add	$v0, $v1, $zero
 	sw	$ra, 15($sp)
 	addi	$sp, $sp, 16
-	jal	vecscale@3096
+	jal	vecscale@3091
 	addi	$sp, $sp, -16
 	lw	$ra, 15($sp)
 	lw	$v0, 2($sp)
@@ -4650,39 +4650,39 @@ cont@10420:
 	sll	$a1, $a0, 0
 	add	$at, $v1, $a1
 	lw	$v1, 0($at)
-	addi	$a1, $zero, 32622
+	addi	$a1, $zero, 524143
 	add	$v0, $v1, $zero
 	add	$v1, $a1, $zero
 	sw	$ra, 15($sp)
 	addi	$sp, $sp, 16
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -16
 	lw	$ra, 15($sp)
-	j	cont@10422
-else@10421:
+	j	cont@10412
+else@10411:
 	addi	$a1, $zero, 0
 	lw	$a2, 8($sp)
 	sll	$a3, $a2, 0
 	add	$at, $v1, $a3
 	sw	$a1, 0($at)
-cont@10422:
+cont@10412:
 	addi	$at, $zero, -1073741824
 	mfc2	$f0, $at
-	addi	$v1, $zero, 32622
+	addi	$v1, $zero, 524143
 	lw	$v0, 6($sp)
 	swc1	$f0, 16($sp)
 	sw	$ra, 18($sp)
 	addi	$sp, $sp, 19
-	jal	veciprod@2989
+	jal	veciprod@2984
 	addi	$sp, $sp, -19
 	lw	$ra, 18($sp)
 	lwc1	$f1, 16($sp)
 	mulf	$f0, $f1, $f0
-	addi	$v1, $zero, 32622
+	addi	$v1, $zero, 524143
 	lw	$v0, 6($sp)
 	sw	$ra, 18($sp)
 	addi	$sp, $sp, 19
-	jal	vecaccum@3023
+	jal	vecaccum@3018
 	addi	$sp, $sp, -19
 	lw	$ra, 18($sp)
 	lw	$v0, 13($sp)
@@ -4691,35 +4691,35 @@ cont@10422:
 	lwc1	$f1, 4($sp)
 	mulf	$f0, $f1, $f0
 	addi	$v1, $zero, 0
-	addi	$a0, $zero, 32632
+	addi	$a0, $zero, 524153
 	lw	$a0, 0($a0)
 	swc1	$f0, 18($sp)
 	add	$v0, $v1, $zero
 	add	$v1, $a0, $zero
 	sw	$ra, 20($sp)
 	addi	$sp, $sp, 21
-	jal	shadow_check_one_or_matrix@4832
+	jal	shadow_check_one_or_matrix@4827
 	addi	$sp, $sp, -21
 	lw	$ra, 20($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10424
-	addi	$v1, $zero, 32686
-	addi	$v0, $zero, 32622
+	bne	$v0, $at, else@10414
+	addi	$v1, $zero, 524207
+	addi	$v0, $zero, 524143
 	sw	$ra, 20($sp)
 	addi	$sp, $sp, 21
-	jal	veciprod@2989
+	jal	veciprod@2984
 	addi	$sp, $sp, -21
 	lw	$ra, 20($sp)
 	mfc2	$f30, $zero
 	subf	$f0, $f30, $f0
 	lwc1	$f1, 10($sp)
 	mulf	$f0, $f0, $f1
-	addi	$v1, $zero, 32686
+	addi	$v1, $zero, 524207
 	lw	$v0, 6($sp)
 	swc1	$f0, 20($sp)
 	sw	$ra, 22($sp)
 	addi	$sp, $sp, 23
-	jal	veciprod@2989
+	jal	veciprod@2984
 	addi	$sp, $sp, -23
 	lw	$ra, 22($sp)
 	mfc2	$f30, $zero
@@ -4728,19 +4728,19 @@ cont@10422:
 	lwc1	$f2, 18($sp)
 	sw	$ra, 22($sp)
 	addi	$sp, $sp, 23
-	jal	add_light@5315
+	jal	add_light@5310
 	addi	$sp, $sp, -23
 	lw	$ra, 22($sp)
-	j	cont@10425
-else@10424:
-cont@10425:
-	addi	$v0, $zero, 32626
+	j	cont@10415
+else@10414:
+cont@10415:
+	addi	$v0, $zero, 524147
 	sw	$ra, 22($sp)
 	addi	$sp, $sp, 23
-	jal	setup_startp@4697
+	jal	setup_startp@4692
 	addi	$sp, $sp, -23
 	lw	$ra, 22($sp)
-	addi	$v0, $zero, 32332
+	addi	$v0, $zero, 523853
 	lw	$v0, 0($v0)
 	addi	$v0, $v0, -1
 	lwc1	$f0, 10($sp)
@@ -4748,38 +4748,38 @@ cont@10425:
 	lw	$v1, 6($sp)
 	sw	$ra, 22($sp)
 	addi	$sp, $sp, 23
-	jal	trace_reflections@5341
+	jal	trace_reflections@5336
 	addi	$sp, $sp, -23
 	lw	$ra, 22($sp)
 	addi	$at, $zero, 1036831949
 	mfc2	$f0, $at
 	lwc1	$f1, 4($sp)
 	lef	$f1, $f0
-	bc1f	else@10426
+	bc1f	else@10416
 	addi	$v0, $zero, 0
-	j	cont@10427
-else@10426:
+	j	cont@10417
+else@10416:
 	addi	$v0, $zero, 1
-cont@10427:
+cont@10417:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10428
+	bne	$v0, $at, else@10418
 	jr	$ra
-else@10428:
+else@10418:
 	lw	$v0, 8($sp)
 	slti	$at, $v0, 4
-	bne	$at, $zero, else@10430
-	j	cont@10431
-else@10430:
+	bne	$at, $zero, else@10420
+	j	cont@10421
+else@10420:
 	addi	$v1, $v0, 1
 	addi	$a0, $zero, -1
 	sll	$v1, $v1, 0
 	lw	$a1, 7($sp)
 	add	$at, $a1, $v1
 	sw	$a0, 0($at)
-cont@10431:
+cont@10421:
 	lw	$v1, 9($sp)
 	addi	$at, $zero, 2
-	bne	$v1, $at, else@10432
+	bne	$v1, $at, else@10422
 	addi	$at, $zero, 1065353216
 	mfc2	$f0, $at
 	lw	$v1, 13($sp)
@@ -4788,7 +4788,7 @@ cont@10431:
 	subf	$f0, $f0, $f2
 	mulf	$f0, $f1, $f0
 	addi	$v0, $v0, 1
-	addi	$v1, $zero, 32629
+	addi	$v1, $zero, 524150
 	lwc1	$f1, 0($v1)
 	lwc1	$f2, 0($sp)
 	addf	$f1, $f2, $f1
@@ -4796,30 +4796,30 @@ cont@10431:
 	lw	$a0, 2($sp)
 	sw	$ra, 22($sp)
 	addi	$sp, $sp, 23
-	jal	trace_ray@5375
+	jal	trace_ray@5370
 	addi	$sp, $sp, -23
 	lw	$ra, 22($sp)
-	j	cont@10433
-else@10432:
-cont@10433:
+	j	cont@10423
+else@10422:
+cont@10423:
 	jr	$ra
-else@10405:
+else@10395:
 	jr	$ra
-trace_diffuse_ray@5495:
+trace_diffuse_ray@5490:
 	swc1	$f0, 0($sp)
 	sw	$v0, 2($sp)
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	judge_intersection_fast@5057
+	jal	judge_intersection_fast@5052
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10436
+	bne	$v0, $at, else@10426
 	jr	$ra
-else@10436:
-	addi	$v0, $zero, 32625
+else@10426:
+	addi	$v0, $zero, 524146
 	lw	$v0, 0($v0)
-	addi	$v1, $zero, 32695
+	addi	$v1, $zero, 524216
 	sll	$v0, $v0, 0
 	add	$at, $v1, $v0
 	lw	$v0, 0($at)
@@ -4828,53 +4828,53 @@ else@10436:
 	lw	$a0, 1($v0)
 	sw	$v0, 3($sp)
 	addi	$at, $zero, 1
-	bne	$a0, $at, else@10438
+	bne	$a0, $at, else@10428
 	add	$v0, $v1, $zero
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	get_nvector_rect@5072
+	jal	get_nvector_rect@5067
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
-	j	cont@10439
-else@10438:
+	j	cont@10429
+else@10428:
 	addi	$at, $zero, 2
-	bne	$a0, $at, else@10440
+	bne	$a0, $at, else@10430
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	get_nvector_plane@5084
+	jal	get_nvector_plane@5079
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
-	j	cont@10441
-else@10440:
+	j	cont@10431
+else@10430:
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	get_nvector_second@5097
+	jal	get_nvector_second@5092
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
-cont@10441:
-cont@10439:
-	addi	$v1, $zero, 32626
+cont@10431:
+cont@10429:
+	addi	$v1, $zero, 524147
 	lw	$v0, 3($sp)
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	utexture@5158
+	jal	utexture@5153
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	addi	$v0, $zero, 0
-	addi	$v1, $zero, 32632
+	addi	$v1, $zero, 524153
 	lw	$v1, 0($v1)
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	shadow_check_one_or_matrix@4832
+	jal	shadow_check_one_or_matrix@4827
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10442
-	addi	$v1, $zero, 32686
-	addi	$v0, $zero, 32622
+	bne	$v0, $at, else@10432
+	addi	$v1, $zero, 524207
+	addi	$v0, $zero, 524143
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	veciprod@2989
+	jal	veciprod@2984
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	mfc2	$f30, $zero
@@ -4882,33 +4882,33 @@ cont@10439:
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f0, $f1
-	bc1f	else@10443
+	bc1f	else@10433
 	addi	$v0, $zero, 0
-	j	cont@10444
-else@10443:
+	j	cont@10434
+else@10433:
 	addi	$v0, $zero, 1
-cont@10444:
+cont@10434:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10445
+	bne	$v0, $at, else@10435
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
-	j	cont@10446
-else@10445:
-cont@10446:
+	j	cont@10436
+else@10435:
+cont@10436:
 	lwc1	$f1, 0($sp)
 	mulf	$f0, $f1, $f0
 	lw	$v0, 3($sp)
 	lw	$v0, 7($v0)
 	lwc1	$f1, 0($v0)
 	mulf	$f0, $f0, $f1
-	addi	$v1, $zero, 32619
-	addi	$v0, $zero, 32616
-	j	vecaccum@3023
-else@10442:
+	addi	$v1, $zero, 524140
+	addi	$v0, $zero, 524137
+	j	vecaccum@3018
+else@10432:
 	jr	$ra
-iter_trace_diffuse_rays@5519:
+iter_trace_diffuse_rays@5514:
 	slti	$at, $a1, 0
-	bne	$at, $zero, else@10448
+	bne	$at, $zero, else@10438
 	sll	$a2, $a1, 0
 	add	$at, $v0, $a2
 	lw	$a2, 0($at)
@@ -4920,20 +4920,20 @@ iter_trace_diffuse_rays@5519:
 	add	$v0, $a2, $zero
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	veciprod@2989
+	jal	veciprod@2984
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10449
+	bc1f	else@10439
 	addi	$v0, $zero, 0
-	j	cont@10450
-else@10449:
+	j	cont@10440
+else@10439:
 	addi	$v0, $zero, 1
-cont@10450:
+cont@10440:
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10451
+	bne	$v0, $at, else@10441
 	lw	$v0, 3($sp)
 	sll	$v1, $v0, 0
 	lw	$a0, 2($sp)
@@ -4945,11 +4945,11 @@ cont@10450:
 	add	$v0, $v1, $zero
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	trace_diffuse_ray@5495
+	jal	trace_diffuse_ray@5490
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
-	j	cont@10452
-else@10451:
+	j	cont@10442
+else@10441:
 	lw	$v0, 3($sp)
 	addi	$v1, $v0, 1
 	sll	$v1, $v1, 0
@@ -4962,33 +4962,33 @@ else@10451:
 	add	$v0, $v1, $zero
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	trace_diffuse_ray@5495
+	jal	trace_diffuse_ray@5490
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
-cont@10452:
+cont@10442:
 	lw	$v0, 3($sp)
 	addi	$a1, $v0, -2
 	lw	$v0, 2($sp)
 	lw	$v1, 1($sp)
 	lw	$a0, 0($sp)
-	j	iter_trace_diffuse_rays@5519
-else@10448:
+	j	iter_trace_diffuse_rays@5514
+else@10438:
 	jr	$ra
-trace_diffuse_ray_80percent@5547:
+trace_diffuse_ray_80percent@5542:
 	sw	$v1, 0($sp)
 	sw	$a0, 1($sp)
 	sw	$v0, 2($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10454
-	j	cont@10455
-else@10454:
-	addi	$a1, $zero, 32583
+	bne	$v0, $at, else@10444
+	j	cont@10445
+else@10444:
+	addi	$a1, $zero, 524104
 	lw	$a1, 0($a1)
 	sw	$a1, 3($sp)
 	add	$v0, $a0, $zero
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	setup_startp@4697
+	jal	setup_startp@4692
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	addi	$a1, $zero, 118
@@ -4997,23 +4997,23 @@ else@10454:
 	lw	$a0, 1($sp)
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	iter_trace_diffuse_rays@5519
+	jal	iter_trace_diffuse_rays@5514
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
-cont@10455:
+cont@10445:
 	lw	$v0, 2($sp)
 	addi	$at, $zero, 1
-	bne	$v0, $at, else@10456
-	j	cont@10457
-else@10456:
-	addi	$v1, $zero, 32583
+	bne	$v0, $at, else@10446
+	j	cont@10447
+else@10446:
+	addi	$v1, $zero, 524104
 	lw	$v1, 1($v1)
 	lw	$a0, 1($sp)
 	sw	$v1, 4($sp)
 	add	$v0, $a0, $zero
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	setup_startp@4697
+	jal	setup_startp@4692
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	addi	$a1, $zero, 118
@@ -5022,23 +5022,23 @@ else@10456:
 	lw	$a0, 1($sp)
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	iter_trace_diffuse_rays@5519
+	jal	iter_trace_diffuse_rays@5514
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
-cont@10457:
+cont@10447:
 	lw	$v0, 2($sp)
 	addi	$at, $zero, 2
-	bne	$v0, $at, else@10458
-	j	cont@10459
-else@10458:
-	addi	$v1, $zero, 32583
+	bne	$v0, $at, else@10448
+	j	cont@10449
+else@10448:
+	addi	$v1, $zero, 524104
 	lw	$v1, 2($v1)
 	lw	$a0, 1($sp)
 	sw	$v1, 5($sp)
 	add	$v0, $a0, $zero
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	setup_startp@4697
+	jal	setup_startp@4692
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
 	addi	$a1, $zero, 118
@@ -5047,23 +5047,23 @@ else@10458:
 	lw	$a0, 1($sp)
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	iter_trace_diffuse_rays@5519
+	jal	iter_trace_diffuse_rays@5514
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
-cont@10459:
+cont@10449:
 	lw	$v0, 2($sp)
 	addi	$at, $zero, 3
-	bne	$v0, $at, else@10460
-	j	cont@10461
-else@10460:
-	addi	$v1, $zero, 32583
+	bne	$v0, $at, else@10450
+	j	cont@10451
+else@10450:
+	addi	$v1, $zero, 524104
 	lw	$v1, 3($v1)
 	lw	$a0, 1($sp)
 	sw	$v1, 6($sp)
 	add	$v0, $a0, $zero
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	setup_startp@4697
+	jal	setup_startp@4692
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
 	addi	$a1, $zero, 118
@@ -5072,31 +5072,31 @@ else@10460:
 	lw	$a0, 1($sp)
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	iter_trace_diffuse_rays@5519
+	jal	iter_trace_diffuse_rays@5514
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
-cont@10461:
+cont@10451:
 	lw	$v0, 2($sp)
 	addi	$at, $zero, 4
-	bne	$v0, $at, else@10462
+	bne	$v0, $at, else@10452
 	jr	$ra
-else@10462:
-	addi	$v0, $zero, 32583
+else@10452:
+	addi	$v0, $zero, 524104
 	lw	$v0, 4($v0)
 	lw	$v1, 1($sp)
 	sw	$v0, 7($sp)
 	add	$v0, $v1, $zero
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	setup_startp@4697
+	jal	setup_startp@4692
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	addi	$a1, $zero, 118
 	lw	$v0, 7($sp)
 	lw	$v1, 0($sp)
 	lw	$a0, 1($sp)
-	j	iter_trace_diffuse_rays@5519
-calc_diffuse_using_1point@5570:
+	j	iter_trace_diffuse_rays@5514
+calc_diffuse_using_1point@5565:
 	lw	$a0, 5($v0)
 	lw	$a1, 7($v0)
 	lw	$a2, 1($v0)
@@ -5104,7 +5104,7 @@ calc_diffuse_using_1point@5570:
 	sll	$t0, $v1, 0
 	add	$at, $a0, $t0
 	lw	$a0, 0($at)
-	addi	$t0, $zero, 32616
+	addi	$t0, $zero, 524137
 	sw	$a3, 0($sp)
 	sw	$a2, 1($sp)
 	sw	$a1, 2($sp)
@@ -5114,7 +5114,7 @@ calc_diffuse_using_1point@5570:
 	add	$v0, $t0, $zero
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	lw	$v0, 4($sp)
@@ -5133,7 +5133,7 @@ calc_diffuse_using_1point@5570:
 	add	$a0, $a1, $zero
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	trace_diffuse_ray_80percent@5547
+	jal	trace_diffuse_ray_80percent@5542
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	lw	$v0, 3($sp)
@@ -5141,10 +5141,10 @@ calc_diffuse_using_1point@5570:
 	lw	$v1, 0($sp)
 	add	$at, $v1, $v0
 	lw	$v1, 0($at)
-	addi	$a0, $zero, 32616
-	addi	$v0, $zero, 32613
-	j	vecaccumv@3113
-calc_diffuse_using_5points@5584:
+	addi	$a0, $zero, 524137
+	addi	$v0, $zero, 524134
+	j	vecaccumv@3108
+calc_diffuse_using_5points@5579:
 	sll	$a3, $v0, 0
 	add	$at, $v1, $a3
 	lw	$v1, 0($at)
@@ -5170,7 +5170,7 @@ calc_diffuse_using_5points@5584:
 	sll	$t2, $a2, 0
 	add	$at, $v1, $t2
 	lw	$v1, 0($at)
-	addi	$t2, $zero, 32616
+	addi	$t2, $zero, 524137
 	sw	$a0, 0($sp)
 	sw	$v0, 1($sp)
 	sw	$a1, 2($sp)
@@ -5181,7 +5181,7 @@ calc_diffuse_using_5points@5584:
 	add	$v0, $t2, $zero
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
 	lw	$v0, 6($sp)
@@ -5189,11 +5189,11 @@ calc_diffuse_using_5points@5584:
 	lw	$a0, 5($sp)
 	add	$at, $a0, $v1
 	lw	$v1, 0($at)
-	addi	$a0, $zero, 32616
+	addi	$a0, $zero, 524137
 	add	$v0, $a0, $zero
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	vecadd@3050
+	jal	vecadd@3045
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
 	lw	$v0, 6($sp)
@@ -5201,11 +5201,11 @@ calc_diffuse_using_5points@5584:
 	lw	$a0, 4($sp)
 	add	$at, $a0, $v1
 	lw	$v1, 0($at)
-	addi	$a0, $zero, 32616
+	addi	$a0, $zero, 524137
 	add	$v0, $a0, $zero
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	vecadd@3050
+	jal	vecadd@3045
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
 	lw	$v0, 6($sp)
@@ -5213,11 +5213,11 @@ calc_diffuse_using_5points@5584:
 	lw	$a0, 3($sp)
 	add	$at, $a0, $v1
 	lw	$v1, 0($at)
-	addi	$a0, $zero, 32616
+	addi	$a0, $zero, 524137
 	add	$v0, $a0, $zero
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	vecadd@3050
+	jal	vecadd@3045
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
 	lw	$v0, 6($sp)
@@ -5225,11 +5225,11 @@ calc_diffuse_using_5points@5584:
 	lw	$a0, 2($sp)
 	add	$at, $a0, $v1
 	lw	$v1, 0($at)
-	addi	$a0, $zero, 32616
+	addi	$a0, $zero, 524137
 	add	$v0, $a0, $zero
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	vecadd@3050
+	jal	vecadd@3045
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
 	lw	$v0, 1($sp)
@@ -5242,19 +5242,19 @@ calc_diffuse_using_5points@5584:
 	sll	$v1, $v1, 0
 	add	$at, $v0, $v1
 	lw	$v1, 0($at)
-	addi	$a0, $zero, 32616
-	addi	$v0, $zero, 32613
-	j	vecaccumv@3113
-do_without_neighbors@5617:
+	addi	$a0, $zero, 524137
+	addi	$v0, $zero, 524134
+	j	vecaccumv@3108
+do_without_neighbors@5612:
 	addi	$at, $zero, 4
 	slt	$at, $at, $v1
-	bne	$at, $zero, else@10464
+	bne	$at, $zero, else@10454
 	lw	$a0, 2($v0)
 	sll	$a1, $v1, 0
 	add	$at, $a0, $a1
 	lw	$a0, 0($at)
 	slti	$at, $a0, 0
-	bne	$at, $zero, else@10465
+	bne	$at, $zero, else@10455
 	lw	$a0, 3($v0)
 	sll	$a1, $v1, 0
 	add	$at, $a0, $a1
@@ -5262,55 +5262,55 @@ do_without_neighbors@5617:
 	sw	$v0, 0($sp)
 	sw	$v1, 1($sp)
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10466
-	j	cont@10467
-else@10466:
+	bne	$a0, $at, else@10456
+	j	cont@10457
+else@10456:
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	calc_diffuse_using_1point@5570
+	jal	calc_diffuse_using_1point@5565
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
-cont@10467:
+cont@10457:
 	lw	$v0, 1($sp)
 	addi	$v1, $v0, 1
 	lw	$v0, 0($sp)
-	j	do_without_neighbors@5617
-else@10465:
+	j	do_without_neighbors@5612
+else@10455:
 	jr	$ra
-else@10464:
+else@10454:
 	jr	$ra
-neighbors_exist@5630:
-	addi	$a0, $zero, 32611
+neighbors_exist@5625:
+	addi	$a0, $zero, 524132
 	lw	$a0, 1($a0)
 	addi	$a1, $v1, 1
 	slt	$at, $a1, $a0
-	bne	$at, $zero, else@10470
+	bne	$at, $zero, else@10460
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10470:
+else@10460:
 	addi	$at, $zero, 0
 	slt	$at, $at, $v1
-	bne	$at, $zero, else@10471
+	bne	$at, $zero, else@10461
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10471:
-	addi	$v1, $zero, 32611
+else@10461:
+	addi	$v1, $zero, 524132
 	lw	$v1, 0($v1)
 	addi	$a0, $v0, 1
 	slt	$at, $a0, $v1
-	bne	$at, $zero, else@10472
+	bne	$at, $zero, else@10462
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10472:
+else@10462:
 	addi	$at, $zero, 0
 	slt	$at, $at, $v0
-	bne	$at, $zero, else@10473
+	bne	$at, $zero, else@10463
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10473:
+else@10463:
 	addi	$v0, $zero, 1
 	jr	$ra
-neighbors_are_available@5648:
+neighbors_are_available@5643:
 	sll	$a3, $v0, 0
 	add	$at, $a0, $a3
 	lw	$a3, 0($at)
@@ -5325,7 +5325,7 @@ neighbors_are_available@5648:
 	sll	$t0, $a2, 0
 	add	$at, $v1, $t0
 	lw	$v1, 0($at)
-	bne	$v1, $a3, else@10474
+	bne	$v1, $a3, else@10464
 	sll	$v1, $v0, 0
 	add	$at, $a1, $v1
 	lw	$v1, 0($at)
@@ -5333,7 +5333,7 @@ neighbors_are_available@5648:
 	sll	$a1, $a2, 0
 	add	$at, $v1, $a1
 	lw	$v1, 0($at)
-	bne	$v1, $a3, else@10475
+	bne	$v1, $a3, else@10465
 	addi	$v1, $v0, -1
 	sll	$v1, $v1, 0
 	add	$at, $a0, $v1
@@ -5342,7 +5342,7 @@ neighbors_are_available@5648:
 	sll	$a1, $a2, 0
 	add	$at, $v1, $a1
 	lw	$v1, 0($at)
-	bne	$v1, $a3, else@10476
+	bne	$v1, $a3, else@10466
 	addi	$v0, $v0, 1
 	sll	$v0, $v0, 0
 	add	$at, $a0, $v0
@@ -5351,34 +5351,34 @@ neighbors_are_available@5648:
 	sll	$v1, $a2, 0
 	add	$at, $v0, $v1
 	lw	$v0, 0($at)
-	bne	$v0, $a3, else@10477
+	bne	$v0, $a3, else@10467
 	addi	$v0, $zero, 1
 	jr	$ra
-else@10477:
+else@10467:
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10476:
+else@10466:
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10475:
+else@10465:
 	addi	$v0, $zero, 0
 	jr	$ra
-else@10474:
+else@10464:
 	addi	$v0, $zero, 0
 	jr	$ra
-try_exploit_neighbors@5668:
+try_exploit_neighbors@5663:
 	sll	$t0, $v0, 0
 	add	$at, $a1, $t0
 	lw	$t0, 0($at)
 	addi	$at, $zero, 4
 	slt	$at, $at, $a3
-	bne	$at, $zero, else@10478
+	bne	$at, $zero, else@10468
 	lw	$t1, 2($t0)
 	sll	$t2, $a3, 0
 	add	$at, $t1, $t2
 	lw	$t1, 0($at)
 	slti	$at, $t1, 0
-	bne	$at, $zero, else@10479
+	bne	$at, $zero, else@10469
 	sw	$v1, 0($sp)
 	sw	$a2, 1($sp)
 	sw	$a0, 2($sp)
@@ -5392,19 +5392,19 @@ try_exploit_neighbors@5668:
 	add	$a2, $a3, $zero
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	neighbors_are_available@5648
+	jal	neighbors_are_available@5643
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10480
+	bne	$v0, $at, else@10470
 	lw	$v0, 6($sp)
 	sll	$v0, $v0, 0
 	lw	$v1, 5($sp)
 	add	$at, $v1, $v0
 	lw	$v0, 0($at)
 	lw	$v1, 4($sp)
-	j	do_without_neighbors@5617
-else@10480:
+	j	do_without_neighbors@5612
+else@10470:
 	lw	$v0, 3($sp)
 	lw	$v0, 3($v0)
 	lw	$a2, 4($sp)
@@ -5412,19 +5412,19 @@ else@10480:
 	add	$at, $v0, $v1
 	lw	$v0, 0($at)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10481
-	j	cont@10482
-else@10481:
+	bne	$v0, $at, else@10471
+	j	cont@10472
+else@10471:
 	lw	$v0, 6($sp)
 	lw	$v1, 2($sp)
 	lw	$a0, 5($sp)
 	lw	$a1, 1($sp)
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	calc_diffuse_using_5points@5584
+	jal	calc_diffuse_using_5points@5579
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
-cont@10482:
+cont@10472:
 	lw	$v0, 4($sp)
 	addi	$a3, $v0, 1
 	lw	$v0, 6($sp)
@@ -5432,32 +5432,32 @@ cont@10482:
 	lw	$a0, 2($sp)
 	lw	$a1, 5($sp)
 	lw	$a2, 1($sp)
-	j	try_exploit_neighbors@5668
-else@10479:
+	j	try_exploit_neighbors@5663
+else@10469:
 	jr	$ra
-else@10478:
+else@10468:
 	jr	$ra
-write_ppm_header@5688:
+write_ppm_header@5683:
 	addi	$v0, $zero, 80
 	print_char	$v0
-	addi	$v0, $zero, 51
+	addi	$v0, $zero, 54
 	print_char	$v0
 	addi	$v0, $zero, 10
 	print_char	$v0
-	addi	$v0, $zero, 32611
+	addi	$v0, $zero, 524132
 	lw	$v0, 0($v0)
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	print_int@2616
+	jal	print_int@2611
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	addi	$v0, $zero, 32
 	print_char	$v0
-	addi	$v0, $zero, 32611
+	addi	$v0, $zero, 524132
 	lw	$v0, 1($v0)
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	print_int@2616
+	jal	print_int@2611
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	addi	$v0, $zero, 32
@@ -5465,68 +5465,63 @@ write_ppm_header@5688:
 	addi	$v0, $zero, 255
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	print_int@2616
+	jal	print_int@2611
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	addi	$v0, $zero, 10
 	print_char	$v0
 	jr	$ra
-write_rgb_element@5711:
+write_rgb_element@5706:
 	roundwfmt	$f30, $f0
 	mfc1	$v0, $f30
 	addi	$at, $zero, 255
 	slt	$at, $at, $v0
-	bne	$at, $zero, else@10486
+	bne	$at, $zero, else@10476
 	slti	$at, $v0, 0
-	bne	$at, $zero, else@10488
-	j	cont@10489
-else@10488:
+	bne	$at, $zero, else@10478
+	j	cont@10479
+else@10478:
 	addi	$v0, $zero, 0
-cont@10489:
-	j	cont@10487
-else@10486:
+cont@10479:
+	j	cont@10477
+else@10476:
 	addi	$v0, $zero, 255
-cont@10487:
-	j	print_int@2616
-write_rgb@5717:
-	addi	$v0, $zero, 32613
+cont@10477:
+	print_char	$v0
+	jr	$ra
+write_rgb@5712:
+	addi	$v0, $zero, 524134
 	lwc1	$f0, 0($v0)
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	write_rgb_element@5711
+	jal	write_rgb_element@5706
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
-	addi	$v0, $zero, 32
-	print_char	$v0
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	lwc1	$f0, 1($v0)
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	write_rgb_element@5711
+	jal	write_rgb_element@5706
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
-	addi	$v0, $zero, 32
-	print_char	$v0
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	lwc1	$f0, 2($v0)
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	write_rgb_element@5711
+	jal	write_rgb_element@5706
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
-	addi	$v0, $zero, 10
-	print_char	$v0
 	jr	$ra
-pretrace_diffuse_rays@5733:
+pretrace_diffuse_rays@5723:
 	addi	$at, $zero, 4
 	slt	$at, $at, $v1
-	bne	$at, $zero, else@10491
+	bne	$at, $zero, else@10482
 	lw	$a0, 2($v0)
 	sll	$a1, $v1, 0
 	add	$at, $a0, $a1
 	lw	$a0, 0($at)
 	slti	$at, $a0, 0
-	bne	$at, $zero, else@10492
+	bne	$at, $zero, else@10483
 	lw	$a0, 3($v0)
 	sll	$a1, $v1, 0
 	add	$at, $a0, $a1
@@ -5534,25 +5529,25 @@ pretrace_diffuse_rays@5733:
 	sw	$v0, 0($sp)
 	sw	$v1, 1($sp)
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10493
-	j	cont@10494
-else@10493:
+	bne	$a0, $at, else@10484
+	j	cont@10485
+else@10484:
 	lw	$a0, 6($v0)
 	lw	$a0, 0($a0)
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
-	addi	$a1, $zero, 32616
+	addi	$a1, $zero, 524137
 	sw	$a0, 2($sp)
 	add	$v0, $a1, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	vecfill@2877
+	jal	vecfill@2872
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	lw	$v0, 0($sp)
 	lw	$v1, 7($v0)
 	lw	$a0, 1($v0)
-	addi	$a1, $zero, 32583
+	addi	$a1, $zero, 524104
 	lw	$a2, 2($sp)
 	sll	$a2, $a2, 0
 	add	$at, $a1, $a2
@@ -5570,7 +5565,7 @@ else@10493:
 	add	$v0, $a0, $zero
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	setup_startp@4697
+	jal	setup_startp@4692
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
 	addi	$a1, $zero, 118
@@ -5579,7 +5574,7 @@ else@10493:
 	lw	$a0, 3($sp)
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	iter_trace_diffuse_rays@5519
+	jal	iter_trace_diffuse_rays@5514
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
 	lw	$v0, 0($sp)
@@ -5588,54 +5583,54 @@ else@10493:
 	sll	$a1, $a0, 0
 	add	$at, $v1, $a1
 	lw	$v1, 0($at)
-	addi	$a1, $zero, 32616
+	addi	$a1, $zero, 524137
 	add	$v0, $v1, $zero
 	add	$v1, $a1, $zero
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
-cont@10494:
+cont@10485:
 	lw	$v0, 1($sp)
 	addi	$v1, $v0, 1
 	lw	$v0, 0($sp)
-	j	pretrace_diffuse_rays@5733
-else@10492:
+	j	pretrace_diffuse_rays@5723
+else@10483:
 	jr	$ra
-else@10491:
+else@10482:
 	jr	$ra
-pretrace_pixels@5755:
+pretrace_pixels@5745:
 	slti	$at, $v1, 0
-	bne	$at, $zero, else@10497
-	addi	$a1, $zero, 32608
+	bne	$at, $zero, else@10488
+	addi	$a1, $zero, 524129
 	lwc1	$f3, 0($a1)
-	addi	$a1, $zero, 32609
+	addi	$a1, $zero, 524130
 	lw	$a1, 0($a1)
 	sub	$a1, $v1, $a1
 	mfc2	$f4, $a1
 	cvtsw	$f4, $f4
 	mulf	$f3, $f3, $f4
-	addi	$a1, $zero, 32599
+	addi	$a1, $zero, 524120
 	lwc1	$f4, 0($a1)
 	mulf	$f4, $f3, $f4
 	addf	$f4, $f4, $f0
-	addi	$a1, $zero, 32590
+	addi	$a1, $zero, 524111
 	swc1	$f4, 0($a1)
-	addi	$a1, $zero, 32599
+	addi	$a1, $zero, 524120
 	lwc1	$f4, 1($a1)
 	mulf	$f4, $f3, $f4
 	addf	$f4, $f4, $f1
-	addi	$a1, $zero, 32590
+	addi	$a1, $zero, 524111
 	swc1	$f4, 1($a1)
-	addi	$a1, $zero, 32599
+	addi	$a1, $zero, 524120
 	lwc1	$f4, 2($a1)
 	mulf	$f3, $f3, $f4
 	addf	$f3, $f3, $f2
-	addi	$a1, $zero, 32590
+	addi	$a1, $zero, 524111
 	swc1	$f3, 2($a1)
 	addi	$a1, $zero, 0
-	addi	$a2, $zero, 32590
+	addi	$a2, $zero, 524111
 	swc1	$f2, 0($sp)
 	swc1	$f1, 2($sp)
 	swc1	$f0, 4($sp)
@@ -5646,22 +5641,22 @@ pretrace_pixels@5755:
 	add	$v0, $a2, $zero
 	sw	$ra, 9($sp)
 	addi	$sp, $sp, 10
-	jal	vecunit_sgn@2954
+	jal	vecunit_sgn@2949
 	addi	$sp, $sp, -10
 	lw	$ra, 9($sp)
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
-	addi	$v0, $zero, 32613
+	addi	$v0, $zero, 524134
 	sw	$ra, 9($sp)
 	addi	$sp, $sp, 10
-	jal	vecfill@2877
+	jal	vecfill@2872
 	addi	$sp, $sp, -10
 	lw	$ra, 9($sp)
-	addi	$v1, $zero, 32689
-	addi	$v0, $zero, 32605
+	addi	$v1, $zero, 524210
+	addi	$v0, $zero, 524126
 	sw	$ra, 9($sp)
 	addi	$sp, $sp, 10
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -10
 	lw	$ra, 9($sp)
 	addi	$v0, $zero, 0
@@ -5674,11 +5669,11 @@ pretrace_pixels@5755:
 	lw	$a0, 0($at)
 	addi	$at, $zero, 0
 	mfc2	$f1, $at
-	addi	$a2, $zero, 32590
+	addi	$a2, $zero, 524111
 	add	$v1, $a2, $zero
 	sw	$ra, 9($sp)
 	addi	$sp, $sp, 10
-	jal	trace_ray@5375
+	jal	trace_ray@5370
 	addi	$sp, $sp, -10
 	lw	$ra, 9($sp)
 	lw	$v0, 8($sp)
@@ -5687,12 +5682,12 @@ pretrace_pixels@5755:
 	add	$at, $a0, $v1
 	lw	$v1, 0($at)
 	lw	$v1, 0($v1)
-	addi	$a1, $zero, 32613
+	addi	$a1, $zero, 524134
 	add	$v0, $v1, $zero
 	add	$v1, $a1, $zero
 	sw	$ra, 9($sp)
 	addi	$sp, $sp, 10
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -10
 	lw	$ra, 9($sp)
 	lw	$v0, 8($sp)
@@ -5711,7 +5706,7 @@ pretrace_pixels@5755:
 	add	$v1, $a2, $zero
 	sw	$ra, 9($sp)
 	addi	$sp, $sp, 10
-	jal	pretrace_diffuse_rays@5733
+	jal	pretrace_diffuse_rays@5723
 	addi	$sp, $sp, -10
 	lw	$ra, 9($sp)
 	lw	$v0, 8($sp)
@@ -5719,66 +5714,66 @@ pretrace_pixels@5755:
 	lw	$v0, 6($sp)
 	addi	$v0, $v0, 1
 	slti	$at, $v0, 5
-	bne	$at, $zero, else@10498
+	bne	$at, $zero, else@10489
 	addi	$a0, $v0, -5
-	j	cont@10499
-else@10498:
+	j	cont@10490
+else@10489:
 	add	$a0, $zero, $v0
-cont@10499:
+cont@10490:
 	lwc1	$f0, 4($sp)
 	lwc1	$f1, 2($sp)
 	lwc1	$f2, 0($sp)
 	lw	$v0, 7($sp)
-	j	pretrace_pixels@5755
-else@10497:
+	j	pretrace_pixels@5745
+else@10488:
 	jr	$ra
-pretrace_line@5809:
-	addi	$a1, $zero, 32608
+pretrace_line@5799:
+	addi	$a1, $zero, 524129
 	lwc1	$f0, 0($a1)
-	addi	$a1, $zero, 32609
+	addi	$a1, $zero, 524130
 	lw	$a1, 1($a1)
 	sub	$v1, $v1, $a1
 	mfc2	$f1, $v1
 	cvtsw	$f1, $f1
 	mulf	$f0, $f0, $f1
-	addi	$v1, $zero, 32596
+	addi	$v1, $zero, 524117
 	lwc1	$f1, 0($v1)
 	mulf	$f1, $f0, $f1
-	addi	$v1, $zero, 32593
+	addi	$v1, $zero, 524114
 	lwc1	$f2, 0($v1)
 	addf	$f1, $f1, $f2
-	addi	$v1, $zero, 32596
+	addi	$v1, $zero, 524117
 	lwc1	$f2, 1($v1)
 	mulf	$f2, $f0, $f2
-	addi	$v1, $zero, 32593
+	addi	$v1, $zero, 524114
 	lwc1	$f3, 1($v1)
 	addf	$f2, $f2, $f3
-	addi	$v1, $zero, 32596
+	addi	$v1, $zero, 524117
 	lwc1	$f3, 2($v1)
 	mulf	$f0, $f0, $f3
-	addi	$v1, $zero, 32593
+	addi	$v1, $zero, 524114
 	lwc1	$f3, 2($v1)
 	addf	$f0, $f0, $f3
-	addi	$v1, $zero, 32611
+	addi	$v1, $zero, 524132
 	lw	$v1, 0($v1)
 	addi	$v1, $v1, -1
 	mvf	$f30, $f2
 	mvf	$f2, $f0
 	mvf	$f0, $f1
 	mvf	$f1, $f30
-	j	pretrace_pixels@5755
-scan_pixel@5842:
-	addi	$a3, $zero, 32611
+	j	pretrace_pixels@5745
+scan_pixel@5832:
+	addi	$a3, $zero, 524132
 	lw	$a3, 0($a3)
 	slt	$at, $v0, $a3
-	bne	$at, $zero, else@10501
+	bne	$at, $zero, else@10492
 	jr	$ra
-else@10501:
+else@10492:
 	sll	$a3, $v0, 0
 	add	$at, $a1, $a3
 	lw	$a3, 0($at)
 	lw	$a3, 0($a3)
-	addi	$t0, $zero, 32613
+	addi	$t0, $zero, 524134
 	sw	$a0, 0($sp)
 	sw	$a1, 1($sp)
 	sw	$a2, 2($sp)
@@ -5788,7 +5783,7 @@ else@10501:
 	add	$v0, $t0, $zero
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	lw	$v0, 4($sp)
@@ -5796,11 +5791,11 @@ else@10501:
 	lw	$a0, 2($sp)
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	neighbors_exist@5630
+	jal	neighbors_exist@5625
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	addi	$at, $zero, 0
-	bne	$v0, $at, else@10503
+	bne	$v0, $at, else@10494
 	lw	$v0, 4($sp)
 	sll	$v1, $v0, 0
 	lw	$a0, 1($sp)
@@ -5811,11 +5806,11 @@ else@10501:
 	add	$v1, $a1, $zero
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	do_without_neighbors@5617
+	jal	do_without_neighbors@5612
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
-	j	cont@10504
-else@10503:
+	j	cont@10495
+else@10494:
 	addi	$a3, $zero, 0
 	lw	$v0, 4($sp)
 	lw	$v1, 3($sp)
@@ -5824,13 +5819,13 @@ else@10503:
 	lw	$a2, 2($sp)
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	try_exploit_neighbors@5668
+	jal	try_exploit_neighbors@5663
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
-cont@10504:
+cont@10495:
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	write_rgb@5717
+	jal	write_rgb@5712
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	lw	$v0, 4($sp)
@@ -5839,15 +5834,15 @@ cont@10504:
 	lw	$a0, 0($sp)
 	lw	$a1, 1($sp)
 	lw	$a2, 2($sp)
-	j	scan_pixel@5842
-scan_line@5863:
-	addi	$a3, $zero, 32611
+	j	scan_pixel@5832
+scan_line@5853:
+	addi	$a3, $zero, 524132
 	lw	$a3, 1($a3)
 	slt	$at, $v0, $a3
-	bne	$at, $zero, else@10505
+	bne	$at, $zero, else@10496
 	jr	$ra
-else@10505:
-	addi	$a3, $zero, 32611
+else@10496:
+	addi	$a3, $zero, 524132
 	lw	$a3, 1($a3)
 	addi	$a3, $a3, -1
 	sw	$a2, 0($sp)
@@ -5856,19 +5851,19 @@ else@10505:
 	sw	$v1, 3($sp)
 	sw	$v0, 4($sp)
 	slt	$at, $v0, $a3
-	bne	$at, $zero, else@10507
-	j	cont@10508
-else@10507:
+	bne	$at, $zero, else@10498
+	j	cont@10499
+else@10498:
 	addi	$a3, $v0, 1
 	add	$a0, $a2, $zero
 	add	$v1, $a3, $zero
 	add	$v0, $a1, $zero
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	pretrace_line@5809
+	jal	pretrace_line@5799
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
-cont@10508:
+cont@10499:
 	addi	$v0, $zero, 0
 	lw	$v1, 4($sp)
 	lw	$a0, 3($sp)
@@ -5876,7 +5871,7 @@ cont@10508:
 	lw	$a2, 1($sp)
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	scan_pixel@5842
+	jal	scan_pixel@5832
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	lw	$v0, 4($sp)
@@ -5884,22 +5879,22 @@ cont@10508:
 	lw	$v1, 0($sp)
 	addi	$v1, $v1, 2
 	slti	$at, $v1, 5
-	bne	$at, $zero, else@10509
+	bne	$at, $zero, else@10500
 	addi	$a2, $v1, -5
-	j	cont@10510
-else@10509:
+	j	cont@10501
+else@10500:
 	add	$a2, $zero, $v1
-cont@10510:
+cont@10501:
 	lw	$v1, 2($sp)
 	lw	$a0, 1($sp)
 	lw	$a1, 3($sp)
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	scan_line@5863
+	jal	scan_line@5853
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	jr	$ra
-create_float5x3array@5885:
+create_float5x3array@5875:
 	addi	$v0, $zero, 3
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
@@ -5959,7 +5954,7 @@ create_float5x3array@5885:
 	sw	$v0, 4($v1)
 	add	$v0, $zero, $v1
 	jr	$ra
-create_pixel@5912:
+create_pixel@5902:
 	addi	$v0, $zero, 3
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
@@ -5971,7 +5966,7 @@ create_pixel@5912:
 	sw	$v0, 0($sp)
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	create_float5x3array@5885
+	jal	create_float5x3array@5875
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
 	addi	$v1, $zero, 5
@@ -5997,13 +5992,13 @@ create_pixel@5912:
 	sw	$v0, 3($sp)
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	create_float5x3array@5885
+	jal	create_float5x3array@5875
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	sw	$v0, 4($sp)
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	create_float5x3array@5885
+	jal	create_float5x3array@5875
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	addi	$v1, $zero, 1
@@ -6019,7 +6014,7 @@ create_pixel@5912:
 	sw	$v0, 6($sp)
 	sw	$ra, 7($sp)
 	addi	$sp, $sp, 8
-	jal	create_float5x3array@5885
+	jal	create_float5x3array@5875
 	addi	$sp, $sp, -8
 	lw	$ra, 7($sp)
 	addi	$gp, $gp, -8
@@ -6041,14 +6036,14 @@ create_pixel@5912:
 	sw	$v0, 0($v1)
 	add	$v0, $zero, $v1
 	jr	$ra
-init_line_elements@5934:
+init_line_elements@5924:
 	slti	$at, $v1, 0
-	bne	$at, $zero, else@10512
+	bne	$at, $zero, else@10503
 	sw	$v0, 0($sp)
 	sw	$v1, 1($sp)
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	create_pixel@5912
+	jal	create_pixel@5902
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	lw	$v1, 1($sp)
@@ -6058,16 +6053,16 @@ init_line_elements@5934:
 	sw	$v0, 0($at)
 	addi	$v1, $v1, -1
 	add	$v0, $a1, $zero
-	j	init_line_elements@5934
-else@10512:
+	j	init_line_elements@5924
+else@10503:
 	jr	$ra
-create_pixelline@5943:
-	addi	$v0, $zero, 32611
+create_pixelline@5933:
+	addi	$v0, $zero, 524132
 	lw	$v0, 0($v0)
 	sw	$v0, 0($sp)
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	create_pixel@5912
+	jal	create_pixel@5902
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
 	add	$v1, $zero, $v0
@@ -6077,11 +6072,11 @@ create_pixelline@5943:
 	jal	min_caml_create_array
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
-	addi	$v1, $zero, 32611
+	addi	$v1, $zero, 524132
 	lw	$v1, 0($v1)
 	addi	$v1, $v1, -2
-	j	init_line_elements@5934
-adjust_position@5958:
+	j	init_line_elements@5924
+adjust_position@5948:
 	mulf	$f0, $f0, $f0
 	addi	$at, $zero, 1036831949
 	mfc2	$f2, $at
@@ -6095,7 +6090,7 @@ adjust_position@5958:
 	mvf	$f0, $f2
 	sw	$ra, 4($sp)
 	addi	$sp, $sp, 5
-	jal	atan@2769
+	jal	atan@2764
 	addi	$sp, $sp, -5
 	lw	$ra, 4($sp)
 	lwc1	$f1, 2($sp)
@@ -6103,7 +6098,7 @@ adjust_position@5958:
 	swc1	$f0, 4($sp)
 	sw	$ra, 6($sp)
 	addi	$sp, $sp, 7
-	jal	sin@2659
+	jal	sin@2654
 	addi	$sp, $sp, -7
 	lw	$ra, 6($sp)
 	lwc1	$f1, 4($sp)
@@ -6111,7 +6106,7 @@ adjust_position@5958:
 	mvf	$f0, $f1
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	cos@2713
+	jal	cos@2708
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	lwc1	$f1, 6($sp)
@@ -6119,9 +6114,9 @@ adjust_position@5958:
 	lwc1	$f1, 0($sp)
 	mulf	$f0, $f0, $f1
 	jr	$ra
-calc_dirvec@5970:
+calc_dirvec@5960:
 	slti	$at, $v0, 5
-	bne	$at, $zero, else@10513
+	bne	$at, $zero, else@10504
 	mulf	$f2, $f0, $f0
 	mulf	$f3, $f1, $f1
 	addf	$f2, $f2, $f3
@@ -6134,7 +6129,7 @@ calc_dirvec@5970:
 	addi	$at, $zero, 1065353216
 	mfc2	$f3, $at
 	divf	$f2, $f3, $f2
-	addi	$v0, $zero, 32583
+	addi	$v0, $zero, 524104
 	sll	$v1, $v1, 0
 	add	$at, $v0, $v1
 	lw	$v0, 0($at)
@@ -6150,7 +6145,7 @@ calc_dirvec@5970:
 	add	$v0, $v1, $zero
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	vecset@2867
+	jal	vecset@2862
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	lw	$v0, 7($sp)
@@ -6170,7 +6165,7 @@ calc_dirvec@5970:
 	mvf	$f1, $f3
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	vecset@2867
+	jal	vecset@2862
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	lw	$v0, 7($sp)
@@ -6192,7 +6187,7 @@ calc_dirvec@5970:
 	mvf	$f0, $f4
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	vecset@2867
+	jal	vecset@2862
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	lw	$v0, 7($sp)
@@ -6217,7 +6212,7 @@ calc_dirvec@5970:
 	mvf	$f1, $f3
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	vecset@2867
+	jal	vecset@2862
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	lw	$v0, 7($sp)
@@ -6240,7 +6235,7 @@ calc_dirvec@5970:
 	mvf	$f1, $f3
 	sw	$ra, 8($sp)
 	addi	$sp, $sp, 9
-	jal	vecset@2867
+	jal	vecset@2862
 	addi	$sp, $sp, -9
 	lw	$ra, 8($sp)
 	lw	$v0, 7($sp)
@@ -6255,8 +6250,8 @@ calc_dirvec@5970:
 	subf	$f0, $f30, $f0
 	lwc1	$f1, 2($sp)
 	lwc1	$f2, 4($sp)
-	j	vecset@2867
-else@10513:
+	j	vecset@2862
+else@10504:
 	swc1	$f2, 8($sp)
 	sw	$a0, 7($sp)
 	sw	$v1, 10($sp)
@@ -6266,7 +6261,7 @@ else@10513:
 	mvf	$f1, $f2
 	sw	$ra, 15($sp)
 	addi	$sp, $sp, 16
-	jal	adjust_position@5958
+	jal	adjust_position@5948
 	addi	$sp, $sp, -16
 	lw	$ra, 15($sp)
 	lw	$v0, 14($sp)
@@ -6276,7 +6271,7 @@ else@10513:
 	sw	$v0, 18($sp)
 	sw	$ra, 19($sp)
 	addi	$sp, $sp, 20
-	jal	adjust_position@5958
+	jal	adjust_position@5948
 	addi	$sp, $sp, -20
 	lw	$ra, 19($sp)
 	mvf	$f1, $f0
@@ -6286,10 +6281,10 @@ else@10513:
 	lw	$v0, 18($sp)
 	lw	$v1, 10($sp)
 	lw	$a0, 7($sp)
-	j	calc_dirvec@5970
-calc_dirvecs@6030:
+	j	calc_dirvec@5960
+calc_dirvecs@6020:
 	slti	$at, $v0, 0
-	bne	$at, $zero, else@10516
+	bne	$at, $zero, else@10507
 	mfc2	$f1, $v0
 	cvtsw	$f1, $f1
 	addi	$at, $zero, 1045220557
@@ -6314,7 +6309,7 @@ calc_dirvecs@6030:
 	mvf	$f1, $f30
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	calc_dirvec@5970
+	jal	calc_dirvec@5960
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	lw	$v0, 4($sp)
@@ -6340,7 +6335,7 @@ calc_dirvecs@6030:
 	add	$v1, $a2, $zero
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	calc_dirvec@5970
+	jal	calc_dirvec@5960
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	lw	$v0, 4($sp)
@@ -6348,19 +6343,19 @@ calc_dirvecs@6030:
 	lw	$v1, 2($sp)
 	addi	$v1, $v1, 1
 	slti	$at, $v1, 5
-	bne	$at, $zero, else@10517
+	bne	$at, $zero, else@10508
 	addi	$v1, $v1, -5
-	j	cont@10518
-else@10517:
-cont@10518:
+	j	cont@10509
+else@10508:
+cont@10509:
 	lwc1	$f0, 0($sp)
 	lw	$a0, 3($sp)
-	j	calc_dirvecs@6030
-else@10516:
+	j	calc_dirvecs@6020
+else@10507:
 	jr	$ra
-calc_dirvec_rows@6060:
+calc_dirvec_rows@6050:
 	slti	$at, $v0, 0
-	bne	$at, $zero, else@10520
+	bne	$at, $zero, else@10511
 	mfc2	$f0, $v0
 	cvtsw	$f0, $f0
 	addi	$at, $zero, 1045220557
@@ -6376,7 +6371,7 @@ calc_dirvec_rows@6060:
 	add	$v0, $a1, $zero
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	calc_dirvecs@6030
+	jal	calc_dirvecs@6020
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	lw	$v0, 2($sp)
@@ -6384,17 +6379,17 @@ calc_dirvec_rows@6060:
 	lw	$v1, 1($sp)
 	addi	$v1, $v1, 2
 	slti	$at, $v1, 5
-	bne	$at, $zero, else@10521
+	bne	$at, $zero, else@10512
 	addi	$v1, $v1, -5
-	j	cont@10522
-else@10521:
-cont@10522:
+	j	cont@10513
+else@10512:
+cont@10513:
 	lw	$a0, 0($sp)
 	addi	$a0, $a0, 4
-	j	calc_dirvec_rows@6060
-else@10520:
+	j	calc_dirvec_rows@6050
+else@10511:
 	jr	$ra
-create_dirvec@6078:
+create_dirvec@6068:
 	addi	$v0, $zero, 3
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
@@ -6404,7 +6399,7 @@ create_dirvec@6078:
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	add	$v1, $zero, $v0
-	addi	$v0, $zero, 32766
+	addi	$v0, $zero, 524287
 	lw	$v0, 0($v0)
 	sw	$v1, 0($sp)
 	sw	$ra, 1($sp)
@@ -6419,14 +6414,14 @@ create_dirvec@6078:
 	sw	$v0, 0($v1)
 	add	$v0, $zero, $v1
 	jr	$ra
-create_dirvec_elements@6086:
+create_dirvec_elements@6076:
 	slti	$at, $v1, 0
-	bne	$at, $zero, else@10524
+	bne	$at, $zero, else@10515
 	sw	$v0, 0($sp)
 	sw	$v1, 1($sp)
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	create_dirvec@6078
+	jal	create_dirvec@6068
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	lw	$v1, 1($sp)
@@ -6436,18 +6431,18 @@ create_dirvec_elements@6086:
 	sw	$v0, 0($at)
 	addi	$v1, $v1, -1
 	add	$v0, $a1, $zero
-	j	create_dirvec_elements@6086
-else@10524:
+	j	create_dirvec_elements@6076
+else@10515:
 	jr	$ra
-create_dirvecs@6095:
+create_dirvecs@6085:
 	slti	$at, $v0, 0
-	bne	$at, $zero, else@10526
+	bne	$at, $zero, else@10517
 	addi	$v1, $zero, 120
 	sw	$v0, 0($sp)
 	sw	$v1, 1($sp)
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	create_dirvec@6078
+	jal	create_dirvec@6068
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	add	$v1, $zero, $v0
@@ -6457,33 +6452,33 @@ create_dirvecs@6095:
 	jal	min_caml_create_array
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
-	addi	$v1, $zero, 32583
+	addi	$v1, $zero, 524104
 	lw	$a0, 0($sp)
 	sll	$a1, $a0, 0
 	add	$at, $v1, $a1
 	sw	$v0, 0($at)
-	addi	$v0, $zero, 32583
+	addi	$v0, $zero, 524104
 	sll	$v1, $a0, 0
 	add	$at, $v0, $v1
 	lw	$v0, 0($at)
 	addi	$v1, $zero, 118
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	create_dirvec_elements@6086
+	jal	create_dirvec_elements@6076
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	lw	$v0, 0($sp)
 	addi	$v0, $v0, -1
-	j	create_dirvecs@6095
-else@10526:
+	j	create_dirvecs@6085
+else@10517:
 	jr	$ra
-init_dirvec_constants@6108:
+init_dirvec_constants@6098:
 	slti	$at, $v1, 0
-	bne	$at, $zero, else@10528
+	bne	$at, $zero, else@10519
 	sll	$a0, $v1, 0
 	add	$at, $v0, $a0
 	lw	$a0, 0($at)
-	addi	$a1, $zero, 32766
+	addi	$a1, $zero, 524287
 	lw	$a1, 0($a1)
 	addi	$a1, $a1, -1
 	sw	$v0, 0($sp)
@@ -6492,19 +6487,19 @@ init_dirvec_constants@6108:
 	add	$v0, $a0, $zero
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	iter_setup_dirvec_constants@4625
+	jal	iter_setup_dirvec_constants@4620
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	lw	$v0, 1($sp)
 	addi	$v1, $v0, -1
 	lw	$v0, 0($sp)
-	j	init_dirvec_constants@6108
-else@10528:
+	j	init_dirvec_constants@6098
+else@10519:
 	jr	$ra
-init_vecset_constants@6116:
+init_vecset_constants@6106:
 	slti	$at, $v0, 0
-	bne	$at, $zero, else@10530
-	addi	$v1, $zero, 32583
+	bne	$at, $zero, else@10521
+	addi	$v1, $zero, 524104
 	sll	$a0, $v0, 0
 	add	$at, $v1, $a0
 	lw	$v1, 0($at)
@@ -6514,19 +6509,19 @@ init_vecset_constants@6116:
 	add	$v1, $a0, $zero
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	init_dirvec_constants@6108
+	jal	init_dirvec_constants@6098
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
 	lw	$v0, 0($sp)
 	addi	$v0, $v0, -1
-	j	init_vecset_constants@6116
-else@10530:
+	j	init_vecset_constants@6106
+else@10521:
 	jr	$ra
-init_dirvecs@6124:
+init_dirvecs@6114:
 	addi	$v0, $zero, 4
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	create_dirvecs@6095
+	jal	create_dirvecs@6085
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	addi	$v0, $zero, 9
@@ -6534,12 +6529,12 @@ init_dirvecs@6124:
 	addi	$a0, $zero, 0
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	calc_dirvec_rows@6060
+	jal	calc_dirvec_rows@6050
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	addi	$v0, $zero, 4
-	j	init_vecset_constants@6116
-add_reflection@6133:
+	j	init_vecset_constants@6106
+add_reflection@6123:
 	sw	$v0, 0($sp)
 	sw	$v1, 1($sp)
 	swc1	$f0, 2($sp)
@@ -6548,7 +6543,7 @@ add_reflection@6133:
 	swc1	$f1, 8($sp)
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	create_dirvec@6078
+	jal	create_dirvec@6068
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	lw	$v1, 0($v0)
@@ -6559,16 +6554,16 @@ add_reflection@6133:
 	add	$v0, $v1, $zero
 	sw	$ra, 11($sp)
 	addi	$sp, $sp, 12
-	jal	vecset@2867
+	jal	vecset@2862
 	addi	$sp, $sp, -12
 	lw	$ra, 11($sp)
-	addi	$v0, $zero, 32766
+	addi	$v0, $zero, 524287
 	lw	$v0, 0($v0)
 	addi	$v1, $v0, -1
 	lw	$v0, 10($sp)
 	sw	$ra, 11($sp)
 	addi	$sp, $sp, 12
-	jal	iter_setup_dirvec_constants@4625
+	jal	iter_setup_dirvec_constants@4620
 	addi	$sp, $sp, -12
 	lw	$ra, 11($sp)
 	addi	$gp, $gp, -3
@@ -6579,35 +6574,35 @@ add_reflection@6133:
 	sw	$v1, 1($v0)
 	lw	$v1, 1($sp)
 	sw	$v1, 0($v0)
-	addi	$v1, $zero, 32333
+	addi	$v1, $zero, 523854
 	lw	$a0, 0($sp)
 	sll	$a0, $a0, 0
 	add	$at, $v1, $a0
 	sw	$v0, 0($at)
 	jr	$ra
-setup_rect_reflection@6146:
+setup_rect_reflection@6136:
 	addi	$v0, $v0, -4
-	addi	$a0, $zero, 32332
+	addi	$a0, $zero, 523853
 	lw	$a0, 0($a0)
 	addi	$at, $zero, 1065353216
 	mfc2	$f0, $at
 	lw	$v1, 7($v1)
 	lwc1	$f1, 0($v1)
 	subf	$f0, $f0, $f1
-	addi	$v1, $zero, 32686
+	addi	$v1, $zero, 524207
 	lwc1	$f1, 0($v1)
 	mfc2	$f30, $zero
 	subf	$f1, $f30, $f1
-	addi	$v1, $zero, 32686
+	addi	$v1, $zero, 524207
 	lwc1	$f2, 1($v1)
 	mfc2	$f30, $zero
 	subf	$f2, $f30, $f2
-	addi	$v1, $zero, 32686
+	addi	$v1, $zero, 524207
 	lwc1	$f3, 2($v1)
 	mfc2	$f30, $zero
 	subf	$f3, $f30, $f3
 	addi	$v1, $v0, 1
-	addi	$a1, $zero, 32686
+	addi	$a1, $zero, 524207
 	lwc1	$f4, 0($a1)
 	swc1	$f2, 0($sp)
 	swc1	$f3, 2($sp)
@@ -6619,14 +6614,14 @@ setup_rect_reflection@6146:
 	mvf	$f1, $f4
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	add_reflection@6133
+	jal	add_reflection@6123
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	lw	$v0, 9($sp)
 	addi	$v1, $v0, 1
 	lw	$a0, 8($sp)
 	addi	$a1, $a0, 2
-	addi	$a2, $zero, 32686
+	addi	$a2, $zero, 524207
 	lwc1	$f2, 1($a2)
 	lwc1	$f0, 6($sp)
 	lwc1	$f1, 4($sp)
@@ -6635,14 +6630,14 @@ setup_rect_reflection@6146:
 	add	$v1, $a1, $zero
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	add_reflection@6133
+	jal	add_reflection@6123
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	lw	$v0, 9($sp)
 	addi	$v1, $v0, 2
 	lw	$a0, 8($sp)
 	addi	$a0, $a0, 3
-	addi	$a1, $zero, 32686
+	addi	$a1, $zero, 524207
 	lwc1	$f3, 2($a1)
 	lwc1	$f0, 6($sp)
 	lwc1	$f1, 4($sp)
@@ -6651,18 +6646,18 @@ setup_rect_reflection@6146:
 	add	$v1, $a0, $zero
 	sw	$ra, 10($sp)
 	addi	$sp, $sp, 11
-	jal	add_reflection@6133
+	jal	add_reflection@6123
 	addi	$sp, $sp, -11
 	lw	$ra, 10($sp)
 	lw	$v0, 9($sp)
 	addi	$v0, $v0, 3
-	addi	$v1, $zero, 32332
+	addi	$v1, $zero, 523853
 	sw	$v0, 0($v1)
 	jr	$ra
-setup_surface_reflection@6187:
+setup_surface_reflection@6177:
 	addi	$v0, $v0, -4
 	addi	$v0, $v0, 1
-	addi	$a0, $zero, 32332
+	addi	$a0, $zero, 523853
 	lw	$a0, 0($a0)
 	addi	$at, $zero, 1065353216
 	mfc2	$f0, $at
@@ -6670,7 +6665,7 @@ setup_surface_reflection@6187:
 	lwc1	$f1, 0($a1)
 	subf	$f0, $f0, $f1
 	lw	$a1, 4($v1)
-	addi	$a2, $zero, 32686
+	addi	$a2, $zero, 524207
 	swc1	$f0, 0($sp)
 	sw	$v0, 2($sp)
 	sw	$a0, 3($sp)
@@ -6679,7 +6674,7 @@ setup_surface_reflection@6187:
 	add	$v0, $a2, $zero
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	veciprod@2989
+	jal	veciprod@2984
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	addi	$at, $zero, 1073741824
@@ -6689,7 +6684,7 @@ setup_surface_reflection@6187:
 	lwc1	$f2, 0($v1)
 	mulf	$f1, $f1, $f2
 	mulf	$f1, $f1, $f0
-	addi	$v1, $zero, 32686
+	addi	$v1, $zero, 524207
 	lwc1	$f2, 0($v1)
 	subf	$f1, $f1, $f2
 	addi	$at, $zero, 1073741824
@@ -6698,7 +6693,7 @@ setup_surface_reflection@6187:
 	lwc1	$f3, 1($v1)
 	mulf	$f2, $f2, $f3
 	mulf	$f2, $f2, $f0
-	addi	$v1, $zero, 32686
+	addi	$v1, $zero, 524207
 	lwc1	$f3, 1($v1)
 	subf	$f2, $f2, $f3
 	addi	$at, $zero, 1073741824
@@ -6707,7 +6702,7 @@ setup_surface_reflection@6187:
 	lwc1	$f4, 2($v0)
 	mulf	$f3, $f3, $f4
 	mulf	$f0, $f3, $f0
-	addi	$v0, $zero, 32686
+	addi	$v0, $zero, 524207
 	lwc1	$f3, 2($v0)
 	subf	$f3, $f0, $f3
 	lwc1	$f0, 0($sp)
@@ -6715,126 +6710,127 @@ setup_surface_reflection@6187:
 	lw	$v1, 2($sp)
 	sw	$ra, 5($sp)
 	addi	$sp, $sp, 6
-	jal	add_reflection@6133
+	jal	add_reflection@6123
 	addi	$sp, $sp, -6
 	lw	$ra, 5($sp)
 	lw	$v0, 3($sp)
 	addi	$v0, $v0, 1
-	addi	$v1, $zero, 32332
+	addi	$v1, $zero, 523853
 	sw	$v0, 0($v1)
 	jr	$ra
-setup_reflections@6226:
+setup_reflections@6216:
 	slti	$at, $v0, 0
-	bne	$at, $zero, else@10535
-	addi	$v1, $zero, 32695
+	bne	$at, $zero, else@10526
+	addi	$v1, $zero, 524216
 	sll	$a0, $v0, 0
 	add	$at, $v1, $a0
 	lw	$v1, 0($at)
 	lw	$a0, 2($v1)
 	addi	$at, $zero, 2
-	bne	$a0, $at, else@10536
+	bne	$a0, $at, else@10527
 	lw	$a0, 7($v1)
 	lwc1	$f0, 0($a0)
 	addi	$at, $zero, 1065353216
 	mfc2	$f1, $at
 	lef	$f1, $f0
-	bc1f	else@10537
+	bc1f	else@10528
 	addi	$a0, $zero, 0
-	j	cont@10538
-else@10537:
+	j	cont@10529
+else@10528:
 	addi	$a0, $zero, 1
-cont@10538:
+cont@10529:
 	addi	$at, $zero, 0
-	bne	$a0, $at, else@10539
+	bne	$a0, $at, else@10530
 	jr	$ra
-else@10539:
+else@10530:
 	lw	$a0, 1($v1)
 	addi	$at, $zero, 1
-	bne	$a0, $at, else@10541
-	j	setup_rect_reflection@6146
-else@10541:
+	bne	$a0, $at, else@10532
+	j	setup_rect_reflection@6136
+else@10532:
 	addi	$at, $zero, 2
-	bne	$a0, $at, else@10542
-	j	setup_surface_reflection@6187
-else@10542:
+	bne	$a0, $at, else@10533
+	j	setup_surface_reflection@6177
+else@10533:
 	jr	$ra
-else@10536:
+else@10527:
 	jr	$ra
-else@10535:
+else@10526:
 	jr	$ra
-rt@6239:
-	addi	$a0, $zero, 32611
+rt@6229:
+	addi	$a0, $zero, 524132
 	sw	$v0, 0($a0)
-	addi	$a0, $zero, 32611
+	addi	$a0, $zero, 524132
 	sw	$v1, 1($a0)
 	srl	$a0, $v0, 1
-	addi	$a1, $zero, 32609
+	addi	$a1, $zero, 524130
 	sw	$a0, 0($a1)
 	srl	$v1, $v1, 1
-	addi	$a0, $zero, 32609
+	addi	$a0, $zero, 524130
 	sw	$v1, 1($a0)
 	addi	$at, $zero, 1124073472
 	mfc2	$f0, $at
 	mfc2	$f1, $v0
 	cvtsw	$f1, $f1
 	divf	$f0, $f0, $f1
-	addi	$v0, $zero, 32608
+	addi	$v0, $zero, 524129
 	swc1	$f0, 0($v0)
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
-	jal	create_pixelline@5943
+	jal	create_pixelline@5933
 	addi	$sp, $sp, -1
 	lw	$ra, 0($sp)
 	sw	$v0, 0($sp)
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
-	jal	create_pixelline@5943
+	jal	create_pixelline@5933
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
 	sw	$v0, 1($sp)
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	create_pixelline@5943
+	jal	create_pixelline@5933
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	sw	$v0, 2($sp)
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	read_parameter@3948
+	jal	read_parameter@3943
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	write_ppm_header@5688
+	jal	write_ppm_header@5683
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	init_dirvecs@6124
+	jal	init_dirvecs@6114
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
-	addi	$v0, $zero, 32580
-	addi	$v1, $zero, 32686
+	addi	$v0, $zero, 524041
+	addi	$v0, $zero, 524101
+	addi	$v1, $zero, 524207
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	veccpy@2888
+	jal	veccpy@2883
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
-	addi	$v0, $zero, 32766
+	addi	$v0, $zero, 524287
 	lw	$v0, 0($v0)
 	addi	$v1, $v0, -1
-	addi	$v0, $zero, 32518
+	addi	$v0, $zero, 524039
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	iter_setup_dirvec_constants@4625
+	jal	iter_setup_dirvec_constants@4620
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
-	addi	$v0, $zero, 32766
+	addi	$v0, $zero, 524287
 	lw	$v0, 0($v0)
 	addi	$v0, $v0, -1
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	setup_reflections@6226
+	jal	setup_reflections@6216
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	addi	$v1, $zero, 0
@@ -6842,7 +6838,7 @@ rt@6239:
 	lw	$v0, 1($sp)
 	sw	$ra, 3($sp)
 	addi	$sp, $sp, 4
-	jal	pretrace_line@5809
+	jal	pretrace_line@5799
 	addi	$sp, $sp, -4
 	lw	$ra, 3($sp)
 	addi	$v0, $zero, 0
@@ -6850,10 +6846,10 @@ rt@6239:
 	lw	$v1, 0($sp)
 	lw	$a0, 1($sp)
 	lw	$a1, 2($sp)
-	j	scan_line@5863
+	j	scan_line@5853
 _min_caml_start:
 	addi	$sp, $zero, 0
-	addi	$gp, $zero, 32768
+	addi	$gp, $zero, 524288
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
 #	main program starts
@@ -6878,12 +6874,12 @@ _min_caml_start:
 	addi	$a1, $zero, 0
 	addi	$a2, $zero, 0
 	addi	$a3, $zero, 0
-	addi	$t0, $zero, 32766
-	addi	$t1, $zero, 32766
-	addi	$t2, $zero, 32766
-	addi	$t3, $zero, 32766
-	addi	$t4, $zero, 32766
-	addi	$t5, $zero, 32766
+	addi	$t0, $zero, 524287
+	addi	$t1, $zero, 524287
+	addi	$t2, $zero, 524287
+	addi	$t3, $zero, 524287
+	addi	$t4, $zero, 524287
+	addi	$t5, $zero, 524287
 	addi	$gp, $gp, -11
 	add	$t6, $zero, $gp
 	sw	$t0, 10($t6)
@@ -6898,7 +6894,7 @@ _min_caml_start:
 	sw	$a0, 1($t6)
 	sw	$v1, 0($t6)
 	add	$v1, $zero, $t6
-	addi	$v1, $zero, 32755
+	addi	$v1, $zero, 524276
 	sw	$ra, 0($sp)
 	addi	$sp, $sp, 1
 	jal	min_caml_create_array
@@ -6947,7 +6943,7 @@ _min_caml_start:
 	jal	min_caml_create_array
 	addi	$sp, $sp, -2
 	lw	$ra, 1($sp)
-	addi	$v1, $zero, 32684
+	addi	$v1, $zero, 524205
 	lw	$v0, 0($sp)
 	sw	$ra, 1($sp)
 	addi	$sp, $sp, 2
@@ -6956,7 +6952,7 @@ _min_caml_start:
 	lw	$ra, 1($sp)
 	addi	$v0, $zero, 1
 	addi	$v1, $zero, 1
-	addi	$a0, $zero, 32634
+	addi	$a0, $zero, 524155
 	lw	$a0, 0($a0)
 	sw	$v0, 1($sp)
 	add	$v0, $v1, $zero
@@ -6966,7 +6962,7 @@ _min_caml_start:
 	jal	min_caml_create_array
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
-	addi	$v1, $zero, 32633
+	addi	$v1, $zero, 524154
 	lw	$v0, 1($sp)
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
@@ -7122,28 +7118,28 @@ _min_caml_start:
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	addi	$v0, $zero, 0
-	addi	$v1, $zero, 32590
+	addi	$v1, $zero, 524111
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
 	jal	min_caml_create_array
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	addi	$v0, $zero, 0
-	addi	$v1, $zero, 32590
-	addi	$a0, $zero, 32590
+	addi	$v1, $zero, 524111
+	addi	$a0, $zero, 524111
 	addi	$gp, $gp, -2
 	add	$a1, $zero, $gp
 	sw	$v1, 1($a1)
 	sw	$a0, 0($a1)
 	add	$v1, $zero, $a1
-	addi	$v1, $zero, 32588
+	addi	$v1, $zero, 524109
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
 	jal	min_caml_create_array
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	addi	$v0, $zero, 5
-	addi	$v1, $zero, 32588
+	addi	$v1, $zero, 524109
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
 	jal	min_caml_create_array
@@ -7166,14 +7162,14 @@ _min_caml_start:
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	addi	$v0, $zero, 60
-	addi	$v1, $zero, 32583
+	addi	$v1, $zero, 524104
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
 	jal	min_caml_create_array
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
-	addi	$v0, $zero, 32520
-	addi	$v1, $zero, 32580
+	addi	$v0, $zero, 524041
+	addi	$v1, $zero, 524101
 	addi	$gp, $gp, -2
 	add	$a0, $zero, $gp
 	sw	$v0, 1($a0)
@@ -7188,14 +7184,14 @@ _min_caml_start:
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	addi	$v0, $zero, 0
-	addi	$v1, $zero, 32518
+	addi	$v1, $zero, 524039
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
 	jal	min_caml_create_array
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
-	addi	$v0, $zero, 32518
-	addi	$v1, $zero, 32518
+	addi	$v0, $zero, 524039
+	addi	$v1, $zero, 524039
 	addi	$gp, $gp, -2
 	add	$a0, $zero, $gp
 	sw	$v0, 1($a0)
@@ -7205,14 +7201,14 @@ _min_caml_start:
 	addi	$v1, $zero, 0
 	addi	$at, $zero, 0
 	mfc2	$f0, $at
-	addi	$a0, $zero, 32516
+	addi	$a0, $zero, 524037
 	addi	$gp, $gp, -3
 	add	$a1, $zero, $gp
 	swc1	$f0, 2($a1)
 	sw	$a0, 1($a1)
 	sw	$v1, 0($a1)
 	add	$v1, $zero, $a1
-	addi	$v1, $zero, 32513
+	addi	$v1, $zero, 524034
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
 	jal	min_caml_create_array
@@ -7229,7 +7225,7 @@ _min_caml_start:
 	addi	$v1, $zero, 128
 	sw	$ra, 2($sp)
 	addi	$sp, $sp, 3
-	jal	rt@6239
+	jal	rt@6229
 	addi	$sp, $sp, -3
 	lw	$ra, 2($sp)
 	addi	$at, $zero, 0

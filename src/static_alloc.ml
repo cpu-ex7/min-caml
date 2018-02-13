@@ -21,11 +21,10 @@ let rec replace_to_static =
         | StaticTuple tys -> Type.Tuple tys in
       let id = Id.gentmp ty in
       let (xs, inserts) = replace xs in
-      Printf.printf "replace %s\n" x;
       (id :: xs, (insert_let (id, ty) (Static x)) :: inserts)
     | x :: xs -> let (xs, inserts) = replace xs in (x :: xs, inserts) in
   function
-  | Var x when Env.mem x !static_env -> Printf.printf "var %s\n" x; Static x
+  | Var x when Env.mem x !static_env -> Static x
   | Op (op, operands) ->
     let (operands, inserts) = replace operands in
     List.fold_left (|>) (Op (op, operands)) inserts
