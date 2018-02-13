@@ -22,12 +22,11 @@ type t =
   | App of Id.t * Id.t list
   | Tuple of Id.t list
   | LetTuple of (Id.t * Type.t) list * Id.t * t
-
-module P = Parsetree
+  | Static of Id.t
 
 let rec fv = function
-  | Const _ -> IdSet.empty
-  | Var x -> IdSet.singleton x
+  | Const _  -> IdSet.empty
+  | Var x | Static x -> IdSet.singleton x
   | Op (_, operands) -> IdSet.of_list operands
   | If (_, x1, x2, e1, e2) -> IdSet.of_list [x1; x2] |> IdSet.union (fv e1) |> IdSet.union (fv e2)
   | Let ((x, _), e1, e2) -> fv e2 |> IdSet.remove x |> IdSet.union (fv e1)
@@ -46,6 +45,7 @@ let insert_let (x, ty) e1 e2 =
   | Var _ -> e2
   |_ -> Let ((x, ty), e1, e2)
 
+module P = Parsetree
 let pbool x = ((P.Const (P.Bool x)), Type.Bool)
 
 let rec knormalize (e, ty) =
@@ -182,3 +182,4 @@ let rec adapter env = function
   | App (x, xs) -> K.ExtFunApp (x, xs)
   | Tuple (xs) -> K.Tuple (xs)
   | LetTuple (xs, x, e) -> K.LetTuple (xs, x, adapter (Env.add_list xs env) e)
+  | Static x -> K.Static x

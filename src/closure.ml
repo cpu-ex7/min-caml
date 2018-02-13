@@ -32,6 +32,7 @@ type t = (* クロージャ変換後の式 (caml2html: closure_t) *)
   | Read
   | FRead
   | ExtArray of Id.l
+  | Static of Id.t
 type fundef = { name : Id.l * Type.t;
                 args : (Id.t * Type.t) list;
                 formal_fv : (Id.t * Type.t) list;
@@ -39,7 +40,7 @@ type fundef = { name : Id.l * Type.t;
 type prog = Prog of fundef list * t
 
 let rec fv = function
-  | Unit | Int(_) | Float(_) | ExtArray(_) | Read | FRead -> IdSet.empty
+  | Unit | Int(_) | Float(_) | ExtArray(_) | Read | FRead | Static _ -> IdSet.empty
   | Neg(x) | FNeg(x) | FAbs(x) | Sqrt(x) | FtoI(x) | ItoF(x) | Print(x) -> IdSet.singleton x
   | Add(x, y) | Sub(x, y) | Mul(x, y) | Div(x, y) | FAdd(x, y) | FSub(x, y) | FMul(x, y) | FDiv(x, y) | Get(x, y) -> IdSet.of_list [x; y]
   | IfEq(x, y, e1, e2)| IfLE(x, y, e1, e2) -> IdSet.add x (IdSet.add y (IdSet.union (fv e1) (fv e2)))
@@ -117,6 +118,7 @@ let rec g env known = function (* クロージャ変換ルーチン本体 (caml2
   | KNormal.FRead -> FRead
   | KNormal.ExtArray(x) -> ExtArray(Id.L(x))
   | KNormal.ExtFunApp(x, ys) -> AppDir(Id.L("min_caml_" ^ x), ys)
+  | KNormal.Static x -> Static x
 
 let f e =
   toplevel := [];

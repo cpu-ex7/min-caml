@@ -22,4 +22,4 @@ let rec id_of_typ = function
   | Type.Var _ -> assert false
 let gentmp typ =
   incr counter;
-  Printf.sprintf "T%s%d" (id_of_typ typ) !counter
+  Printf.sprintf "T%s@%d" (id_of_typ typ) !counter

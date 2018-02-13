@@ -5,7 +5,7 @@ let rec optimize n e =
   if n = 0 then e else
     let e' = e
              |> Beta_reduc.reduce |> Flatten_let.flatten |> Inline.expand
-             |> Const_fold.fold |> Dead_code_elim.eliminate in
+             |> Const_fold.fold |> Dead_code_elim.eliminate |> Static_alloc.toplevel_to_static in
     if e = e' then e else
       optimize (n-1) e'
 
@@ -38,8 +38,10 @@ let compile_flow out_ch l =
   |> Alpha_conv.convert
   |> optimize !limit
   |> K_normal.adapter Env.empty
+  (*|> (fun x -> print_string @@ KNormal.string x; x)*)
   |> Closure.f
   |> Virtual.f
+  |> Calc_heap.alloc
   |> Simm.f
   |> RegAlloc.f
   |> Emit.f out_ch;
