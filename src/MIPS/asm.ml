@@ -1,10 +1,8 @@
-(* PowerPC assembly with a few virtual instructions *)
-
 type id_or_imm = V of Id.t | C of int
-type t = (* 命令の列 (caml2html: sparcasm_t) *)
+type t =
   | Ans of exp
   | Let of (Id.t * Type.t) * exp * t
-and exp = (* 一つ一つの命令に対応する式 (caml2html: sparcasm_exp) *)
+and exp =
   | Nop
   | LoadImmediate of int
   | FLoadImmediate of float
@@ -35,19 +33,17 @@ and exp = (* 一つ一つの命令に対応する式 (caml2html: sparcasm_exp) *
   | FLoad of Id.t * id_or_imm
   | FStore of Id.t * Id.t * id_or_imm
   | Comment of string
-  (* virtual instructions *)
   | IfEq of Id.t * id_or_imm * t * t
   | IfLE of Id.t * id_or_imm * t * t
-  | IfGE of Id.t * id_or_imm * t * t (* 左右対称ではないので必要 *)
+  | IfGE of Id.t * id_or_imm * t * t
   | IfFEq of Id.t * Id.t * t * t
   | IfFLE of Id.t * Id.t * t * t
-  (* closure address, integer arguments, and float arguments *)
   | CallCls of Id.t * Id.t list * Id.t list
   | CallDir of Id.l * Id.t list * Id.t list
-  | Save of Id.t * Id.t (* レジスタ変数の値をスタック変数へ保存 (caml2html: sparcasm_save) *)
-  | Restore of Id.t (* スタック変数から値を復元 (caml2html: sparcasm_restore) *)
+  | Save of Id.t * Id.t
+  | Restore of Id.t
 type fundef = { name : Id.l; args : Id.t list; fargs : Id.t list; body : t; ret : Type.t }
-(* プログラム全体 = 浮動小数点数テーブル + トップレベル関数 + メインの式 (caml2html: sparcasm_prog) *)
+
 type prog = Prog of (Id.l * float) list * fundef list * t
 
 let fletd(x, e1, e2) = Let((x, Type.Float), e1, e2)
@@ -58,7 +54,7 @@ let int_size = 1
 let int_align = 0 (* 2^int_align == int_size *)
 let float_size = 1
 let float_align = 0 (* 2^float_align = float_size *)
-let regs = (* Array.init 27 (fun i -> Printf.sprintf "_R_%d" i) *)
+let regs =
   [| "$v0"; "$v1"; "$a0"; "$a1"; "$a2"; "$a3";
      "$t0"; "$t1"; "$t2"; "$t3"; "$t4"; "$t5"; "$t6"; "$t7"; 
      "$s0"; "$s1"; "$s2"; "$s3"; "$s4"; "$s5"; "$s6"; "$s7";
@@ -66,22 +62,20 @@ let regs = (* Array.init 27 (fun i -> Printf.sprintf "_R_%d" i) *)
 let fregs = Array.init 30 (fun i -> Printf.sprintf "$f%d" i)
 let allregs = Array.to_list regs
 let allfregs = Array.to_list fregs
-let reg_cl = regs.(Array.length regs - 1) (* closure address (caml2html: sparcasm_regcl) *)
+let reg_cl = regs.(Array.length regs - 1)
 let reg_zero = "$zero"
-let reg_sp = "$sp" (* stack pointer *)
+let reg_sp = "$sp"
 let reg_ra = "$ra"
-let reg_hp = "$gp" (* heap pointer (caml2html: sparcasm_reghp) *)
-let reg_tmp = "$at" (* [XX] ad hoc *)
+let reg_hp = "$gp"
+let reg_tmp = "$at"
 let reg_ftmp = "$f30"
 let is_reg x = (x.[0] = '$')
 
-(* super-tenuki *)
 let rec remove_and_uniq xs = function
   | [] -> []
   | x :: ys when IdSet.mem x xs -> remove_and_uniq xs ys
   | x :: ys -> x :: remove_and_uniq (IdSet.add x xs) ys
 
-(* free variables in the order of use (for spilling) (caml2html: sparcasm_fv) *)
 let fv_id_or_imm = function V(x) -> [x] | _ -> []
 let rec fv_exp = function
   | Nop | LoadImmediate(_) | FLoadImmediate(_) | LoadAddres(_) | Comment(_) | Restore(_) | Read | FRead -> []
@@ -106,25 +100,37 @@ let rec concat e1 xt e2 =
 
 let align i = i
 
+let string_of_op opcode args =
+  "\t" ^ opcode ^
+  (match args with
+   | [] -> ""
+   | x :: xs ->
+     List.fold_left (^) (Printf.sprintf "\t%s" x) (List.map (fun x -> Printf.sprintf ", %s" x) xs))
+  ^ "\n"
+
+let string_of_label label = label ^ ":\n"
+
+let addr_format offset reg = Printf.sprintf "%d(%s)" offset reg
+
 let allocaters =
-  "\
-min_caml_create_array:
-\tadd	$at, $zero, $v0
-create_array_loop:
-\tbeq	$zero, $at, create_array_return
-\taddi	$at, $at, -1
-\taddi	$gp, $gp, -1
-\tsw	$v1, 0($gp)
-\tj create_array_loop
-min_caml_create_float_array:
-\tadd	$at, $zero, $v0
-create_float_array_loop:
-\tbeq	$zero, $at, create_array_return
-\taddi	$at, $at, -1
-\taddi	$gp, $gp, -1
-\tswc1	$f0, 0($gp)
-\tj create_float_array_loop
-create_array_return:
-\tadd	$v0, $zero, $gp
-\tjr	$ra
-"
+  List.fold_left (^) ""
+    [string_of_label "min_caml_create_array";
+     string_of_op "addi" [reg_tmp; regs.(0); "0"];
+     string_of_op "addi" [regs.(0); reg_hp; "0"];
+     string_of_label "create_array_loop";
+     string_of_op "beq" [reg_tmp; reg_zero; "create_array_return"];
+     string_of_op "sw" [regs.(1); addr_format 0 reg_hp];
+     string_of_op "addi" [reg_tmp; reg_tmp; "-1"];
+     string_of_op "addi" [reg_hp; reg_hp; "1"];
+     string_of_op "j" ["create_array_loop"];
+     string_of_label "min_caml_create_float_array";
+     string_of_op "addi" [reg_tmp; regs.(0); "0"];
+     string_of_op "addi" [regs.(0); reg_hp; "0"];
+     string_of_label "create_float_array_loop";
+     string_of_op "beq" [reg_tmp; reg_zero; "create_array_return"];
+     string_of_op "swc1" [fregs.(0); addr_format 0 reg_hp];
+     string_of_op "addi" [reg_tmp; reg_tmp; "-1"];
+     string_of_op "addi" [reg_hp; reg_hp; "1"];
+     string_of_op "j" ["create_float_array_loop"];
+     string_of_label "create_array_return";
+     string_of_op "jr" [reg_ra]]

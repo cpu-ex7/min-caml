@@ -41,15 +41,7 @@ let rec shuffle sw xys =
   | xys, acyc -> acyc @ shuffle sw xys
 
 type dest = Tail | NonTail of Id.t (* 末尾かどうかを表すデータ型 (caml2html: emit_dest) *)
-let rec emit oc opcode args =
-  Printf.fprintf oc "\t%s" opcode;
-  match args with
-  | [] -> Printf.fprintf oc "\n"
-  | x :: xs ->
-    Printf.fprintf oc "\t%s" x;
-    List.iter (fun x -> Printf.fprintf oc ", %s" x) xs;
-    Printf.fprintf oc "\n"
-and addr_format offset reg = Printf.sprintf "%d(%s)" offset reg
+let rec emit oc opcode args = output_string oc (string_of_op opcode args)
 and g oc = function (* 命令列のアセンブリ生成 (caml2html: emit_g) *)
   | dest, Ans(exp) -> g' oc (dest, exp)
   | dest, Let((x, t), exp, e) ->
@@ -57,26 +49,23 @@ and g oc = function (* 命令列のアセンブリ生成 (caml2html: emit_g) *)
     g oc (dest, e)
 and g' oc e =
   let emit = emit oc in
+  let load_immediate x i =
+    let low = Int32.logand i 65535l in
+    let hi = Int32.shift_right_logical (Int32.logxor i low) 16 in
+    if hi = 0l then emit "addi" [x; reg_zero; Int32.to_string low]
+    else
+      (emit "lui" [x; Int32.to_string hi];
+       if low <> 0l then emit "ori" [x; x; Int32.to_string low]) in
   match e with
   (* 末尾でなかったら計算結果をdestにセット (caml2html: emit_nontail) *)
   | NonTail(_), Nop -> ()
-  | NonTail(x), LoadImmediate(i) when -32768 <= i && i < 32768 -> emit "addi" [x; reg_zero; string_of_int i]
-  | NonTail(x), LoadImmediate(i) ->
-    let i = Int32.of_int i in
-    let low = Int32.logand i 65535l in
-    let hi = Int32.shift_right_logical (Int32.logxor i low) 16 in
-    emit "lui" [x; Int32.to_string hi];
-    emit "ori" [x; x; Int32.to_string low]
+  | NonTail(x), LoadImmediate(i) -> load_immediate x (Int32.of_int i)
   | NonTail(x), FLoadImmediate(d) ->
-    let bits = Int32.bits_of_float d in
-    let low = Int32.logand bits 65535l in
-    let hi = Int32.shift_right_logical (Int32.logxor bits low) 16 in
-    emit "lui" [reg_tmp; Int32.to_string hi];
-    emit "ori" [reg_tmp; reg_tmp; Int32.to_string low];
+    load_immediate reg_tmp (Int32.bits_of_float d);
     emit "mfc2" [x; reg_tmp]
   | NonTail(x), LoadAddres(Id.L(y)) -> emit "addi" [x; reg_zero; y]
   | NonTail(x), Move(y) when x = y -> ()
-  | NonTail(x), Move(y) -> emit "add" [x; reg_zero; y]
+  | NonTail(x), Move(y) -> emit "addi" [x; y; "0"]
   | NonTail(x), Neg(y) -> emit "sub" [x; reg_zero; y]
   | NonTail(x), Add(y, V(z)) -> emit "add" [x; y; z]
   | NonTail(x), Add(y, C(z)) -> emit "addi" [x; y; string_of_int z]
@@ -138,14 +127,14 @@ and g' oc e =
   (* 退避の仮想命令の実装 (caml2html: emit_save) *)
   | NonTail(_), Save(x, y) when List.mem x allregs && not (IdSet.mem y !stackset) ->
     save y;
-    emit "sw" [x; addr_format (offset y) reg_sp]
+    emit "sw" [x; addr_format (-(offset y)) reg_sp]
   | NonTail(_), Save(x, y) when List.mem x allfregs && not (IdSet.mem y !stackset) ->
     savef y;
-    emit "swc1" [x; addr_format (offset y) reg_sp]
+    emit "swc1" [x; addr_format (-(offset y)) reg_sp]
   | NonTail(_), Save(x, y) -> assert (IdSet.mem y !stackset); ()
   (* 復帰の仮想命令の実装 (caml2html: emit_restore) *)
-  | NonTail(x), Restore(y) when List.mem x allregs -> emit "lw" [x; addr_format (offset y) reg_sp]
-  | NonTail(x), Restore(y) -> emit "lwc1" [x; addr_format (offset y) reg_sp]
+  | NonTail(x), Restore(y) when List.mem x allregs -> emit "lw" [x; addr_format (-(offset y)) reg_sp]
+  | NonTail(x), Restore(y) -> emit "lwc1" [x; addr_format (-(offset y)) reg_sp]
   (* 末尾だったら計算結果を第一レジスタにセットしてリターン (caml2html: emit_tailret) *)
   | Tail, (Nop | Store _ | FStore _ | Comment _ | Save _ | Print _ as exp) ->
     g' oc (NonTail(Id.gentmp Type.Unit), exp);
@@ -197,26 +186,26 @@ and g' oc e =
   | NonTail(a), CallCls(x, ys, zs) ->
     g'_args oc [(x, reg_cl)] ys zs;
     let ss = stacksize () in
-    emit "sw" [reg_ra; addr_format (ss-int_size) reg_sp];
-    emit "addi" [reg_sp; reg_sp; string_of_int ss];
+    emit "sw" [reg_ra; addr_format (-(ss-int_size)) reg_sp];
+    emit "addi" [reg_sp; reg_sp; string_of_int (-ss)];
     emit "lw" [reg_tmp; addr_format 0 reg_cl];
     emit "jalr" [reg_tmp];
-    emit "addi" [reg_sp; reg_sp; string_of_int (-ss)];
-    emit "lw" [reg_ra; addr_format (ss-int_size) reg_sp];
+    emit "addi" [reg_sp; reg_sp; string_of_int ss];
+    emit "lw" [reg_ra; addr_format (-(ss-int_size)) reg_sp];
     if List.mem a allregs && a <> regs.(0) then
-      emit "add" [a; reg_zero; regs.(0)]
+      emit "addi" [a; regs.(0); "0"]
     else if List.mem a allfregs && a <> fregs.(0) then
       emit "mvf" [a; fregs.(0)];
   | (NonTail(a), CallDir(Id.L(x), ys, zs)) ->
     g'_args oc [] ys zs;
     let ss = stacksize () in
-    emit "sw" [reg_ra; addr_format (ss-int_size) reg_sp];
-    emit "addi" [reg_sp; reg_sp; string_of_int ss];
-    emit "jal" [x];
+    emit "sw" [reg_ra; addr_format (-(ss-int_size)) reg_sp];
     emit "addi" [reg_sp; reg_sp; string_of_int (-ss)];
-    emit "lw" [reg_ra; addr_format (ss-int_size) reg_sp];
+    emit "jal" [x];
+    emit "addi" [reg_sp; reg_sp; string_of_int ss];
+    emit "lw" [reg_ra; addr_format (-(ss-int_size)) reg_sp];
     if List.mem a allregs && a <> regs.(0) then
-      emit "add" [a; reg_zero; regs.(0)]
+      emit "addi" [a; regs.(0); "0"]
     else if List.mem a allfregs && a <> fregs.(0) then
       emit "mvf" [a; fregs.(0)];
 and g'_ifeq dest = match dest with
@@ -276,7 +265,7 @@ and g'_args oc x_reg_cl ys zs =
       (0, x_reg_cl)
       ys in
   List.iter
-    (fun (y, r) -> emit oc "add" [r; y; reg_zero])
+    (fun (y, r) -> emit oc "addi" [r; y; "0"])
     (shuffle reg_tmp yrs);
   let (d, zfrs) =
     List.fold_left
@@ -288,36 +277,22 @@ and g'_args oc x_reg_cl ys zs =
     (shuffle reg_ftmp zfrs)
 
 let h oc { name = Id.L(x); args = _; fargs = _; body = e; ret = _ } =
-  Printf.fprintf oc "%s:\n" x;
+  output_string oc (string_of_label x);
   stackset := IdSet.empty;
   stackmap := [];
   g oc (Tail, e)
 
-let f oc (Prog(data, fundefs, e)) =
+let f oc (Prog(_, fundefs, e)) =
+  let emit = emit oc in
   Format.eprintf "generating assembly...@.";
-  if data <> [] then
-    (Printf.fprintf oc "\t.data\n";
-     List.iter
-       (fun (Id.L(x), d) -> Printf.fprintf oc "%s:\t%s\n" x (Int32.to_string (Int32.bits_of_float d)))
-       data);
-  (*
-  Printf.fprintf oc "\t.text\n";
-  Printf.fprintf oc "\t.globl _min_caml_start\n";
-  *)
-  emit oc "j" ["_min_caml_start"];
-  List.iter (fun fundef -> h oc fundef) fundefs;
   Printf.fprintf oc "_min_caml_start:\n";
-  emit oc "addi" [reg_sp; reg_zero; "0"];
-  emit oc "lui" [reg_hp; string_of_int (heap_size lsr 16)];
-  emit oc "sw" [reg_ra; addr_format 0 reg_sp];
-  emit oc "addi" [reg_sp; reg_sp; string_of_int int_size];
-  Printf.fprintf oc "#\tmain program starts\n";
+  emit "addi" [reg_hp; reg_zero; "0"];
+  g' oc (NonTail reg_sp, LoadImmediate (heap_size-1));
+  output_string oc "#\tmain program starts\n";
   stackset := IdSet.empty;
   stackmap := [];
   g oc (NonTail(reg_tmp), e);
-  Printf.fprintf oc "#\tmain program ends\n";
-  emit oc "addi" [reg_sp; reg_sp; string_of_int (-int_size)];
-  emit oc "lw" [reg_ra; addr_format 0 reg_sp];
-  emit oc "halt" [];
-  emit oc "jr" [reg_ra];
+  output_string oc "#\tmain program ends\n";
+  emit "halt" [];
+  List.iter (fun fundef -> h oc fundef) fundefs;
   output_string oc allocaters
