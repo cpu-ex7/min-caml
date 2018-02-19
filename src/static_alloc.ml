@@ -4,15 +4,12 @@ type static = StaticArray of Int32.t * Type.t | StaticTuple of Type.t list
 
 let static_env = ref Env.empty
 
-(*
-let rec can_be_static env ienv = function
-  | Let ((x, Type.Int), Const (Int i), e) -> can_be_static (Env.add x Type.Int env) (Env.add x i ienv) e
-  | Let ((x, ty), _, e) | LetRec ((x, ty), _, _, e) -> can_be_static (Env.add x ty env) ienv e
-  | LetTuple (xtys, _, e) ->  can_be_static (Env.add_list xtys env) ienv e
-  | Op (ArrayCreate, [x1; x2]) when Env.mem x1 ienv -> Some (StaticArray (Env.find x1 ienv, Env.find x2 env))
-  | Tuple (xs) -> Some (StaticTuple (List.map (fun x -> Env.find x env) xs))
-  | _ -> None
-*)
+let rec may_consume_heap = function
+  | Op (ArrayCreate, _) | Tuple _  | App _ -> true
+  | If (_, _, _, e1, e2) | Let (_, e1, e2) -> may_consume_heap e1 || may_consume_heap e2
+  | LetRec (_, _, _, e) | LetTuple (_, _, e) -> may_consume_heap e
+  | _ -> false
+
 let can_be_static env ienv = function
   | Op (ArrayCreate, [x1; x2]) when Env.mem x1 ienv -> Some (StaticArray (Env.find x1 ienv, Env.find x2 env))
   | Tuple (xs) -> Some (StaticTuple (List.map (fun x -> Env.find x env) xs))
@@ -53,9 +50,8 @@ let toplevel_to_static e =
     | Let ((x, Type.Int), Const (Int i), e) -> toplevel_to_static (Env.add x Type.Int env) (Env.add x i ienv) e
     | Let ((x, ty), e1, e2) ->
       (match can_be_static env ienv e1 with
-       | Some s -> static_env := Env.add x s !static_env
-       | None -> ());
-      toplevel_to_static (Env.add x ty env) ienv e2
+       | Some s -> static_env := Env.add x s !static_env; toplevel_to_static (Env.add x ty env) ienv e2
+       | None -> if not (may_consume_heap e1) then toplevel_to_static (Env.add x ty env) ienv e2)
     | LetRec ((f, ty), _, _, e) -> toplevel_to_static (Env.add f ty env) ienv e
     | LetTuple (xtys, _, e) -> toplevel_to_static (Env.add_list xtys env) ienv e
     | _ -> () in
