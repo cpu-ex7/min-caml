@@ -1,7 +1,7 @@
 open K_normal
 
 
-let threshold = ref 130
+let threshold = ref 200
 let threshold_rec = ref 50
 
 let expand =
@@ -13,7 +13,6 @@ let expand =
     | If (cmp, x1, x2, e1, e2) -> If (cmp, x1, x2, expand env e1, expand env e2)
     | Let (xty, e1, e2) -> Let (xty, expand env e1, expand env e2)
     | LetRec ((f, ty), params, body, e) ->
-      if size body = 27 then print_string f;
       let threshold = if IdSet.mem f (fv body) then !threshold_rec else !threshold in
       let env = if size body > threshold then env else Env.add f (params, body) env in
       LetRec ((f, ty), params, expand env body, expand env e)

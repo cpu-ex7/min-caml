@@ -2,7 +2,7 @@ open K_normal
 
 let eliminate =
   let rec has_side_effect = function
-    | Op (op, _) -> List.mem op [ArrayCreate; ArrayGet; ArraySet]
+    | Op (op, _) -> List.mem op [ArrayCreate; ArrayGet; ArraySet; Read; FRead; Print]
     | If (_, _, _, e1, e2) | Let (_, e1, e2) -> has_side_effect e1 || has_side_effect e2
     | LetRec (_, _, _, e) | LetTuple (_, _, e) -> has_side_effect e
     | App _ -> true
