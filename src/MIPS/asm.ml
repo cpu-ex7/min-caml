@@ -105,3 +105,26 @@ let rec concat e1 xt e2 =
   | Let(yt, exp, e1') -> Let(yt, exp, concat e1' xt e2)
 
 let align i = i
+
+let allocaters =
+  "\
+min_caml_create_array:
+\tadd	$at, $zero, $v0
+create_array_loop:
+\tbeq	$zero, $at, create_array_return
+\taddi	$at, $at, -1
+\taddi	$gp, $gp, -1
+\tsw	$v1, 0($gp)
+\tj create_array_loop
+min_caml_create_float_array:
+\tadd	$at, $zero, $v0
+create_float_array_loop:
+\tbeq	$zero, $at, create_array_return
+\taddi	$at, $at, -1
+\taddi	$gp, $gp, -1
+\tswc1	$f0, 0($gp)
+\tj create_float_array_loop
+create_array_return:
+\tadd	$v0, $zero, $gp
+\tjr	$ra
+"

@@ -9,45 +9,31 @@ let rec optimize n e =
     if e = e' then e else
       optimize (n-1) e'
 
-let libs = ref []
-let lib_asts = ref []
-
-let rec parse_libs = function
+let asts_to_include = ref []
+let rec parse_includes = function
   | [] -> []
   | l :: ls ->
     let in_ch = open_in (l ^ ".ml") in
-    (try (in_ch |> Lexing.from_channel |> Parser.ast Lexer.token) :: parse_libs ls
+    (try (in_ch |> Lexing.from_channel |> Parser.ast Lexer.token) :: parse_includes ls
      with e -> close_in in_ch; raise e)
-
-let append_lib oc l =
-  let in_ch = open_in (l ^ ".s") in
-  try
-    while true do
-      output_char oc (input_char in_ch)
-    done
-  with _ -> close_in in_ch
 
 let compile_flow out_ch l =
   Id.counter := 0;
   Typing.ext_env := Env.empty;
   l
   |> Parser.ast Lexer.token
-  |> (fun x -> List.fold_left (|>) x (List.map Join.join !lib_asts))
+  |> (fun x -> List.fold_left (|>) x (List.map Join.join !asts_to_include))
   |> Typing.typing
   |> K_normal.knormalize
   |> Alpha_conv.convert
   |> optimize !limit 
-  (* |> K_normal.adapter Env.empty *)
-  (*|> (fun x -> print_string @@ KNormal.string x; x)*)
   |> Closure_conv.convert
   |> Closure_conv.adapt
-  (* |> Closure.f *)
   |> Virtual.f
   |> Calc_heap.alloc
   |> Simm.f
   |> RegAlloc.f
-  |> Emit.f out_ch;
-  List.iter (append_lib out_ch) !libs
+  |> Emit.f out_ch
 
 let compile_from_string s = compile_flow stdout (Lexing.from_string s)
 
@@ -62,15 +48,16 @@ let compile f =
 
 let () =
   let files = ref [] in
+  let includes = ref [] in
   Arg.parse
-    [("-inline", Arg.Int(fun i -> Inline.threshold := i), "maximum size of functions inlined");
-     ("-iter", Arg.Int(fun i -> limit := i), "maximum number of optimizations iterated");
-     ("-lib", Arg.String (fun s -> libs := s :: !libs), "library name included");
-     ("-global", Arg.String (fun s -> libs := s :: !libs), "globals")]
+    [("-inline", Arg.Int (fun i -> Inline.threshold := i), "maximum size of functions inlined");
+     ("-inline-rec", Arg.Int (fun i -> Inline.threshold_rec := i), "maximum size of recursive functions inlined");
+     ("-opt-iter", Arg.Int (fun i -> limit := i), "maximum number of optimizations iterated");
+     ("-include", Arg.String (fun s -> includes := !includes @ [s]), "files included")]
     (fun s -> files := !files @ [s])
     ("Mitou Min-Caml Compiler (C) Eijiro Sumii\n" ^
-     Printf.sprintf "usage: %s [-inline m] [-iter n] ...filenames without \".ml\"..." Sys.argv.(0));
-  lib_asts := parse_libs !libs;
+     Printf.sprintf "usage: %s [-inline i] [-inline-rec j] [-opt-iter k] [-include s...] ...filenames without \".ml\"..." Sys.argv.(0));
+  asts_to_include := parse_includes !includes;
   List.iter
     (fun f -> compile f)
     !files

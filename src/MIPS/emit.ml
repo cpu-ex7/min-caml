@@ -319,4 +319,5 @@ let f oc (Prog(data, fundefs, e)) =
   emit oc "addi" [reg_sp; reg_sp; string_of_int (-int_size)];
   emit oc "lw" [reg_ra; addr_format 0 reg_sp];
   emit oc "halt" [];
-  emit oc "jr" [reg_ra]
+  emit oc "jr" [reg_ra];
+  output_string oc allocaters
