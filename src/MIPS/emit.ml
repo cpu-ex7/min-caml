@@ -305,7 +305,7 @@ let f oc (Prog(data, fundefs, e)) =
   List.iter (fun fundef -> h oc fundef) fundefs;
   Printf.fprintf oc "_min_caml_start:\n";
   emit oc "addi" [reg_sp; reg_zero; "0"];
-  emit oc "addi" [reg_hp; reg_zero; (string_of_int Asm.heap_size)];
+  emit oc "lui" [reg_hp; string_of_int (heap_size lsr 16)];
   emit oc "sw" [reg_ra; addr_format 0 reg_sp];
   emit oc "addi" [reg_sp; reg_sp; string_of_int int_size];
   Printf.fprintf oc "#\tmain program starts\n";
