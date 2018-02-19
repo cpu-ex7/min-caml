@@ -87,15 +87,11 @@ let rec g env = function (* 式の仮想マシンコード生成 (caml2html: vir
                 seq(Store(z, x, C(0)),
                     store_fv))))
   | Closure.AppCls(x, ys) ->
-    (try
-       let (int, float) = separate (List.map (fun y -> (y, Env.find y env)) ys) in
-       Ans(CallCls(x, int, float))
-     with e -> print_string "appcls"; Ans(Nop))
+    let (int, float) = separate (List.map (fun y -> (y, Env.find y env)) ys) in
+    Ans(CallCls(x, int, float))
   | Closure.AppDir(Id.L(x), ys) ->
-    (try
-       let (int, float) = separate (List.map (fun y -> (y, Env.find y env)) ys) in
-       Ans(CallDir(Id.L(x), int, float))
-     with e -> print_string "appdir"; Ans(Nop))
+    let (int, float) = separate (List.map (fun y -> (y, Env.find y env)) ys) in
+    Ans(CallDir(Id.L(x), int, float))
   | Closure.Tuple(xs) -> (* 組の生成 (caml2html: virtual_tuple) *)    
     let y = Id.genid "t" in
     let (offset, store) =
@@ -122,39 +118,36 @@ let rec g env = function (* 式の仮想マシンコード生成 (caml2html: vir
     load
   | Closure.Get(x, y) -> (* 配列の読み出し (caml2html: virtual_get) *)
     (*  let offset = Id.genid "o" in *)
-    (try
-       (match Env.find x env with
-        | Type.Array(Type.Unit) -> Ans(Nop)
-        | Type.Array(Type.Float) ->
+
+    (match Env.find x env with
+     | Type.Array(Type.Unit) -> Ans(Nop)
+     | Type.Array(Type.Float) ->
         (*
           Let((offset, Type.Int), Sll(y, C(float_align)),
               Ans(FLoad(x, V(offset))))
         *) Ans (FLoad (x, V(y)))
-        | Type.Array(_) ->
+     | Type.Array(_) ->
         (*
           Let((offset, Type.Int), Sll(y, C(int_align)),
               Ans(Load(x, V(offset))))
         *)
-          Ans (Load (x, V(y)))
-        | _ -> assert false)
-     with Not_found -> Printf.printf "get %s fail\n" x; Ans(Nop))
+       Ans (Load (x, V(y)))
+     | _ -> assert false)
   | Closure.Put(x, y, z) ->
     (*let offset = Id.genid "o" in*)
-    (try
-       (match Env.find x env with
-        | Type.Array(Type.Unit) -> Ans(Nop)
-        | Type.Array(Type.Float) ->
+    (match Env.find x env with
+     | Type.Array(Type.Unit) -> Ans(Nop)
+     | Type.Array(Type.Float) ->
         (*
           Let((offset, Type.Int), Sll(y, C(float_align)),
               Ans(FStore(z, x, V(offset))))
         *) Ans (FStore (z, x, V(y)))
-        | Type.Array(_) ->
+     | Type.Array(_) ->
         (*
           Let((offset, Type.Int), Sll(y, C(int_align)),
               Ans(Store(z, x, V(offset))))
         *) Ans (Store (z, x, V(y)))
-        | _ -> assert false)
-     with Not_found -> Printf.printf "put %s fail\n" x; Ans(Nop))
+     | _ -> assert false)
   | Closure.ExtArray(Id.L(x)) -> Ans(LoadAddres(Id.L("min_caml_" ^ x)))
   | Closure.Static x -> Ans(LoadAddres(Id.L(x)))
 

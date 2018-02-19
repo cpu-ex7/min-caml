@@ -21,13 +21,13 @@ let rec print_int x =
   else print_char (x + 48) in
 let rec print_newline _ = print_char 10 in
 let rec recution x =
-  let p = 3.1415927410125732421875 *. 2.0 in
-  let rec ploop y =
-    if x >= y then ploop (2.0 *. y) else y in 
+  let rec ploop x y =
+    if x >= y then ploop x (2.0 *. y) else y in 
   let rec ploop2 a p2 =
+    let p = 3.1415927410125732421875 *. 2.0 in
     if a >= p then if a >= p2 then ploop2 (a -. p2) (p2 /. 2.0) else ploop2 a (p2 /. 2.0)
     else a in
-  ploop2 x (ploop p)
+  ploop2 x (ploop x 3.1415927410125732421875 *. 2.0)
 in
 let rec kernel_sin a =
   let aa = a *. a in
