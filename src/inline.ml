@@ -2,7 +2,7 @@ open K_normal
 
 
 let threshold = ref 1000
-let threshold_rec = ref 30
+let threshold_rec = ref 35
 
 let expand =
   let rec size = function
