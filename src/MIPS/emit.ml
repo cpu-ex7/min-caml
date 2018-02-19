@@ -69,7 +69,10 @@ and g' oc e =
     emit "ori" [x; x; Int32.to_string low]
   | NonTail(x), FLoadImmediate(d) ->
     let bits = Int32.bits_of_float d in
-    emit "addi" [reg_tmp; reg_zero; Int32.to_string bits];
+    let low = Int32.logand bits 65535l in
+    let hi = Int32.shift_right_logical (Int32.logxor bits low) 16 in
+    emit "lui" [reg_tmp; Int32.to_string hi];
+    emit "ori" [reg_tmp; reg_tmp; Int32.to_string low];
     emit "mfc2" [x; reg_tmp]
   | NonTail(x), LoadAddres(Id.L(y)) -> emit "addi" [x; reg_zero; y]
   | NonTail(x), Move(y) when x = y -> ()
