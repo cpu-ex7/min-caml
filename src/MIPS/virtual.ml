@@ -121,29 +121,38 @@ let rec g env = function (* 式の仮想マシンコード生成 (caml2html: vir
              Let((x, t), Load(y, C(offset)), load)) in
     load
   | Closure.Get(x, y) -> (* 配列の読み出し (caml2html: virtual_get) *)
-    let offset = Id.genid "o" in
+    (*  let offset = Id.genid "o" in *)
     (try
        (match Env.find x env with
         | Type.Array(Type.Unit) -> Ans(Nop)
         | Type.Array(Type.Float) ->
+        (*
           Let((offset, Type.Int), Sll(y, C(float_align)),
               Ans(FLoad(x, V(offset))))
+        *) Ans (FLoad (x, V(y)))
         | Type.Array(_) ->
+        (*
           Let((offset, Type.Int), Sll(y, C(int_align)),
               Ans(Load(x, V(offset))))
+        *)
+          Ans (Load (x, V(y)))
         | _ -> assert false)
      with Not_found -> Printf.printf "get %s fail\n" x; Ans(Nop))
   | Closure.Put(x, y, z) ->
-    let offset = Id.genid "o" in
+    (*let offset = Id.genid "o" in*)
     (try
        (match Env.find x env with
         | Type.Array(Type.Unit) -> Ans(Nop)
         | Type.Array(Type.Float) ->
+        (*
           Let((offset, Type.Int), Sll(y, C(float_align)),
               Ans(FStore(z, x, V(offset))))
+        *) Ans (FStore (z, x, V(y)))
         | Type.Array(_) ->
+        (*
           Let((offset, Type.Int), Sll(y, C(int_align)),
               Ans(Store(z, x, V(offset))))
+        *) Ans (Store (z, x, V(y)))
         | _ -> assert false)
      with Not_found -> Printf.printf "put %s fail\n" x; Ans(Nop))
   | Closure.ExtArray(Id.L(x)) -> Ans(LoadAddres(Id.L("min_caml_" ^ x)))

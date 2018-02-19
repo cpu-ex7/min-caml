@@ -36,10 +36,12 @@ let compile_flow out_ch l =
   |> Typing.typing
   |> K_normal.knormalize
   |> Alpha_conv.convert
-  |> optimize !limit
-  |> K_normal.adapter Env.empty
+  |> optimize !limit 
+  (* |> K_normal.adapter Env.empty *)
   (*|> (fun x -> print_string @@ KNormal.string x; x)*)
-  |> Closure.f
+  |> Closure_conv.convert
+  |> Closure_conv.adapt
+  (* |> Closure.f *)
   |> Virtual.f
   |> Calc_heap.alloc
   |> Simm.f

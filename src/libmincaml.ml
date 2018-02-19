@@ -51,16 +51,16 @@ let rec sin a =
       let b = a -. 3.1415927410 in
       if b < 1.5707963705 then
         if b < 0.785398185 then
-          0.0 -. kernel_sin b
+          -. kernel_sin b
         else
-          0.0 -. kernel_cos (1.5707963705 -. b)
+          -. kernel_cos (1.5707963705 -. b)
       else
       if b < 2.35619455 then
-        0.0 -. kernel_cos (b -. 1.5707963705)
+        -. kernel_cos (b -. 1.5707963705)
       else
-        0.0 -. kernel_sin (3.1415927410 -. b)
+        -. kernel_sin (3.1415927410 -. b)
   else
-    0.0 -. sin (0.0 -. a)
+    -. sin (-. a)
 in
 let rec cos a =
   let rec kernel_sin a =
@@ -86,23 +86,23 @@ let rec cos a =
           kernel_sin (1.5707963705 -. a)
       else
       if a < 2.35619455 then
-        0.0 -. kernel_sin (a -. 1.5707963705)
+        -. kernel_sin (a -. 1.5707963705)
       else
-        0.0 -. kernel_cos (3.1415927410 -. a)
+        -. kernel_cos (3.1415927410 -. a)
     else
       let b = a -. 3.1415927410 in
       if b < 1.5707963705 then
         if b < 0.785398185 then
-          0.0 -. kernel_sin b
+          -. kernel_sin b
         else
-          0.0 -. kernel_cos (1.5707963705 -. b)
+          -. kernel_cos (1.5707963705 -. b)
       else
       if b < 2.35619455 then
         kernel_cos (b -. 1.5707963705)
       else
         kernel_sin (3.1415927410 -. b)
   else
-    cos (0.0 -. a)
+    cos (-. a)
 in
 let rec atan a = 
   let rec kernel_atan a =
@@ -125,11 +125,11 @@ let rec atan a =
   else
     let b = 0.0 -. a in
     if b < 0.4375 then
-      0.0 -. (kernel_atan b)
+      -. (kernel_atan b)
     else
     if b < 2.4375 then
-      0.0 -. (0.78539818 +. kernel_atan ((b -. 1.0) /. (b +. 1.0)))
+      -. (0.78539818 +. kernel_atan ((b -. 1.0) /. (b +. 1.0)))
     else
-      0.0 -. (1.57079637 -. kernel_atan (1.0 /. b))
+      -. (1.57079637 -. kernel_atan (1.0 /. b))
 in
 ()

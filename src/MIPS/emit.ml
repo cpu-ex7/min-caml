@@ -60,7 +60,13 @@ and g' oc e =
   match e with
   (* 末尾でなかったら計算結果をdestにセット (caml2html: emit_nontail) *)
   | NonTail(_), Nop -> ()
-  | NonTail(x), LoadImmediate(i) -> emit "addi" [x; reg_zero; string_of_int i]
+  | NonTail(x), LoadImmediate(i) when -32768 <= i && i < 32768 -> emit "addi" [x; reg_zero; string_of_int i]
+  | NonTail(x), LoadImmediate(i) ->
+    let i = Int32.of_int i in
+    let low = Int32.logand i 65535l in
+    let hi = Int32.shift_right_logical (Int32.logxor i low) 16 in
+    emit "lui" [x; Int32.to_string hi];
+    emit "ori" [x; x; Int32.to_string low]
   | NonTail(x), FLoadImmediate(d) ->
     let bits = Int32.bits_of_float d in
     emit "addi" [reg_tmp; reg_zero; Int32.to_string bits];
@@ -78,7 +84,7 @@ and g' oc e =
   | NonTail(x), Div(y, V(z)) -> assert false
   | NonTail(x), Div(y, C(z)) -> emit "srl" [x; y; string_of_int @@ log2 z]
   | NonTail(x), Sll(y, V(z)) -> emit "sllv" [x; y; z]
-  | NonTail(x), Sll(y, C(z)) -> emit "sll" [x; y; string_of_int z]
+  | NonTail(x), Sll(y, C(z)) -> if x <> y || z <> 0 then emit "sll" [x; y; string_of_int z]
   | NonTail(x), Srl(y, V(z)) -> emit "srlv" [x; y; z]
   | NonTail(x), Srl(y, C(z)) -> emit "srl" [x; y; string_of_int z]
   | NonTail(x), Load(y, V(z)) ->

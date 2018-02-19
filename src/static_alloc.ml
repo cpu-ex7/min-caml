@@ -4,10 +4,16 @@ type static = StaticArray of Int32.t * Type.t | StaticTuple of Type.t list
 
 let static_env = ref Env.empty
 
+(*
 let rec can_be_static env ienv = function
   | Let ((x, Type.Int), Const (Int i), e) -> can_be_static (Env.add x Type.Int env) (Env.add x i ienv) e
   | Let ((x, ty), _, e) | LetRec ((x, ty), _, _, e) -> can_be_static (Env.add x ty env) ienv e
   | LetTuple (xtys, _, e) ->  can_be_static (Env.add_list xtys env) ienv e
+  | Op (ArrayCreate, [x1; x2]) when Env.mem x1 ienv -> Some (StaticArray (Env.find x1 ienv, Env.find x2 env))
+  | Tuple (xs) -> Some (StaticTuple (List.map (fun x -> Env.find x env) xs))
+  | _ -> None
+*)
+let can_be_static env ienv = function
   | Op (ArrayCreate, [x1; x2]) when Env.mem x1 ienv -> Some (StaticArray (Env.find x1 ienv, Env.find x2 env))
   | Tuple (xs) -> Some (StaticTuple (List.map (fun x -> Env.find x env) xs))
   | _ -> None
